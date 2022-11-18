@@ -1,0 +1,34 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://Scripts/Data/Firebase.cs" type="Script" id=1]
+
+[node name="Firebase" type="Node"]
+script = ExtResource( 1 )
+
+[node name="POSTRequest" type="HTTPRequest" parent="."]
+
+[node name="PUTRequest" type="HTTPRequest" parent="."]
+
+[node name="GETRequest" type="HTTPRequest" parent="."]
+
+[node name="UpdateDishesRequest" type="HTTPRequest" parent="."]
+
+[node name="MondayMenuRequest" type="HTTPRequest" parent="."]
+
+[node name="TuedayMenuRequest" type="HTTPRequest" parent="."]
+
+[node name="WeddayMenuRequest" type="HTTPRequest" parent="."]
+
+[node name="ThudayMenuRequest" type="HTTPRequest" parent="."]
+
+[node name="FridayMenuRequest" type="HTTPRequest" parent="."]
+
+[connection signal="request_completed" from="POSTRequest" to="." method="_OnPOSTRequestCompleted"]
+[connection signal="request_completed" from="PUTRequest" to="." method="_OnPUTRequestCompleted"]
+[connection signal="request_completed" from="GETRequest" to="." method="_OnGETRequestCompleted"]
+[connection signal="request_completed" from="UpdateDishesRequest" to="." method="_OnUpdateDishesRequestCompleted"]
+[connection signal="request_completed" from="MondayMenuRequest" to="." method="_OnMondayMenuRequestCompleted"]
+[connection signal="request_completed" from="TuedayMenuRequest" to="." method="_OnTuedayMenuRequestCompleted"]
+[connection signal="request_completed" from="WeddayMenuRequest" to="." method="_OnWeddayMenuRequestCompleted"]
+[connection signal="request_completed" from="ThudayMenuRequest" to="." method="_OnThudayMenuRequestCompleted"]
+[connection signal="request_completed" from="FridayMenuRequest" to="." method="_OnFridayMenuRequestCompleted"]
