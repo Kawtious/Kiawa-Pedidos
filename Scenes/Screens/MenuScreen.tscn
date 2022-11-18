@@ -571,6 +571,7 @@ active = true
 parameters/playback = SubResource( 44 )
 
 [node name="Guides" type="Control" parent="."]
+visible = false
 margin_right = 1280.0
 margin_bottom = 720.0
 
