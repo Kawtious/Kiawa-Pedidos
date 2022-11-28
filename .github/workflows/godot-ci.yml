@@ -22,7 +22,6 @@ jobs:
           mv /root/.local/share/godot/templates/${GODOT_VERSION}.stable.mono ~/.local/share/godot/templates/${GODOT_VERSION}.stable.mono
       - name: Windows Build
         run: |
-          cd $EXPORT_NAME
           mkdir -v -p build/windows
           godot -v --export "Windows Desktop" ./build/windows/$EXPORT_NAME.exe
       - name: Upload Artifact
