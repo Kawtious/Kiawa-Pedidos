@@ -1,13 +1,10 @@
-[gd_scene load_steps=48 format=2]
+[gd_scene load_steps=45 format=2]
 
 [ext_resource path="res://Scripts/Screens/MenuScreen.cs" type="Script" id=1]
 [ext_resource path="res://Textures/UI/add.png" type="Texture" id=5]
 [ext_resource path="res://Fonts/DTM-Sans.otf" type="DynamicFontData" id=48]
 [ext_resource path="res://Textures/UI/add_dis.png" type="Texture" id=49]
 [ext_resource path="res://Textures/UI/add_sel.png" type="Texture" id=50]
-[ext_resource path="res://Textures/UI/fetch_dis.png" type="Texture" id=51]
-[ext_resource path="res://Textures/UI/fetch.png" type="Texture" id=52]
-[ext_resource path="res://Textures/UI/fetch_sel.png" type="Texture" id=53]
 
 [sub_resource type="DynamicFont" id=6]
 size = 40
@@ -378,30 +375,13 @@ anchor_bottom = -0.026
 margin_left = 36.88
 margin_top = 37.312
 margin_right = 548.88
-margin_bottom = 405.312
+margin_bottom = 501.312
 
 [node name="BoxLeftVBox" type="VBoxContainer" parent="BoxLeft/BoxLeftScroll"]
 margin_right = 512.0
-margin_bottom = 368.0
+margin_bottom = 464.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
-
-[node name="Bottom" type="HBoxContainer" parent="BoxLeft"]
-margin_left = 24.0
-margin_top = 440.0
-margin_right = 264.0
-margin_bottom = 476.0
-
-[node name="FetchDishesButton" type="TextureButton" parent="BoxLeft/Bottom"]
-margin_right = 324.0
-margin_bottom = 36.0
-focus_mode = 0
-size_flags_horizontal = 3
-texture_normal = ExtResource( 52 )
-texture_pressed = ExtResource( 52 )
-texture_hover = ExtResource( 53 )
-texture_disabled = ExtResource( 51 )
-texture_focused = ExtResource( 52 )
 
 [node name="BoxRight" type="Control" parent="."]
 margin_left = 696.0
@@ -629,6 +609,5 @@ margin_bottom = 688.0
 border_color = Color( 0.690196, 0.647059, 0, 1 )
 border_width = 5.0
 
-[connection signal="pressed" from="BoxLeft/Bottom/FetchDishesButton" to="." method="_OnFetchDishesButtonPressed"]
 [connection signal="tab_changed" from="BoxRight/TabContainer" to="." method="_OnTabChanged"]
 [connection signal="pressed" from="BoxRight/Bottom/AddDishesButton" to="." method="_OnAddDishesButtonPressed"]
