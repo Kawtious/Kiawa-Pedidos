@@ -1,17 +1,10 @@
-[gd_scene load_steps=45 format=2]
+[gd_scene load_steps=43 format=2]
 
 [ext_resource path="res://Scripts/Screens/MenuScreen.cs" type="Script" id=1]
 [ext_resource path="res://Textures/UI/add.png" type="Texture" id=5]
 [ext_resource path="res://Fonts/DTM-Sans.otf" type="DynamicFontData" id=48]
 [ext_resource path="res://Textures/UI/add_dis.png" type="Texture" id=49]
 [ext_resource path="res://Textures/UI/add_sel.png" type="Texture" id=50]
-
-[sub_resource type="DynamicFont" id=6]
-size = 40
-font_data = ExtResource( 48 )
-
-[sub_resource type="StyleBoxFlat" id=8]
-bg_color = Color( 0, 0, 0, 0 )
 
 [sub_resource type="DynamicFont" id=7]
 size = 40
@@ -126,44 +119,6 @@ tracks/0/keys = {
 "times": PoolRealArray( 0.3, 0.7, 1 )
 }
 
-[sub_resource type="AnimationNodeAnimation" id=20]
-animation = "hide"
-
-[sub_resource type="AnimationNodeAnimation" id=21]
-animation = "idle"
-
-[sub_resource type="AnimationNodeAnimation" id=22]
-animation = "idle_hidden"
-
-[sub_resource type="AnimationNodeAnimation" id=23]
-animation = "show"
-
-[sub_resource type="AnimationNodeStateMachineTransition" id=24]
-switch_mode = 2
-auto_advance = true
-
-[sub_resource type="AnimationNodeStateMachineTransition" id=25]
-switch_mode = 2
-auto_advance = true
-
-[sub_resource type="AnimationNodeStateMachineTransition" id=26]
-
-[sub_resource type="AnimationNodeStateMachineTransition" id=27]
-
-[sub_resource type="AnimationNodeStateMachine" id=28]
-states/hide/node = SubResource( 20 )
-states/hide/position = Vector2( 400, 192 )
-states/idle/node = SubResource( 21 )
-states/idle/position = Vector2( 578, 115 )
-states/idle_hidden/node = SubResource( 22 )
-states/idle_hidden/position = Vector2( 214, 115 )
-states/show/node = SubResource( 23 )
-states/show/position = Vector2( 400, 115 )
-transitions = [ "idle_hidden", "show", SubResource( 24 ), "show", "idle", SubResource( 25 ), "idle", "hide", SubResource( 26 ), "hide", "idle_hidden", SubResource( 27 ) ]
-start_node = "idle_hidden"
-
-[sub_resource type="AnimationNodeStateMachinePlayback" id=29]
-
 [sub_resource type="Animation" id=30]
 length = 0.001
 tracks/0/type = "value"
@@ -259,6 +214,44 @@ tracks/0/keys = {
 "times": PoolRealArray( 1.2, 1.7, 2 )
 }
 
+[sub_resource type="AnimationNodeAnimation" id=20]
+animation = "hide"
+
+[sub_resource type="AnimationNodeAnimation" id=21]
+animation = "idle"
+
+[sub_resource type="AnimationNodeAnimation" id=22]
+animation = "idle_hidden"
+
+[sub_resource type="AnimationNodeAnimation" id=23]
+animation = "show"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=24]
+switch_mode = 2
+auto_advance = true
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=25]
+switch_mode = 2
+auto_advance = true
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=26]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=27]
+
+[sub_resource type="AnimationNodeStateMachine" id=28]
+states/hide/node = SubResource( 20 )
+states/hide/position = Vector2( 400, 192 )
+states/idle/node = SubResource( 21 )
+states/idle/position = Vector2( 578, 115 )
+states/idle_hidden/node = SubResource( 22 )
+states/idle_hidden/position = Vector2( 214, 115 )
+states/show/node = SubResource( 23 )
+states/show/position = Vector2( 400, 115 )
+transitions = [ "idle_hidden", "show", SubResource( 24 ), "show", "idle", SubResource( 25 ), "idle", "hide", SubResource( 26 ), "hide", "idle_hidden", SubResource( 27 ) ]
+start_node = "idle_hidden"
+
+[sub_resource type="AnimationNodeStateMachinePlayback" id=29]
+
 [sub_resource type="AnimationNodeAnimation" id=35]
 animation = "hide"
 
@@ -302,48 +295,6 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 script = ExtResource( 1 )
 
-[node name="BoxSearch" type="Control" parent="."]
-margin_left = 24.0
-margin_top = 24.0
-margin_right = 584.0
-margin_bottom = 168.0
-size_flags_horizontal = 3
-size_flags_vertical = 3
-
-[node name="ColorRectBorder" type="ColorRect" parent="BoxSearch"]
-margin_right = 560.0
-margin_bottom = 144.0
-size_flags_horizontal = 3
-size_flags_vertical = 3
-
-[node name="ColorRectInner" type="ColorRect" parent="BoxSearch"]
-margin_left = 8.0
-margin_top = 8.0
-margin_right = 552.0
-margin_bottom = 136.0
-size_flags_horizontal = 7
-size_flags_vertical = 7
-color = Color( 0, 0, 0, 1 )
-
-[node name="BoxLeftVBox" type="VBoxContainer" parent="BoxSearch"]
-visible = false
-margin_left = 24.0
-margin_top = 24.0
-margin_right = 536.0
-margin_bottom = 120.0
-size_flags_horizontal = 3
-size_flags_vertical = 3
-
-[node name="LineEdit" type="LineEdit" parent="BoxSearch/BoxLeftVBox"]
-margin_right = 512.0
-margin_bottom = 96.0
-size_flags_horizontal = 3
-size_flags_vertical = 3
-custom_fonts/font = SubResource( 6 )
-custom_styles/normal = SubResource( 8 )
-text = "Search"
-max_length = 20
-
 [node name="BoxLeft" type="Control" parent="."]
 margin_left = 24.0
 margin_top = 184.0
@@ -353,6 +304,7 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="ColorRectBorder" type="ColorRect" parent="BoxLeft"]
+margin_top = -160.0
 margin_right = 560.0
 margin_bottom = 512.0
 size_flags_horizontal = 3
@@ -360,7 +312,7 @@ size_flags_vertical = 3
 
 [node name="ColorRectInner" type="ColorRect" parent="BoxLeft"]
 margin_left = 8.0
-margin_top = 8.0
+margin_top = -152.0
 margin_right = 552.0
 margin_bottom = 504.0
 size_flags_horizontal = 7
@@ -373,13 +325,13 @@ anchor_top = -0.026
 anchor_right = -0.023
 anchor_bottom = -0.026
 margin_left = 36.88
-margin_top = 37.312
+margin_top = -122.688
 margin_right = 548.88
 margin_bottom = 501.312
 
 [node name="BoxLeftVBox" type="VBoxContainer" parent="BoxLeft/BoxLeftScroll"]
 margin_right = 512.0
-margin_bottom = 464.0
+margin_bottom = 624.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
@@ -413,6 +365,7 @@ margin_right = 536.0
 margin_bottom = 88.0
 custom_fonts/font = SubResource( 7 )
 text = "Menu"
+align = 1
 valign = 1
 
 [node name="TabContainer" type="TabContainer" parent="BoxRight"]
@@ -522,34 +475,6 @@ texture_hover = ExtResource( 50 )
 texture_disabled = ExtResource( 49 )
 texture_focused = ExtResource( 5 )
 
-[node name="Animations" type="Node" parent="."]
-
-[node name="AnimationPlayer" type="AnimationPlayer" parent="Animations"]
-anims/RESET = SubResource( 15 )
-anims/hide = SubResource( 16 )
-anims/idle = SubResource( 17 )
-anims/idle_hidden = SubResource( 19 )
-anims/show = SubResource( 18 )
-
-[node name="AnimationTree" type="AnimationTree" parent="Animations"]
-tree_root = SubResource( 28 )
-anim_player = NodePath("../AnimationPlayer")
-active = true
-parameters/playback = SubResource( 29 )
-
-[node name="AnimationPlayer2" type="AnimationPlayer" parent="Animations"]
-anims/RESET = SubResource( 30 )
-anims/hide = SubResource( 31 )
-anims/idle = SubResource( 32 )
-anims/idle_hidden = SubResource( 33 )
-anims/show = SubResource( 34 )
-
-[node name="AnimationTree2" type="AnimationTree" parent="Animations"]
-tree_root = SubResource( 43 )
-anim_player = NodePath("../AnimationPlayer2")
-active = true
-parameters/playback = SubResource( 44 )
-
 [node name="Guides" type="Control" parent="."]
 visible = false
 margin_right = 1280.0
@@ -608,6 +533,32 @@ margin_right = 1248.0
 margin_bottom = 688.0
 border_color = Color( 0.690196, 0.647059, 0, 1 )
 border_width = 5.0
+
+[node name="Animations" type="Node" parent="."]
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Animations"]
+anims/RESET = SubResource( 15 )
+anims/hide = SubResource( 16 )
+anims/idle = SubResource( 17 )
+anims/idle_hidden = SubResource( 19 )
+anims/show = SubResource( 18 )
+
+[node name="AnimationPlayer2" type="AnimationPlayer" parent="Animations"]
+anims/RESET = SubResource( 30 )
+anims/hide = SubResource( 31 )
+anims/idle = SubResource( 32 )
+anims/idle_hidden = SubResource( 33 )
+anims/show = SubResource( 34 )
+
+[node name="AnimationTree" type="AnimationTree" parent="Animations"]
+tree_root = SubResource( 28 )
+anim_player = NodePath("../AnimationPlayer")
+parameters/playback = SubResource( 29 )
+
+[node name="AnimationTree2" type="AnimationTree" parent="Animations"]
+tree_root = SubResource( 43 )
+anim_player = NodePath("../AnimationPlayer2")
+parameters/playback = SubResource( 44 )
 
 [connection signal="tab_changed" from="BoxRight/TabContainer" to="." method="_OnTabChanged"]
 [connection signal="pressed" from="BoxRight/Bottom/AddDishesButton" to="." method="_OnAddDishesButtonPressed"]

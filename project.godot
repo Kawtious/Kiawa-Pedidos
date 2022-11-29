@@ -22,6 +22,7 @@ Preferences="*res://Scenes/Data/Preferences.tscn"
 GlobalAudioStream="*res://Scenes/Audio/GlobalAudioStream.tscn"
 MenuAudioStream="*res://Scenes/Audio/MenuAudioStream.tscn"
 Firebase="*res://Scenes/Data/Firebase.tscn"
+UserData="*res://Scenes/UserData.tscn"
 
 [display]
 

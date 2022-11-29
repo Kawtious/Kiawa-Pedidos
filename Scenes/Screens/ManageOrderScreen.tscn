@@ -1,0 +1,99 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://Scripts/Screens/ManageOrderScreen.cs" type="Script" id=3]
+[ext_resource path="res://Fonts/DTM-Sans.otf" type="DynamicFontData" id=7]
+
+[sub_resource type="DynamicFont" id=45]
+size = 40
+font_data = ExtResource( 7 )
+
+[node name="ManageOrderScreen" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 3 )
+
+[node name="Box" type="Control" parent="."]
+margin_left = 320.0
+margin_top = 24.0
+margin_right = 960.0
+margin_bottom = 696.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="ColorRectBorder" type="ColorRect" parent="Box"]
+margin_right = 640.0
+margin_bottom = 672.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="ColorRectInner" type="ColorRect" parent="Box"]
+margin_left = 8.0
+margin_top = 8.0
+margin_right = 632.0
+margin_bottom = 664.0
+size_flags_horizontal = 7
+size_flags_vertical = 7
+color = Color( 0, 0, 0, 1 )
+
+[node name="Label" type="Label" parent="Box"]
+margin_left = 32.0
+margin_top = 32.0
+margin_right = 608.0
+margin_bottom = 96.0
+custom_fonts/font = SubResource( 45 )
+text = "Orders"
+align = 1
+valign = 1
+
+[node name="BoxScroll" type="ScrollContainer" parent="Box"]
+anchor_left = -0.023
+anchor_top = -0.026
+anchor_right = -0.023
+anchor_bottom = -0.026
+margin_left = 38.72
+margin_top = 137.472
+margin_right = 630.72
+margin_bottom = 657.472
+
+[node name="BoxVBox" type="VBoxContainer" parent="Box/BoxScroll"]
+margin_right = 592.0
+margin_bottom = 520.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Animations" type="Node" parent="."]
+
+[node name="Guides" type="Control" parent="."]
+visible = false
+margin_right = 1280.0
+margin_bottom = 720.0
+
+[node name="ReferenceRect" type="ReferenceRect" parent="Guides"]
+margin_right = 1280.0
+margin_bottom = 720.0
+border_color = Color( 0.0392157, 0.690196, 0, 1 )
+border_width = 5.0
+
+[node name="ReferenceRect7" type="ReferenceRect" parent="Guides"]
+margin_left = 344.0
+margin_top = 144.0
+margin_right = 936.0
+margin_bottom = 576.0
+border_color = Color( 0.0705882, 0, 0.690196, 1 )
+border_width = 5.0
+
+[node name="ReferenceRect2" type="ReferenceRect" parent="Guides"]
+margin_left = 344.0
+margin_top = 608.0
+margin_right = 936.0
+margin_bottom = 672.0
+border_color = Color( 0.0705882, 0, 0.690196, 1 )
+border_width = 5.0
+
+[node name="ReferenceRect4" type="ReferenceRect" parent="Guides"]
+margin_left = 344.0
+margin_top = 48.0
+margin_right = 936.0
+margin_bottom = 128.0
+border_color = Color( 0.686275, 0.690196, 0, 1 )
+border_width = 5.0

@@ -1,7 +1,12 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=29 format=2]
 
 [ext_resource path="res://Scenes/Screens/MenuScreen.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Scenes/Camera2D.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Textures/Backgrounds/shopkeeper_bg2.png" type="Texture" id=3]
+[ext_resource path="res://Scenes/Screens/OrderScreen.tscn" type="PackedScene" id=4]
+[ext_resource path="res://Scripts/Screens/Main.cs" type="Script" id=5]
+[ext_resource path="res://Textures/Backgrounds/shopkeeper_bg.png" type="Texture" id=6]
+[ext_resource path="res://Scenes/Screens/ManageOrderScreen.tscn" type="PackedScene" id=7]
 [ext_resource path="res://Textures/Backgrounds/anim_bg.png" type="Texture" id=17]
 
 [sub_resource type="AtlasTexture" id=1]
@@ -28,19 +33,157 @@ animations = [ {
 "speed": 10.0
 } ]
 
-[node name="Main" type="Node2D"]
+[sub_resource type="Animation" id=8]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath("../Camera2D:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 640, 1080 ) ]
+}
 
-[node name="Background" type="AnimatedSprite" parent="."]
+[sub_resource type="Animation" id=6]
+resource_name = "camera_move_screen_1"
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath("../Camera2D:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 640, 360 ) ]
+}
+
+[sub_resource type="Animation" id=7]
+resource_name = "camera_move_screen_2"
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath("../Camera2D:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 640, 1080 ) ]
+}
+
+[sub_resource type="Animation" id=15]
+resource_name = "camera_move_screen_3"
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath("../Camera2D:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 1920, 1080 ) ]
+}
+
+[sub_resource type="AnimationNodeAnimation" id=9]
+animation = "camera_move_screen_1"
+
+[sub_resource type="AnimationNodeAnimation" id=10]
+animation = "camera_move_screen_2"
+
+[sub_resource type="AnimationNodeAnimation" id=16]
+animation = "camera_move_screen_3"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=11]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=12]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=17]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=18]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=19]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=20]
+
+[sub_resource type="AnimationNodeStateMachine" id=13]
+states/camera_move_screen_1/node = SubResource( 9 )
+states/camera_move_screen_1/position = Vector2( 207, 88 )
+states/camera_move_screen_2/node = SubResource( 10 )
+states/camera_move_screen_2/position = Vector2( 551, 88 )
+states/camera_move_screen_3/node = SubResource( 16 )
+states/camera_move_screen_3/position = Vector2( 379, 201 )
+transitions = [ "camera_move_screen_1", "camera_move_screen_2", SubResource( 11 ), "camera_move_screen_2", "camera_move_screen_1", SubResource( 12 ), "camera_move_screen_1", "camera_move_screen_3", SubResource( 17 ), "camera_move_screen_2", "camera_move_screen_3", SubResource( 18 ), "camera_move_screen_3", "camera_move_screen_1", SubResource( 19 ), "camera_move_screen_3", "camera_move_screen_2", SubResource( 20 ) ]
+start_node = "camera_move_screen_2"
+
+[sub_resource type="AnimationNodeStateMachinePlayback" id=14]
+
+[node name="Main" type="Node2D"]
+script = ExtResource( 5 )
+
+[node name="ColorRect" type="ColorRect" parent="."]
+margin_right = 2816.0
+margin_bottom = 1472.0
+color = Color( 0, 0, 0, 1 )
+
+[node name="Background1" type="AnimatedSprite" parent="."]
 position = Vector2( 640, 360 )
 scale = Vector2( 2.37037, 2.36842 )
 frames = SubResource( 5 )
+frame = 2
 playing = true
+
+[node name="Background2" type="Sprite" parent="."]
+position = Vector2( 640, 1080 )
+scale = Vector2( 13.0612, 9.11392 )
+texture = ExtResource( 3 )
+
+[node name="Background3" type="Sprite" parent="."]
+position = Vector2( 1920, 1080 )
+scale = Vector2( 7.23164, 6.15385 )
+texture = ExtResource( 6 )
 
 [node name="MenuScreen" parent="." instance=ExtResource( 1 )]
 
+[node name="OrderScreen" parent="." instance=ExtResource( 4 )]
+margin_top = 720.0
+margin_bottom = 720.0
+
+[node name="ManageOrderScreen" parent="." instance=ExtResource( 7 )]
+margin_left = 1280.0
+margin_top = 720.0
+margin_right = 1280.0
+margin_bottom = 720.0
+
 [node name="Camera2D" parent="." instance=ExtResource( 2 )]
+position = Vector2( 640, 1080 )
 
 [node name="Bottom Right" parent="Camera2D/Limits" index="1"]
-position = Vector2( 1280, 720 )
+position = Vector2( 2600, 1440 )
+
+[node name="Animations" type="Node" parent="."]
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Animations"]
+anims/RESET = SubResource( 8 )
+anims/camera_move_screen_1 = SubResource( 6 )
+anims/camera_move_screen_2 = SubResource( 7 )
+anims/camera_move_screen_3 = SubResource( 15 )
+
+[node name="AnimationTree" type="AnimationTree" parent="Animations"]
+tree_root = SubResource( 13 )
+anim_player = NodePath("../AnimationPlayer")
+active = true
+parameters/playback = SubResource( 14 )
 
 [editable path="Camera2D"]
