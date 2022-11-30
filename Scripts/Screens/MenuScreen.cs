@@ -88,13 +88,10 @@ public class MenuScreen : Control
 
         foreach (Dictionary entry in Firebase.Dishes)
         {
-            PackedScene _dishContainer = GD.Load<PackedScene>("res://Scenes/UI/DishContainer.tscn");
-            DishContainer dishContainer = (DishContainer)_dishContainer.Instance();
-            BoxLeftVBox.AddChild(dishContainer);
+            string titulo = (string)entry["titulo"];
+            float precio = (float)entry["precio"];
 
-            dishContainer.Dish.Id = index;
-            dishContainer.Dish.Title = (string)entry["titulo"];
-            dishContainer.Dish.Price = (float)entry["precio"];
+            CreateDishContainer(index, titulo, precio);
             index++;
         }
 
@@ -111,21 +108,38 @@ public class MenuScreen : Control
         {
             foreach (object element in dayMenu)
             {
-                PackedScene _menuDishContainer = GD.Load<PackedScene>("res://Scenes/UI/MenuDishContainer.tscn");
-                MenuDishContainer menuDishContainer = (MenuDishContainer)_menuDishContainer.Instance();
-                menuContainer.AddChild(menuDishContainer);
-
                 int index = Int32.Parse((string)element);
-
                 Dictionary dish = Firebase.GetDish(index);
+                string titulo = (string)dish["titulo"];
+                float precio = (float)dish["precio"];
 
-                menuDishContainer.Dish.Id = index;
-                menuDishContainer.Dish.Title = (string)dish["titulo"];
-                menuDishContainer.Dish.Price = (float)dish["precio"];
+                CreateMenuDishContainer(menuContainer, index, titulo, precio);
             }
 
             RecheckDishContainers();
         }
+    }
+
+    private void CreateDishContainer(int index, string titulo, float precio)
+    {
+        PackedScene _dishContainer = GD.Load<PackedScene>("res://Scenes/UI/DishContainer.tscn");
+        DishContainer dishContainer = (DishContainer)_dishContainer.Instance();
+        BoxLeftVBox.AddChild(dishContainer);
+
+        dishContainer.Dish.Id = index;
+        dishContainer.Dish.Title = titulo;
+        dishContainer.Dish.Price = precio;
+    }
+
+    private void CreateMenuDishContainer(VBoxContainer menuContainer, int index, string titulo, float precio)
+    {
+        PackedScene _menuDishContainer = GD.Load<PackedScene>("res://Scenes/UI/MenuDishContainer.tscn");
+        MenuDishContainer menuDishContainer = (MenuDishContainer)_menuDishContainer.Instance();
+        menuContainer.AddChild(menuDishContainer);
+
+        menuDishContainer.Dish.Id = index;
+        menuDishContainer.Dish.Title = titulo;
+        menuDishContainer.Dish.Price = precio;
     }
 
     private void ClearDishList()

@@ -16,6 +16,15 @@ public class ManageOrderScreen : Control
 
     private VBoxContainer BoxVBox;
 
+    private string _Query = "";
+
+    [Export]
+    public string Query
+    {
+        get { return _Query; }
+        set { _Query = value; UpdateOrders(); }
+    }
+
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
     {
@@ -49,15 +58,30 @@ public class ManageOrderScreen : Control
 
         foreach (System.Collections.DictionaryEntry entry in Firebase.Orders)
         {
-            PackedScene _orderContainer = GD.Load<PackedScene>("res://Scenes/UI/OrderContainer.tscn");
-            OrderContainer orderContainer = (OrderContainer)_orderContainer.Instance();
-            BoxVBox.AddChild(orderContainer);
-
             Dictionary element = entry.Value as Dictionary;
+            string user = (string)element["user"];
+            string date = (string)element["date"];
 
-            orderContainer.Order.User = (string)element["user"];
-            orderContainer.Order.Date = (string)element["date"];
+            if (Query.Empty())
+            {
+                CreateOrderContainer(user, date);
+
+            }
+            else if (user.ToLower().Equals(Query.ToLower()))
+            {
+                CreateOrderContainer(user, date);
+            }
         }
+    }
+
+    private void CreateOrderContainer(string user, string date)
+    {
+        PackedScene _orderContainer = GD.Load<PackedScene>("res://Scenes/UI/OrderContainer.tscn");
+        OrderContainer orderContainer = (OrderContainer)_orderContainer.Instance();
+        BoxVBox.AddChild(orderContainer);
+
+        orderContainer.Order.User = user;
+        orderContainer.Order.Date = date;
     }
 
     private void ClearOrdersList()
