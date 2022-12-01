@@ -80,8 +80,7 @@ public class OrderScreen : Control
     {
         ClearDishList();
 
-        string today = System.DateTime.Now.DayOfWeek.ToString();
-        Array dayMenu = Firebase.GetMenu(today);
+        Array dayMenu = Firebase.GetTodayMenu();
 
         if (dayMenu.Count < 1)
         {
