@@ -1,4 +1,5 @@
 using Godot;
+using System.Linq;
 using System.Text;
 
 using Array = Godot.Collections.Array;
@@ -13,11 +14,11 @@ public class Firebase : Node
 
     public const string JSON_EXTENSION = ".json";
 
+    public HTTPRequest DataRequest;
+
     public HTTPRequest SetMenuRequest;
 
     public HTTPRequest SendOrderRequest;
-
-    public HTTPRequest DataRequest;
 
     [Signal]
     delegate void UpdatedData();
@@ -26,17 +27,17 @@ public class Firebase : Node
 
     public Dictionary Menu
     {
-        get { return Data["menu"] as Dictionary; }
+        get { return GetMenus(); }
     }
 
     public Array Dishes
     {
-        get { return Data["dishes"] as Array; }
+        get { return GetDishes(); }
     }
 
     public Dictionary Orders
     {
-        get { return Data["orders"] as Dictionary; }
+        get { return GetOrders(); }
     }
 
     // Called when the node enters the scene tree for the first time.
@@ -48,9 +49,45 @@ public class Firebase : Node
     private void InitNodes()
     {
         UserData = GetNode<UserData>("/root/UserData");
+        DataRequest = GetNode<HTTPRequest>("DataRequest");
         SetMenuRequest = GetNode<HTTPRequest>("SetMenuRequest");
         SendOrderRequest = GetNode<HTTPRequest>("SendOrderRequest");
-        DataRequest = GetNode<HTTPRequest>("DataRequest");
+    }
+
+    private Dictionary GetMenus()
+    {
+        if (Data.Contains("dishes"))
+        {
+            return Data["menu"] as Dictionary;
+        }
+        else
+        {
+            return null;
+        }
+    }
+
+    private Array GetDishes()
+    {
+        if (Data.Contains("dishes"))
+        {
+            return Data["dishes"] as Array;
+        }
+        else
+        {
+            return null;
+        }
+    }
+
+    private Dictionary GetOrders()
+    {
+        if (Data.Contains("orders"))
+        {
+            return Data["orders"] as Dictionary;
+        }
+        else
+        {
+            return null;
+        }
     }
 
     public Array GetMenu(string day)
@@ -92,8 +129,7 @@ public class Firebase : Node
     {
         string reference = Firebase.DATABASE_REFERENCE +
                         "/menu/" +
-                        day.ToLower() +
-                        Firebase.JSON_EXTENSION;
+                        day.ToLower();
 
         PUTRequest(SetMenuRequest, reference, dishes);
     }
@@ -107,50 +143,81 @@ public class Firebase : Node
         };
 
         string reference = Firebase.DATABASE_REFERENCE +
-                        "/orders" +
-                        Firebase.JSON_EXTENSION;
+                        "/orders";
 
         POSTRequest(SendOrderRequest, reference, data);
     }
 
     public void UpdateData()
     {
-        APIRequest(DataRequest, DATABASE_REFERENCE);
+        GETRequest(DataRequest, DATABASE_REFERENCE);
     }
 
-    private void APIRequest(HTTPRequest node, string target)
+    private void GETRequest(HTTPRequest request, string reference)
     {
-        Error error = node.Request(target + JSON_EXTENSION);
-
-        if (error != Error.Ok)
-        {
-            GD.PrintErr("Request failed.");
-        }
+        DoRequest(HTTPClient.Method.Get, reference, null, request);
     }
 
     public void PUTRequest(HTTPRequest request, string reference, object data_to_send)
     {
-        string[] headers = new string[] { "Content-Type: application/json" };
-        string query = JSON.Print(data_to_send);
+        DoRequest(HTTPClient.Method.Put, reference, data_to_send, request);
+    }
 
-        Error error = request.Request(reference, headers, false, HTTPClient.Method.Put, query);
+    public void POSTRequest(HTTPRequest request, string reference, object data_to_send)
+    {
+        DoRequest(HTTPClient.Method.Post, reference, data_to_send, request);
+    }
+
+    public void PATCHRequest(HTTPRequest request, string reference, object data_to_send)
+    {
+        DoRequest(HTTPClient.Method.Patch, reference, data_to_send, request);
+    }
+
+    private void DoRequest(HTTPClient.Method method, string reference, object data_to_send, HTTPRequest request)
+    {
+        bool new_request = false;
+
+        if (reference.Empty())
+        {
+            return;
+        }
+
+        if (request == null)
+        {
+            request = new HTTPRequest();
+            AddChild(request);
+            new_request = true;
+        }
+
+        if (!reference.EndsWith(JSON_EXTENSION))
+        {
+            reference += JSON_EXTENSION;
+        }
+
+        Error error;
+
+        switch (method)
+        {
+            case HTTPClient.Method.Get:
+                error = request.Request(reference);
+                break;
+            default:
+                string[] headers = new string[] { "Content-Type: application/json" };
+                string query = JSON.Print(data_to_send);
+
+                error = request.Request(reference, headers, false, method, query);
+                break;
+        }
 
         if (error != Error.Ok)
         {
             GD.PrintErr("Request failed.");
         }
-    }
 
-    public void POSTRequest(HTTPRequest request, string reference, object data_to_send)
-    {
-        string[] headers = new string[] { "Content-Type: application/json" };
-        string query = JSON.Print(data_to_send);
-
-        Error error = request.Request(reference, headers, false, HTTPClient.Method.Post, query);
-
-        if (error != Error.Ok)
+        if (new_request)
         {
-            GD.PrintErr("Request failed.");
+            RemoveChild(request);
+            request.QueueFree();
         }
     }
 
@@ -168,6 +235,16 @@ public class Firebase : Node
 
             EmitSignal("UpdatedData");
         }
+    }
+
+    public void _OnSetMenuRequestCompleted(int result, int response_code, string[] headers, byte[] body)
+    {
+        UpdateData();
+    }
+
+    public void _OnSendOrderRequestCompleted(int result, int response_code, string[] headers, byte[] body)
+    {
+        UpdateData();
     }
 
 }

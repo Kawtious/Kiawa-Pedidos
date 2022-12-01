@@ -61,6 +61,11 @@ public class ManageOrderScreen : Control
     {
         ClearOrdersList();
 
+        if (Firebase.Orders == null)
+        {
+            return;
+        }
+
         foreach (System.Collections.DictionaryEntry entry in Firebase.Orders)
         {
             Dictionary element = entry.Value as Dictionary;

@@ -84,6 +84,11 @@ public class MenuScreen : Control
     {
         ClearDishList();
 
+        if (Firebase.Dishes == null)
+        {
+            return;
+        }
+
         int index = 0;
 
         foreach (Dictionary entry in Firebase.Dishes)

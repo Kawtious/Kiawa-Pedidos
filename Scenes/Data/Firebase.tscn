@@ -5,10 +5,12 @@
 [node name="Firebase" type="Node"]
 script = ExtResource( 1 )
 
+[node name="DataRequest" type="HTTPRequest" parent="."]
+
 [node name="SetMenuRequest" type="HTTPRequest" parent="."]
 
 [node name="SendOrderRequest" type="HTTPRequest" parent="."]
 
-[node name="DataRequest" type="HTTPRequest" parent="."]
-
 [connection signal="request_completed" from="DataRequest" to="." method="_OnDataRequestCompleted"]
+[connection signal="request_completed" from="SetMenuRequest" to="." method="_OnSetMenuRequestCompleted"]
+[connection signal="request_completed" from="SendOrderRequest" to="." method="_OnSendOrderRequestCompleted"]
