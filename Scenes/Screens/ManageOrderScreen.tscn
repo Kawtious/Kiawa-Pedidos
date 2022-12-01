@@ -1,4 +1,4 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://Scripts/Screens/ManageOrderScreen.cs" type="Script" id=3]
 [ext_resource path="res://Fonts/DTM-Sans.otf" type="DynamicFontData" id=7]
@@ -6,6 +6,16 @@
 [sub_resource type="DynamicFont" id=45]
 size = 40
 font_data = ExtResource( 7 )
+
+[sub_resource type="DynamicFont" id=46]
+size = 27
+font_data = ExtResource( 7 )
+
+[sub_resource type="StyleBoxEmpty" id=47]
+
+[sub_resource type="StyleBoxEmpty" id=48]
+
+[sub_resource type="StyleBoxEmpty" id=49]
 
 [node name="ManageOrderScreen" type="Control"]
 anchor_right = 1.0
@@ -53,13 +63,29 @@ anchor_bottom = -0.026
 margin_left = 38.72
 margin_top = 137.472
 margin_right = 630.72
-margin_bottom = 657.472
+margin_bottom = 569.472
 
 [node name="BoxVBox" type="VBoxContainer" parent="Box/BoxScroll"]
 margin_right = 592.0
-margin_bottom = 520.0
+margin_bottom = 432.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
+
+[node name="Bottom" type="HBoxContainer" parent="Box"]
+margin_left = 32.0
+margin_top = 592.0
+margin_right = 608.0
+margin_bottom = 640.0
+
+[node name="LineEdit" type="LineEdit" parent="Box/Bottom"]
+margin_right = 576.0
+margin_bottom = 48.0
+size_flags_horizontal = 3
+custom_fonts/font = SubResource( 46 )
+custom_styles/read_only = SubResource( 47 )
+custom_styles/focus = SubResource( 48 )
+custom_styles/normal = SubResource( 49 )
+max_length = 25
 
 [node name="Animations" type="Node" parent="."]
 
@@ -97,3 +123,5 @@ margin_right = 936.0
 margin_bottom = 128.0
 border_color = Color( 0.686275, 0.690196, 0, 1 )
 border_width = 5.0
+
+[connection signal="text_changed" from="Box/Bottom/LineEdit" to="." method="_OnLineEditTextChanged"]

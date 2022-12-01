@@ -47,6 +47,11 @@ public class ManageOrderScreen : Control
         Firebase.Connect("UpdatedData", this, "UpdateData");
     }
 
+    public void _OnLineEditTextChanged(string new_text)
+    {
+        Query = new_text;
+    }
+
     public void UpdateData()
     {
         UpdateOrders();
