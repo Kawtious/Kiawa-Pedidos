@@ -77,7 +77,7 @@ public class ManageOrderScreen : Control
                 CreateOrderContainer(user, date);
 
             }
-            else if (user.ToLower().Equals(Query.ToLower()))
+            else if (user.ToLower().Contains(Query.ToLower()))
             {
                 CreateOrderContainer(user, date);
             }

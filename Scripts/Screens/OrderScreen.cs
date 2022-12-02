@@ -99,7 +99,7 @@ public class OrderScreen : Control
             {
                 CreateDishContainer(index, titulo, precio);
             }
-            else if (titulo.ToLower().Equals(Query.ToLower()))
+            else if (titulo.ToLower().Contains(Query.ToLower()))
             {
                 CreateDishContainer(index, titulo, precio);
             }
