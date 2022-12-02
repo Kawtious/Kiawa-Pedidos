@@ -2,6 +2,7 @@ using Godot;
 using System;
 using Dictionary = Godot.Collections.Dictionary;
 using Array = Godot.Collections.Array;
+using Godot.Collections;
 
 public class Camera2D : Godot.Camera2D
 {
@@ -12,18 +13,13 @@ public class Camera2D : Godot.Camera2D
 
     private Node Points;
 
-    private int _ActivePoint = 0;
-
-    private int ActivePoint
-    {
-        get { return _ActivePoint; }
-        set { ChangePoint(value); }
-    }
+    private CameraPoint CurrentPoint;
 
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
     {
         InitNodes();
+        ConnectSignals();
 
         LimitTop = (int)TopLeft.Position.y;
         LimitLeft = (int)TopLeft.Position.x;
@@ -36,56 +32,142 @@ public class Camera2D : Godot.Camera2D
         TopLeft = GetNode<Position2D>("Limits/Top Left");
         BottomRight = GetNode<Position2D>("Limits/Bottom Right");
         Points = GetNode<Node>("Points");
+        CurrentPoint = Points.GetNode<CameraPoint>("MainPoint");
+    }
+
+    private void ConnectSignals()
+    {
+        foreach (CameraPoint point in GetPoints())
+        {
+            point.Connect("RequestFocus", this, "ChangePoint");
+        }
     }
 
     public override void _Input(InputEvent evt)
     {
         if (Input.IsActionJustPressed("ui_left"))
         {
-            ActivePoint--;
+            ChangePoint(FindPrevAvailablePoint());
         }
         else if (Input.IsActionJustPressed("ui_right"))
         {
-            ActivePoint++;
+            ChangePoint(FindNextAvailablePoint());
         }
     }
 
-    private void ChangePoint(int value)
+    private void ChangePoint(CameraPoint point)
     {
-        Array cameraPoints = GetPoints();
-
-        _ActivePoint = value;
-
-        if (_ActivePoint < 0)
+        if (point == null)
         {
-            _ActivePoint = 0;
-        }
-        else if (_ActivePoint >= cameraPoints.Count)
-        {
-            _ActivePoint = cameraPoints.Count - 1;
+            return;
         }
 
-        Position2D point = GetPoints()[_ActivePoint] as Position2D;
+        int pointIndex = GetPointIndex(point);
+
+        if (pointIndex < 0)
+        {
+            return;
+        }
 
         if (point != null)
         {
+            if (CurrentPoint.Smoothing)
+            {
+                SmoothingEnabled = point.Smoothing;
+            }
+
+            SmoothingSpeed = point.Speed;
+            Zoom = point.Zoom;
+
             GlobalPosition = point.GlobalPosition;
+            CurrentPoint = point;
         }
     }
 
-    private Array GetPoints()
+    private CameraPoint FindNextAvailablePoint()
     {
-        Array points = new Array();
+        Array<CameraPoint> cameraPoints = GetPoints();
+        CameraPoint point = CurrentPoint;
 
-        foreach (Node node in Points.GetChildren())
+        int startingIndex = GetPointIndex(CurrentPoint);
+
+        for (int i = startingIndex + 1; i < cameraPoints.Count; i++)
         {
-            if (node is Position2D)
+            point = cameraPoints[i];
+            if (!point.Ignore)
             {
-                points.Add(node);
+                return point;
             }
         }
 
+        for (int i = 0; i < startingIndex; i++)
+        {
+            point = cameraPoints[i];
+            if (!point.Ignore)
+            {
+                return point;
+            }
+        }
+
+        return point;
+    }
+
+    private CameraPoint FindPrevAvailablePoint()
+    {
+        Array<CameraPoint> cameraPoints = GetPoints();
+        CameraPoint point = CurrentPoint;
+
+        int startingIndex = GetPointIndex(CurrentPoint);
+
+        for (int i = startingIndex - 1; i >= 0; i--)
+        {
+            point = cameraPoints[i];
+            if (!point.Ignore)
+            {
+                return point;
+            }
+        }
+
+        for (int i = cameraPoints.Count - 1; i > startingIndex; i--)
+        {
+            point = cameraPoints[i];
+            if (!point.Ignore)
+            {
+                return point;
+            }
+        }
+
+        return point;
+    }
+
+    private Array<CameraPoint> GetPoints()
+    {
+        Array<CameraPoint> points = new Array<CameraPoint>();
+
+        foreach (CameraPoint node in Points.GetChildren())
+        {
+            points.Add(node);
+        }
+
         return points;
+    }
+
+    private int GetPointIndex(CameraPoint point)
+    {
+        Array<CameraPoint> points = new Array<CameraPoint>();
+
+        int index = 0;
+
+        foreach (CameraPoint node in Points.GetChildren())
+        {
+            if (node.Equals(point))
+            {
+                return index;
+            }
+            index++;
+        }
+
+        return -1;
     }
 
 }

@@ -3,7 +3,7 @@ using System;
 
 public class UserData : Node
 {
-    private string _Username = "default";
+    private string _Username = "User";
 
     [Export]
     public string Username
