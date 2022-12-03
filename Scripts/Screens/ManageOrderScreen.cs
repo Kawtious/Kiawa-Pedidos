@@ -2,6 +2,7 @@ using Godot;
 using System;
 using Dictionary = Godot.Collections.Dictionary;
 using Array = Godot.Collections.Array;
+using System.Collections;
 
 public class ManageOrderScreen : Control
 {
@@ -45,6 +46,7 @@ public class ManageOrderScreen : Control
     private void ConnectSignals()
     {
         Firebase.Connect("UpdatedData", this, "UpdateData");
+        Firebase.Connect("NewOrders", this, "NotifyNewOrders");
     }
 
     public void _OnLineEditTextChanged(string new_text)
@@ -66,33 +68,28 @@ public class ManageOrderScreen : Control
             return;
         }
 
-        foreach (System.Collections.DictionaryEntry entry in Firebase.Orders)
+        foreach (DictionaryEntry entry in Firebase.Orders)
         {
-            Dictionary element = entry.Value as Dictionary;
-            string user = (string)element["user"];
-            string date = (string)element["date"];
+            Dictionary map = entry.Value as Dictionary;
+
+            Order order = Order.FromMap(map);
+            order.Key = (string)entry.Key;
+
+            if (order == null)
+            {
+                continue;
+            }
 
             if (Query.Empty())
             {
-                CreateOrderContainer(user, date);
-
+                OrderContainer.CreateOrderContainer(BoxVBox, order);
             }
-            else if (user.ToLower().Contains(Query.ToLower()) ||
-                date.ToLower().Contains(Query.ToLower()))
+            else if (order.User.ToLower().Contains(Query.ToLower()) ||
+                    order.Date.ToLower().Contains(Query.ToLower()))
             {
-                CreateOrderContainer(user, date);
+                OrderContainer.CreateOrderContainer(BoxVBox, order);
             }
         }
-    }
-
-    private void CreateOrderContainer(string user, string date)
-    {
-        PackedScene _orderContainer = GD.Load<PackedScene>("res://Scenes/UI/OrderContainer.tscn");
-        OrderContainer orderContainer = (OrderContainer)_orderContainer.Instance();
-        BoxVBox.AddChild(orderContainer);
-
-        orderContainer.Order.User = user;
-        orderContainer.Order.Date = date;
     }
 
     private void ClearOrdersList()
@@ -102,5 +99,13 @@ public class ManageOrderScreen : Control
             BoxVBox.RemoveChild(orderContainer);
             orderContainer.QueueFree();
         }
+    }
+
+    public void NotifyNewOrders()
+    {
+        GlobalProcess.ResourceDirector.MenuAudioStream.Stream =
+                    (AudioStream)GlobalProcess.ResourceDirector.GetResource("new_orders");
+
+        GlobalProcess.ResourceDirector.MenuAudioStream.Play();
     }
 }

@@ -4,6 +4,7 @@
 [ext_resource path="res://Scenes/CameraPoint.tscn" type="PackedScene" id=2]
 
 [node name="Camera2D" type="Camera2D"]
+pause_mode = 2
 position = Vector2( 640, 360 )
 current = true
 process_mode = 0

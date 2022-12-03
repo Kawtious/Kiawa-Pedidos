@@ -1,6 +1,7 @@
 using System;
+using System.Collections;
 using Godot;
-
+using Godot.Collections;
 using Array = Godot.Collections.Array;
 using Dictionary = Godot.Collections.Dictionary;
 
@@ -20,13 +21,15 @@ public class MenuScreen : Control
 
     private TabContainer BoxRightTabContainer;
 
+    private AnimationTree AnimationTree;
+
+    private AnimationNodeStateMachinePlayback AnimationState;
+
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
     {
         InitNodes();
         ConnectSignals();
-
-        Firebase.UpdateData();
     }
 
     private void InitNodes()
@@ -40,11 +43,17 @@ public class MenuScreen : Control
 
         BoxRight = GetNode<Control>("BoxRight");
         BoxRightTabContainer = BoxRight.GetNode<TabContainer>("TabContainer");
+
+        AnimationTree = GetNode<AnimationTree>("Animations/AnimationTree3");
+        AnimationState = AnimationTree.Get("parameters/playback") as AnimationNodeStateMachinePlayback;
     }
 
     private void ConnectSignals()
     {
         Firebase.Connect("UpdatedData", this, "UpdateData");
+
+        Firebase.Connect("ValidateDishes", this, "HideNoDishesError");
+        Firebase.Connect("InvalidateDishes", this, "ShowNoDishesError");
     }
 
     public void _OnAddDishesButtonPressed()
@@ -55,29 +64,26 @@ public class MenuScreen : Control
         {
             if (dishContainer.GetNode<CheckBox>("CheckBox").Pressed == true)
             {
-                dishes.Add(dishContainer.Dish.Id.ToString());
+                dishes.Add(dishContainer.Dish.Key);
             }
         }
 
         Firebase.SetMenu(GetTabName(), dishes);
-        Firebase.UpdateData();
     }
 
     public void _OnTabChanged(int tab)
     {
         RecheckDishContainers();
-        Firebase.UpdateData();
     }
 
     public void UpdateData()
     {
         UpdateDishes();
 
-        UpdateDayMenu("monday");
-        UpdateDayMenu("tuesday");
-        UpdateDayMenu("wednesday");
-        UpdateDayMenu("thursday");
-        UpdateDayMenu("friday");
+        foreach (Control tab in GetTabs())
+        {
+            UpdateDayMenu(tab.Name.ToLower());
+        }
     }
 
     private void UpdateDishes()
@@ -89,62 +95,17 @@ public class MenuScreen : Control
             return;
         }
 
-        int index = 0;
-
-        foreach (Dictionary entry in Firebase.Dishes)
+        foreach (DictionaryEntry entry in Firebase.Dishes)
         {
-            string titulo = (string)entry["titulo"];
-            float precio = (float)entry["precio"];
+            Dictionary map = entry.Value as Dictionary;
 
-            CreateDishContainer(index, titulo, precio);
-            index++;
+            Dish dish = Dish.FromMap(map);
+            dish.Key = (string)entry.Key;
+
+            DishContainer.CreateDishContainer(BoxLeftVBox, dish);
         }
 
         UpdateDayMenu(GetTabName());
-    }
-
-    private void UpdateDayMenu(string day)
-    {
-        VBoxContainer menuContainer = ClearMenuContainer(day);
-
-        Array dayMenu = Firebase.GetMenu(day);
-
-        if (dayMenu.Count > 0)
-        {
-            foreach (object element in dayMenu)
-            {
-                int index = Int32.Parse((string)element);
-                Dictionary dish = Firebase.GetDish(index);
-                string titulo = (string)dish["titulo"];
-                float precio = (float)dish["precio"];
-
-                CreateMenuDishContainer(menuContainer, index, titulo, precio);
-            }
-
-            RecheckDishContainers();
-        }
-    }
-
-    private void CreateDishContainer(int index, string titulo, float precio)
-    {
-        PackedScene _dishContainer = GD.Load<PackedScene>("res://Scenes/UI/DishContainer.tscn");
-        DishContainer dishContainer = (DishContainer)_dishContainer.Instance();
-        BoxLeftVBox.AddChild(dishContainer);
-
-        dishContainer.Dish.Id = index;
-        dishContainer.Dish.Title = titulo;
-        dishContainer.Dish.Price = precio;
-    }
-
-    private void CreateMenuDishContainer(VBoxContainer menuContainer, int index, string titulo, float precio)
-    {
-        PackedScene _menuDishContainer = GD.Load<PackedScene>("res://Scenes/UI/MenuDishContainer.tscn");
-        MenuDishContainer menuDishContainer = (MenuDishContainer)_menuDishContainer.Instance();
-        menuContainer.AddChild(menuDishContainer);
-
-        menuDishContainer.Dish.Id = index;
-        menuDishContainer.Dish.Title = titulo;
-        menuDishContainer.Dish.Price = precio;
     }
 
     private void ClearDishList()
@@ -156,36 +117,29 @@ public class MenuScreen : Control
         }
     }
 
-    private VBoxContainer ClearMenuContainer(string day)
-    {
-        VBoxContainer menuContainer =
-            BoxRightTabContainer.GetNode<VBoxContainer>(day.ToUpper() + "/ScrollContainer/VBoxContainer");
-
-        foreach (MenuDishContainer menuDishContainer in menuContainer.GetChildren())
-        {
-            menuContainer.RemoveChild(menuDishContainer);
-            menuDishContainer.QueueFree();
-        }
-
-        return menuContainer;
-    }
-
     private void RecheckDishContainers()
     {
-        Array dayMenu = Firebase.GetMenu(GetTabName());
-
         foreach (CheckBox CheckBox in GetDishCheckBoxes())
         {
             CheckBox.Pressed = false;
         }
 
-        if (dayMenu.Count > 0)
+        Array dayMenu = Firebase.GetMenu(GetTabName());
+
+        if (dayMenu == null)
         {
-            foreach (CheckBox CheckBox in GetDishCheckBoxes())
-            {
-                DishContainer dishContainer = CheckBox.GetParent() as DishContainer;
-                CheckBox.Pressed = dayMenu.Contains(dishContainer.Dish.Id.ToString());
-            }
+            return;
+        }
+
+        if (dayMenu.Count < 1)
+        {
+            return;
+        }
+
+        foreach (CheckBox CheckBox in GetDishCheckBoxes())
+        {
+            DishContainer dishContainer = CheckBox.GetParent() as DishContainer;
+            CheckBox.Pressed = dayMenu.Contains(dishContainer.Dish.Key);
         }
     }
 
@@ -202,11 +156,11 @@ public class MenuScreen : Control
         return checkBoxes;
     }
 
-    private DishContainer GetDishContainer(int index)
+    private DishContainer GetDishContainer(string key)
     {
         foreach (DishContainer dishContainer in BoxLeftVBox.GetChildren())
         {
-            if (dishContainer.Dish.Id == index)
+            if (dishContainer.Dish.Key.Equals(key))
             {
                 return dishContainer;
             }
@@ -214,8 +168,91 @@ public class MenuScreen : Control
         return null;
     }
 
+    private void UpdateDayMenu(string day)
+    {
+        VBoxContainer menuContainer = ClearMenuContainer(day);
+
+        Array dayMenu = Firebase.GetMenu(day);
+
+        if (dayMenu == null)
+        {
+            return;
+        }
+
+        if (dayMenu.Count < 1)
+        {
+            return;
+        }
+
+        foreach (object element in dayMenu)
+        {
+            string key = (string)element;
+
+            Dish dish = Firebase.GetDish(key);
+
+            if (dish == null)
+            {
+                continue;
+            }
+
+            MenuDishContainer.CreateMenuDishContainer(menuContainer, dish);
+        }
+
+        RecheckDishContainers();
+    }
+
+    private VBoxContainer ClearMenuContainer(string day)
+    {
+        VBoxContainer menuContainer =
+            BoxRightTabContainer.GetNode<VBoxContainer>(day.ToUpper() + "/ScrollContainer/VBoxContainer");
+
+        foreach (MenuDishContainer menuDishContainer in menuContainer.GetChildren())
+        {
+            menuContainer.RemoveChild(menuDishContainer);
+            menuDishContainer.QueueFree();
+        }
+
+        return menuContainer;
+    }
+
     private string GetTabName()
     {
         return BoxRightTabContainer.GetCurrentTabControl().Name;
+    }
+
+    private Array<Control> GetTabs()
+    {
+        Array<Control> tabs = new Array<Control>();
+
+        foreach (Control tab in BoxRightTabContainer.GetChildren())
+        {
+            tabs.Add(tab);
+        }
+
+        return tabs;
+    }
+
+    private bool ShowingError = true;
+
+    public void ShowNoDishesError()
+    {
+        if (ShowingError)
+        {
+            return;
+        }
+
+        AnimationState.Travel("showing");
+        ShowingError = true;
+    }
+
+    public void HideNoDishesError()
+    {
+        if (!ShowingError)
+        {
+            return;
+        }
+
+        AnimationState.Travel("hidden");
+        ShowingError = false;
     }
 }

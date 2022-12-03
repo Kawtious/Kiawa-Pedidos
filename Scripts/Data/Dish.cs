@@ -1,91 +1,110 @@
+using System;
 using Godot;
 
-public class Dish : Node
+using Array = Godot.Collections.Array;
+using Dictionary = Godot.Collections.Dictionary;
+
+public class Dish : Godot.Object
 {
 
-    private int _Id = -1;
+    public static readonly string TITLE_STRING = "titulo";
+
+    public static readonly string DESCRIPTION_STRING = "descripcion";
+
+    public static readonly string PRICE_STRING = "precio";
+
+    public static readonly string PORTIONS_STRING = "porciones";
+
+    private string _Key = "";
 
     private string _Title = "";
 
     private string _Description = "";
 
-    private float _Price = 0;
+    private Single _Price = 0;
 
-    private int _Portions = 0;
+    private Single _Portions = 0;
 
-    [Export]
-    public int Id
+    public string Key
     {
-        get { return _Id; }
-        set { _Id = value; SetId(_Id); }
+        get { return _Key; }
+        set { _Key = value; }
     }
 
-    [Export]
     public string Title
     {
         get { return _Title; }
-        set { _Title = value; SetTitle(_Title); }
+        set { _Title = value; }
     }
 
-    [Export]
     public string Description
     {
         get { return _Description; }
-        set { _Description = value; SetDescription(_Description); }
+        set { _Description = value; }
     }
 
-    [Export]
-    public float Price
+    public Single Price
     {
         get { return _Price; }
-        set { _Price = value; SetPrice(_Price); }
+        set { _Price = value; }
     }
 
-    [Export]
-    public int Portions
+    public Single Portions
     {
         get { return _Portions; }
-        set { _Portions = value; SetPortions(_Portions); }
+        set { _Portions = value; }
     }
 
-    [Signal]
-    delegate void UpdatedId(int value);
+    public Dish() { }
 
-    [Signal]
-    delegate void UpdatedTitle(string value);
-
-    [Signal]
-    delegate void UpdatedDescription(string value);
-
-    [Signal]
-    delegate void UpdatedPrice(float value);
-
-    [Signal]
-    delegate void UpdatedPortions(int value);
-
-    public void SetId(int value)
+    public Dish(string key, string title, string description, Single price, Single portions)
     {
-        EmitSignal("UpdatedId", value);
+        this.Key = key;
+        this.Title = title;
+        this.Description = description;
+        this.Price = price;
+        this.Portions = portions;
     }
 
-    public void SetTitle(string value)
+    public Dish(string title, string description, Single price, Single portions)
     {
-        EmitSignal("UpdatedTitle", value);
+        this.Title = title;
+        this.Description = description;
+        this.Price = price;
+        this.Portions = portions;
     }
 
-    public void SetDescription(string value)
+    public Dictionary ToMap()
     {
-        EmitSignal("UpdatedDescription", value);
+        Dictionary dictionary = new Dictionary {
+            {Dish.TITLE_STRING, Title},
+            {Dish.DESCRIPTION_STRING, Description},
+            {Dish.PRICE_STRING, Price},
+            {Dish.PORTIONS_STRING, Portions}
+        };
+
+        return dictionary;
     }
 
-    public void SetPrice(float value)
+    public static Dish FromMap(Dictionary dictionary)
     {
-        EmitSignal("UpdatedPrice", value);
+        if (!IsValidDish(dictionary))
+        {
+            return null;
+        }
+
+        string title = (string)dictionary[Dish.TITLE_STRING];
+        string description = (string)dictionary[Dish.DESCRIPTION_STRING];
+        Single price = (Single)dictionary[Dish.PRICE_STRING];
+        Single portions = (Single)dictionary[Dish.PORTIONS_STRING];
+
+        return new Dish(title, description, price, portions);
     }
 
-    public void SetPortions(int value)
+    private static bool IsValidDish(Dictionary dictionary)
     {
-        EmitSignal("UpdatedPortions", value);
+        return dictionary.Contains(Dish.TITLE_STRING) && dictionary.Contains(Dish.DESCRIPTION_STRING) &&
+            dictionary.Contains(Dish.PRICE_STRING) && dictionary.Contains(Dish.PORTIONS_STRING);
     }
 
 }

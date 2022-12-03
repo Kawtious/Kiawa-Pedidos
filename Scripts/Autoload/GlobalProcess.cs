@@ -6,7 +6,13 @@ public class GlobalProcess : Node
 
     public static ResourceDirector ResourceDirector;
 
-    private bool Paused = false;
+    private bool _Paused = false;
+
+    public bool Paused
+    {
+        get { return _Paused; }
+        set { _Paused = value; Pause(_Paused); }
+    }
 
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
@@ -37,6 +43,11 @@ public class GlobalProcess : Node
     public void ChangeRoom(string room)
     {
         GetTree().ChangeScene("res://Scenes/Rooms/" + room + ".tscn");
+    }
+
+    private void Pause(bool value)
+    {
+        GetTree().Paused = value;
     }
 
 }

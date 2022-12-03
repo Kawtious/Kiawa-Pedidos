@@ -4,7 +4,7 @@ using System;
 public class OrderContainer : HBoxContainer
 {
 
-    public Order Order;
+    private Firebase Firebase;
 
     public VBoxContainer Details;
 
@@ -12,41 +12,45 @@ public class OrderContainer : HBoxContainer
 
     public Label LabelDate;
 
+    private Order _Order = new Order();
+
+    public Order Order
+    {
+        get { return _Order; }
+        set { _Order = value; UpdateContainer(_Order); }
+    }
+
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
     {
         InitNodes();
-        ConnectSignals();
-        InitView();
     }
 
     private void InitNodes()
     {
-        Order = GetNode<Order>("Order");
+        Firebase = GetNode<Firebase>("/root/Firebase");
         Details = GetNode<VBoxContainer>("Details");
         LabelUser = Details.GetNode<Label>("User");
         LabelDate = Details.GetNode<Label>("Date");
     }
 
-    private void ConnectSignals()
+    private void UpdateContainer(Order value)
     {
-        Order.Connect("UpdatedUser", this, "SetUser");
-        Order.Connect("UpdatedDate", this, "SetDate");
+        LabelUser.Text = value.User;
+        LabelDate.Text = value.Date;
     }
 
-    private void InitView()
+    public static void CreateOrderContainer(Node parent, Order order)
     {
-        LabelUser.Text = Order.User;
-        LabelDate.Text = Order.Date;
+        PackedScene _orderContainer = GD.Load<PackedScene>("res://Scenes/UI/OrderContainer.tscn");
+        OrderContainer orderContainer = (OrderContainer)_orderContainer.Instance();
+        parent.AddChild(orderContainer);
+
+        orderContainer.Order = order;
     }
 
-    public void SetUser(string value)
+    public void _OnTrashButtonPressed()
     {
-        LabelUser.Text = value;
-    }
-
-    public void SetDate(string value)
-    {
-        LabelDate.Text = value;
+        Firebase.DeleteOrder(Order.Key);
     }
 }

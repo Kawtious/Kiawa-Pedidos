@@ -1,8 +1,12 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=3 format=2]
 
 [ext_resource path="res://Scripts/Autoload/ResourceDirector.cs" type="Script" id=1]
+[ext_resource path="res://Audio/bell.wav" type="AudioStream" id=2]
 
 [node name="ResourceDirector" type="Node"]
 script = ExtResource( 1 )
+ResourceDictionary = {
+"new_orders": ExtResource( 2 )
+}
 
 [node name="ResourcePreloader" type="ResourcePreloader" parent="."]

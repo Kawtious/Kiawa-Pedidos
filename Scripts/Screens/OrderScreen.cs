@@ -16,6 +16,10 @@ public class OrderScreen : Control
 
     private VBoxContainer BoxVBox;
 
+    private AnimationTree AnimationTree;
+
+    private AnimationNodeStateMachinePlayback AnimationState;
+
     private string _Query = "";
 
     [Export]
@@ -41,6 +45,9 @@ public class OrderScreen : Control
         BoxScroll = Box.GetNode<ScrollContainer>("BoxScroll");
         BoxVBox = BoxScroll.GetNode<VBoxContainer>("BoxVBox");
 
+        AnimationTree = GetNode<AnimationTree>("Animations/AnimationTree3");
+        AnimationState = AnimationTree.Get("parameters/playback") as AnimationNodeStateMachinePlayback;
+
         string today = System.DateTime.Now.DayOfWeek.ToString();
         Box.GetNode<Label>("Label").Text = today;
     }
@@ -58,12 +65,16 @@ public class OrderScreen : Control
         {
             if (dishContainer.GetNode<CheckBox>("CheckBox").Pressed == true)
             {
-                dishes.Add(dishContainer.Dish.Id.ToString());
+                dishes.Add(dishContainer.Dish.Key);
             }
         }
 
+        if (dishes.Count < 1)
+        {
+            return;
+        }
+
         Firebase.SendOrder(dishes);
-        Firebase.UpdateData();
     }
 
     public void _OnLineEditTextChanged(string new_text)
@@ -82,39 +93,51 @@ public class OrderScreen : Control
 
         Array dayMenu = Firebase.GetTodayMenu();
 
-        if (dayMenu.Count < 1)
+        if (dayMenu == null)
         {
+            ShowNoDishesError();
             return;
         }
 
+        if (dayMenu.Count < 1)
+        {
+            ShowNoDishesError();
+            return;
+        }
+
+        bool hasDishes = false;
+
         foreach (object element in dayMenu)
         {
-            int index = Int32.Parse((string)element);
+            string key = (string)element;
 
-            Dictionary dish = Firebase.GetDish(index);
-            string titulo = (string)dish["titulo"];
-            float precio = (float)dish["precio"];
+            Dish dish = Firebase.GetDish(key);
+
+            if (dish == null)
+            {
+                continue;
+            }
+
+            hasDishes = true;
 
             if (Query.Empty())
             {
-                CreateDishContainer(index, titulo, precio);
+                DishContainer.CreateDishContainer(BoxVBox, dish);
             }
-            else if (titulo.ToLower().Contains(Query.ToLower()))
+            else if (dish.Title.ToLower().Contains(Query.ToLower()))
             {
-                CreateDishContainer(index, titulo, precio);
+                DishContainer.CreateDishContainer(BoxVBox, dish);
             }
         }
-    }
 
-    private void CreateDishContainer(int index, string titulo, float precio)
-    {
-        PackedScene _dishContainer = GD.Load<PackedScene>("res://Scenes/UI/DishContainer.tscn");
-        DishContainer dishContainer = (DishContainer)_dishContainer.Instance();
-        BoxVBox.AddChild(dishContainer);
-
-        dishContainer.Dish.Id = index;
-        dishContainer.Dish.Title = titulo;
-        dishContainer.Dish.Price = precio;
+        if (!hasDishes)
+        {
+            ShowNoDishesError();
+        }
+        else
+        {
+            HideNoDishesError();
+        }
     }
 
     private void ClearDishList()
@@ -139,15 +162,39 @@ public class OrderScreen : Control
         return checkBoxes;
     }
 
-    private DishContainer GetDishContainer(int index)
+    private DishContainer GetDishContainer(string key)
     {
         foreach (DishContainer dishContainer in BoxVBox.GetChildren())
         {
-            if (dishContainer.Dish.Id == index)
+            if (dishContainer.Dish.Key.Equals(key))
             {
                 return dishContainer;
             }
         }
         return null;
+    }
+
+    private bool ShowingError = true;
+
+    public void ShowNoDishesError()
+    {
+        if (ShowingError)
+        {
+            return;
+        }
+
+        AnimationState.Travel("showing");
+        ShowingError = true;
+    }
+
+    public void HideNoDishesError()
+    {
+        if (!ShowingError)
+        {
+            return;
+        }
+
+        AnimationState.Travel("hidden");
+        ShowingError = false;
     }
 }

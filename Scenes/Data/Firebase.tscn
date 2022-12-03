@@ -3,7 +3,12 @@
 [ext_resource path="res://Scripts/Data/Firebase.cs" type="Script" id=1]
 
 [node name="Firebase" type="Node"]
+pause_mode = 2
 script = ExtResource( 1 )
+
+[node name="Timer" type="Timer" parent="."]
+
+[node name="PingTimer" type="Timer" parent="."]
 
 [node name="DataRequest" type="HTTPRequest" parent="."]
 
@@ -11,6 +16,20 @@ script = ExtResource( 1 )
 
 [node name="SendOrderRequest" type="HTTPRequest" parent="."]
 
+[node name="CreateDishRequest" type="HTTPRequest" parent="."]
+
+[node name="PingRequest" type="HTTPRequest" parent="."]
+
+[node name="DeleteOrderRequest" type="HTTPRequest" parent="."]
+
+[node name="DeleteDishRequest" type="HTTPRequest" parent="."]
+
+[connection signal="timeout" from="Timer" to="." method="_OnTimerTimeout"]
+[connection signal="timeout" from="PingTimer" to="." method="_OnPingTimerTimeout"]
 [connection signal="request_completed" from="DataRequest" to="." method="_OnDataRequestCompleted"]
 [connection signal="request_completed" from="SetMenuRequest" to="." method="_OnSetMenuRequestCompleted"]
 [connection signal="request_completed" from="SendOrderRequest" to="." method="_OnSendOrderRequestCompleted"]
+[connection signal="request_completed" from="CreateDishRequest" to="." method="_OnCreateDishRequestCompleted"]
+[connection signal="request_completed" from="PingRequest" to="." method="_OnPingRequestCompleted"]
+[connection signal="request_completed" from="DeleteOrderRequest" to="." method="_OnDeleteOrderRequestCompleted"]
+[connection signal="request_completed" from="DeleteDishRequest" to="." method="_OnDeleteDishRequestCompleted"]

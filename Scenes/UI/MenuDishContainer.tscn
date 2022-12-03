@@ -1,8 +1,7 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://Fonts/DTM-Sans.otf" type="DynamicFontData" id=1]
 [ext_resource path="res://Scripts/UI/MenuDishContainer.cs" type="Script" id=2]
-[ext_resource path="res://Scenes/Data/Dish.tscn" type="PackedScene" id=5]
 
 [sub_resource type="DynamicFont" id=9]
 size = 35
@@ -57,5 +56,3 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 custom_fonts/font = SubResource( 8 )
 text = "Descripcion"
-
-[node name="Dish" parent="." instance=ExtResource( 5 )]

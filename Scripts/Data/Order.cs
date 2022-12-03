@@ -1,74 +1,92 @@
 using Godot;
+using Godot.Collections;
 using Array = Godot.Collections.Array;
 
-public class Order : Node
+public class Order : Godot.Object
 {
+
+    public static readonly string USER_STRING = "user";
+
+    public static readonly string DATE_STRING = "date";
+
+    public static readonly string DISHES_STRING = "dishes";
 
     private string _Key = "";
 
-    private string _Date = "";
-
     private string _User = "";
+
+    private string _Date = "";
 
     private Array _Dishes = new Array();
 
-    [Export]
     public string Key
     {
         get { return _Key; }
-        set { _Key = value; SetKey(_Key); }
+        set { _Key = value; }
     }
 
-    [Export]
-    public string Date
-    {
-        get { return _Date; }
-        set { _Date = value; SetDate(_Date); }
-    }
-
-    [Export]
     public string User
     {
         get { return _User; }
-        set { _User = value; SetUser(_User); }
+        set { _User = value; }
     }
 
-    [Export]
+    public string Date
+    {
+        get { return _Date; }
+        set { _Date = value; }
+    }
+
     public Array Dishes
     {
         get { return _Dishes; }
-        set { _Dishes = value; SetDishes(_Dishes); }
+        set { _Dishes = value; }
     }
 
-    [Signal]
-    delegate void UpdatedKey(string value);
+    public Order() { }
 
-    [Signal]
-    delegate void UpdatedDate(string value);
-
-    [Signal]
-    delegate void UpdatedUser(string value);
-
-    [Signal]
-    delegate void UpdatedDishes(Array value);
-
-    public void SetKey(string value)
+    public Order(string key, string user, string date, Array dishes)
     {
-        EmitSignal("UpdatedKey", value);
+        this.Key = key;
+        this.User = user;
+        this.Date = date;
+        this.Dishes = dishes;
     }
 
-    public void SetDate(string value)
+    public Order(string user, string date, Array dishes)
     {
-        EmitSignal("UpdatedDate", value);
+        this.User = user;
+        this.Date = date;
+        this.Dishes = dishes;
     }
 
-    public void SetUser(string value)
+    public Dictionary ToMap()
     {
-        EmitSignal("UpdatedUser", value);
+        Dictionary dictionary = new Dictionary {
+            {Order.USER_STRING, User},
+            {Order.DATE_STRING, Date},
+            {Order.DISHES_STRING, Dishes}
+        };
+
+        return dictionary;
     }
 
-    public void SetDishes(Array value)
+    public static Order FromMap(Dictionary dictionary)
     {
-        EmitSignal("UpdatedDishes", value);
+        if (!IsValidOrder(dictionary))
+        {
+            return null;
+        }
+
+        string user = (string)dictionary[Order.USER_STRING];
+        string date = (string)dictionary[Order.DATE_STRING];
+        Array dishes = dictionary[Order.DISHES_STRING] as Array;
+
+        return new Order(user, date, dishes);
+    }
+
+    public static bool IsValidOrder(Dictionary order)
+    {
+        return order.Contains(Order.USER_STRING) && order.Contains(Order.DATE_STRING) && order.Contains(Order.DISHES_STRING);
     }
 }

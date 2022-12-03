@@ -3,49 +3,45 @@ using Godot;
 public class DishContainer : HBoxContainer
 {
 
-    public Dish Dish;
-
     public VBoxContainer Details;
 
     public Label LabelTitle;
 
     public Label LabelPrice;
 
+    private Dish _Dish = new Dish();
+
+    public Dish Dish
+    {
+        get { return _Dish; }
+        set { _Dish = value; UpdateContainer(_Dish); }
+    }
+
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
     {
         InitNodes();
-        ConnectSignals();
-        InitView();
     }
 
     private void InitNodes()
     {
-        Dish = GetNode<Dish>("Dish");
         Details = GetNode<VBoxContainer>("Details");
         LabelTitle = Details.GetNode<Label>("Title");
         LabelPrice = Details.GetNode<Label>("Price");
     }
 
-    private void ConnectSignals()
+    private void UpdateContainer(Dish value)
     {
-        Dish.Connect("UpdatedTitle", this, "SetTitle");
-        Dish.Connect("UpdatedPrice", this, "SetPrice");
+        LabelTitle.Text = value.Title;
+        LabelPrice.Text = "$" + value.Price.ToString();
     }
 
-    private void InitView()
+    public static void CreateDishContainer(Node parent, Dish dish)
     {
-        LabelTitle.Text = Dish.Title;
-        LabelPrice.Text = Dish.Price.ToString();
-    }
+        PackedScene _dishContainer = GD.Load<PackedScene>("res://Scenes/UI/DishContainer.tscn");
+        DishContainer dishContainer = (DishContainer)_dishContainer.Instance();
+        parent.AddChild(dishContainer);
 
-    public void SetTitle(string value)
-    {
-        LabelTitle.Text = value;
-    }
-
-    public void SetPrice(float value)
-    {
-        LabelPrice.Text = value.ToString();
+        dishContainer.Dish = dish;
     }
 }
