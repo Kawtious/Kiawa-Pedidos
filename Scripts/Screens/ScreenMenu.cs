@@ -60,7 +60,7 @@ public class ScreenMenu : Control
     {
         Array dishes = new Array();
 
-        foreach (ContainerDish dishContainer in ContainerVBoxLeft.GetChildren())
+        foreach (ContainerDishAdd dishContainer in ContainerVBoxLeft.GetChildren())
         {
             if (dishContainer.GetNode<CheckBox>("CheckBox").Pressed == true)
             {
@@ -102,7 +102,7 @@ public class ScreenMenu : Control
             Dish dish = Dish.FromMap(map);
             dish.Key = (string)entry.Key;
 
-            ContainerDish.CreateDishContainer(ContainerVBoxLeft, dish);
+            ContainerDishAdd.CreateDishAddContainer(ContainerVBoxLeft, dish);
         }
 
         UpdateDayMenu(GetTabName());
@@ -110,7 +110,7 @@ public class ScreenMenu : Control
 
     private void ClearDishList()
     {
-        foreach (ContainerDish dishContainer in ContainerVBoxLeft.GetChildren())
+        foreach (ContainerDishAdd dishContainer in ContainerVBoxLeft.GetChildren())
         {
             ContainerVBoxLeft.RemoveChild(dishContainer);
             dishContainer.QueueFree();
@@ -138,7 +138,7 @@ public class ScreenMenu : Control
 
         foreach (CheckBox CheckBox in GetDishCheckBoxes())
         {
-            ContainerDish dishContainer = CheckBox.GetParent() as ContainerDish;
+            ContainerDishAdd dishContainer = CheckBox.GetParent() as ContainerDishAdd;
             CheckBox.Pressed = dayMenu.Contains(dishContainer.Dish.Key);
         }
     }
@@ -148,7 +148,7 @@ public class ScreenMenu : Control
         Array dishContainers = ContainerVBoxLeft.GetChildren();
         Array checkBoxes = new Array();
 
-        foreach (ContainerDish dishContainer in dishContainers)
+        foreach (ContainerDishAdd dishContainer in dishContainers)
         {
             checkBoxes.Add(dishContainer.GetNode<CheckBox>("CheckBox"));
         }
@@ -156,9 +156,9 @@ public class ScreenMenu : Control
         return checkBoxes;
     }
 
-    private ContainerDish GetDishContainer(string key)
+    private ContainerDishAdd GetDishContainer(string key)
     {
-        foreach (ContainerDish dishContainer in ContainerVBoxLeft.GetChildren())
+        foreach (ContainerDishAdd dishContainer in ContainerVBoxLeft.GetChildren())
         {
             if (dishContainer.Dish.Key.Equals(key))
             {

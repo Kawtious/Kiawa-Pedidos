@@ -16,6 +16,10 @@ public class ScreenOrder : Control
 
     private VBoxContainer BoxVBox;
 
+    private HBoxContainer BoxPrice;
+
+    private Label LabelPrice;
+
     private AnimationTree TreeNotificationNoDishes;
 
     private AnimationNodeStateMachinePlayback StateNotificationNoDishes;
@@ -45,6 +49,9 @@ public class ScreenOrder : Control
         BoxScroll = Box.GetNode<ScrollContainer>("BoxScroll");
         BoxVBox = BoxScroll.GetNode<VBoxContainer>("BoxVBox");
 
+        BoxPrice = Box.GetNode<HBoxContainer>("BoxPrice");
+        LabelPrice = BoxPrice.GetNode<Label>("LabelPrice");
+
         TreeNotificationNoDishes = GetNode<AnimationTree>("Animations/TreeNotificationNoDishes");
         StateNotificationNoDishes = TreeNotificationNoDishes.Get("parameters/playback") as AnimationNodeStateMachinePlayback;
 
@@ -65,7 +72,10 @@ public class ScreenOrder : Control
         {
             if (dishContainer.GetNode<CheckBox>("CheckBox").Pressed == true)
             {
-                dishes.Add(dishContainer.Dish.Key);
+                for (int i = 0; i < dishContainer.GetAmount(); i++)
+                {
+                    dishes.Add(dishContainer.Dish.Key);
+                }
             }
         }
 
@@ -122,11 +132,13 @@ public class ScreenOrder : Control
 
             if (Query.Empty())
             {
-                ContainerDish.CreateDishContainer(BoxVBox, dish);
+                ContainerDish containerDish = ContainerDish.CreateDishContainer(BoxVBox, dish);
+                containerDish.Connect("AmountChanged", this, "RecalculatePrice");
             }
             else if (dish.Title.ToLower().Contains(Query.ToLower()))
             {
-                ContainerDish.CreateDishContainer(BoxVBox, dish);
+                ContainerDish containerDish = ContainerDish.CreateDishContainer(BoxVBox, dish);
+                containerDish.Connect("AmountChanged", this, "RecalculatePrice");
             }
         }
 
@@ -138,6 +150,24 @@ public class ScreenOrder : Control
         {
             HideNoDishesError();
         }
+    }
+
+    public void RecalculatePrice()
+    {
+        float total = 0;
+
+        foreach (ContainerDish dishContainer in BoxVBox.GetChildren())
+        {
+            if (dishContainer.GetNode<CheckBox>("CheckBox").Pressed == true)
+            {
+                for (int i = 0; i < dishContainer.GetAmount(); i++)
+                {
+                    total += dishContainer.Dish.Price;
+                }
+            }
+        }
+
+        LabelPrice.Text = total.ToString() + "$";
     }
 
     private void ClearDishList()

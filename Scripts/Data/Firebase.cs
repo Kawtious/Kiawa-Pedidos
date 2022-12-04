@@ -237,6 +237,7 @@ public class Firebase : Node
         }
 
         Dish dish = Dish.FromMap(Dishes[key] as Dictionary);
+        dish.Key = key;
 
         return dish;
     }

@@ -1,16 +1,22 @@
 using Godot;
 using System;
 
-public class ContainerOrder : HBoxContainer
+public class ContainerOrder : VBoxContainer
 {
 
     private Firebase Firebase;
+
+    public HBoxContainer Container;
 
     public VBoxContainer Details;
 
     public Label LabelUser;
 
     public Label LabelDate;
+
+    private Label LabelPrice;
+
+    public VBoxContainer ContainerDishes;
 
     private Order _Order = new Order();
 
@@ -29,9 +35,16 @@ public class ContainerOrder : HBoxContainer
     private void InitNodes()
     {
         Firebase = GetNode<Firebase>("/root/Firebase");
-        Details = GetNode<VBoxContainer>("Details");
+
+        Container = GetNode<HBoxContainer>("Container");
+
+        Details = Container.GetNode<VBoxContainer>("Details");
         LabelUser = Details.GetNode<Label>("User");
         LabelDate = Details.GetNode<Label>("Date");
+
+        LabelPrice = Container.GetNode<Label>("Price");
+
+        ContainerDishes = GetNode<VBoxContainer>("ContainerDishes");
     }
 
     public void _OnTrashButtonPressed()
@@ -43,6 +56,32 @@ public class ContainerOrder : HBoxContainer
     {
         LabelUser.Text = value.User;
         LabelDate.Text = value.Date;
+
+        foreach (string dishKey in value.Dishes)
+        {
+            Dish dish = Firebase.GetDish(dishKey);
+
+            if (dish != null)
+            {
+                ContainerOrderDish containerDish = ContainerOrderDish.CreateOrderDishContainer(ContainerDishes, dish);
+                containerDish.Connect("AmountChanged", this, "RecalculatePrice");
+            }
+        }
+    }
+
+    public void RecalculatePrice()
+    {
+        float total = 0;
+
+        foreach (ContainerOrderDish dishContainer in ContainerDishes.GetChildren())
+        {
+            if (dishContainer.CheckBox.Pressed == true)
+            {
+                total += dishContainer.Dish.Price;
+            }
+        }
+
+        LabelPrice.Text = total.ToString() + "$";
     }
 
     public static void CreateOrderContainer(Node parent, Order order)

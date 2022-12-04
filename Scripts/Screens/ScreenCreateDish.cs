@@ -152,7 +152,7 @@ public class ScreenCreateDish : Control
 
     private void SetPrice(string value)
     {
-        string pattern = "^[0-9]*$";
+        string pattern = "^([0-9]+([.][0-9]*)?|[.][0-9]+)*$";
         Regex rgx = new Regex(pattern);
 
         if (rgx.IsMatch(value))
@@ -170,20 +170,16 @@ public class ScreenCreateDish : Control
 
     private void SetPortions(string value)
     {
-        string pattern = "^([0-9]+([.][0-9]*)?|[.][0-9]+)*$";
+        string pattern = "^[0-9]*$";
         Regex rgx = new Regex(pattern);
 
         if (rgx.IsMatch(value))
         {
             _Portions = value;
-            LineEditPortions.Text = _Portions;
-            LineEditPortions.CaretPosition = _Portions.Length;
         }
-        else
-        {
-            LineEditPortions.Text = _Portions;
-            LineEditPortions.CaretPosition = _Portions.Length;
-        }
+
+        LineEditPortions.Text = _Portions;
+        LineEditPortions.CaretPosition = _Portions.Length;
     }
 
     public void ResetFields()

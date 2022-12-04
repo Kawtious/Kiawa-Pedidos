@@ -1,9 +1,9 @@
-[gd_scene load_steps=13 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://Fonts/DTM-Sans.otf" type="DynamicFontData" id=1]
 [ext_resource path="res://Textures/UI/on.png" type="Texture" id=2]
 [ext_resource path="res://Textures/UI/off.png" type="Texture" id=3]
-[ext_resource path="res://Scripts/UI/ContainerDish.cs" type="Script" id=4]
+[ext_resource path="res://Scripts/UI/ContainerDishAdd.cs" type="Script" id=4]
 
 [sub_resource type="DynamicFont" id=9]
 size = 35
@@ -17,36 +17,20 @@ font_data = ExtResource( 1 )
 size = 22
 font_data = ExtResource( 1 )
 
-[sub_resource type="StyleBoxEmpty" id=11]
-
-[sub_resource type="StyleBoxEmpty" id=12]
-
-[sub_resource type="StyleBoxEmpty" id=13]
-
-[sub_resource type="DynamicFont" id=14]
-size = 34
-font_data = ExtResource( 1 )
-
-[sub_resource type="Theme" id=15]
-default_font = SubResource( 14 )
-LineEdit/styles/focus = SubResource( 11 )
-LineEdit/styles/normal = SubResource( 12 )
-LineEdit/styles/read_only = SubResource( 13 )
-
-[node name="ContainerDish" type="HBoxContainer"]
+[node name="ContainerDishAdd" type="HBoxContainer"]
 margin_right = 533.0
 margin_bottom = 120.0
 alignment = 1
 script = ExtResource( 4 )
 
 [node name="Details" type="VBoxContainer" parent="."]
-margin_right = 341.0
+margin_right = 457.0
 margin_bottom = 120.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="Title" type="Label" parent="Details"]
-margin_right = 341.0
+margin_right = 457.0
 margin_bottom = 58.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -56,7 +40,7 @@ valign = 1
 
 [node name="Price" type="Label" parent="Details"]
 margin_top = 62.0
-margin_right = 341.0
+margin_right = 457.0
 margin_bottom = 120.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -74,16 +58,6 @@ size_flags_vertical = 3
 custom_fonts/font = SubResource( 8 )
 text = "Descripcion"
 
-[node name="SpinBox" type="SpinBox" parent="."]
-margin_left = 345.0
-margin_right = 457.0
-margin_bottom = 120.0
-theme = SubResource( 15 )
-max_value = 10.0
-rounded = true
-align = 1
-editable = false
-
 [node name="CheckBox" type="CheckBox" parent="."]
 margin_left = 461.0
 margin_right = 533.0
@@ -91,6 +65,3 @@ margin_bottom = 120.0
 focus_mode = 0
 custom_icons/checked = ExtResource( 2 )
 custom_icons/unchecked = ExtResource( 3 )
-
-[connection signal="value_changed" from="SpinBox" to="." method="_OnSpinBoxValueChanged"]
-[connection signal="toggled" from="CheckBox" to="." method="_OnCheckBoxToggled"]
