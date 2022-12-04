@@ -150,6 +150,8 @@ public class ScreenOrder : Control
         {
             HideNoDishesError();
         }
+
+        RecalculatePrice();
     }
 
     public void RecalculatePrice()
