@@ -87,7 +87,7 @@ margin_right = 61.0
 margin_bottom = 15.0
 size_flags_vertical = 3
 
-[node name="TextureButton" type="TextureButton" parent="Control"]
+[node name="ButtonDelete" type="TextureButton" parent="Control"]
 margin_top = 19.0
 margin_right = 61.0
 margin_bottom = 101.0
@@ -106,4 +106,4 @@ size_flags_vertical = 3
 
 [connection signal="pressed" from="CheckBox" to="." method="_OnCheckBoxPressed"]
 [connection signal="toggled" from="CheckBox" to="." method="_OnCheckBoxToggled"]
-[connection signal="pressed" from="Control/TextureButton" to="." method="_OnTrashButtonPressed"]
+[connection signal="pressed" from="Control/ButtonDelete" to="." method="_OnTrashButtonPressed"]

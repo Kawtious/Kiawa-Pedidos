@@ -1,6 +1,6 @@
 using Godot;
 
-public class DishContainer : HBoxContainer
+public class ContainerDish : HBoxContainer
 {
 
     public VBoxContainer Details;
@@ -38,8 +38,8 @@ public class DishContainer : HBoxContainer
 
     public static void CreateDishContainer(Node parent, Dish dish)
     {
-        PackedScene _dishContainer = GD.Load<PackedScene>("res://Scenes/UI/DishContainer.tscn");
-        DishContainer dishContainer = (DishContainer)_dishContainer.Instance();
+        PackedScene _dishContainer = GD.Load<PackedScene>("res://Scenes/UI/ContainerDish.tscn");
+        ContainerDish dishContainer = (ContainerDish)_dishContainer.Instance();
         parent.AddChild(dishContainer);
 
         dishContainer.Dish = dish;

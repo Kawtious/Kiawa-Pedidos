@@ -1,7 +1,7 @@
 [gd_scene load_steps=40 format=2]
 
 [ext_resource path="res://Fonts/DTM-Sans.otf" type="DynamicFontData" id=1]
-[ext_resource path="res://Scripts/UI/Notifications.cs" type="Script" id=2]
+[ext_resource path="res://Scripts/UI/CanvasNotifications.cs" type="Script" id=2]
 
 [sub_resource type="DynamicFont" id=1]
 size = 28
@@ -672,7 +672,7 @@ start_node = "hidden"
 
 [sub_resource type="AnimationNodeStateMachinePlayback" id=24]
 
-[node name="Notifications" type="CanvasLayer"]
+[node name="CanvasNotifications" type="CanvasLayer"]
 pause_mode = 2
 script = ExtResource( 2 )
 
@@ -700,6 +700,7 @@ Please wait a little..."
 align = 1
 valign = 1
 autowrap = true
+percent_visible = 0.402985
 
 [node name="NewOrder" type="Control" parent="."]
 visible = false
@@ -721,16 +722,16 @@ valign = 1
 
 [node name="Animations" type="Node" parent="."]
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="Animations"]
+[node name="PlayerLostConnection" type="AnimationPlayer" parent="Animations"]
 anims/RESET = SubResource( 2 )
 anims/hidden = SubResource( 34 )
 anims/hide = SubResource( 3 )
 anims/show = SubResource( 4 )
 anims/showing = SubResource( 35 )
 
-[node name="AnimationTree" type="AnimationTree" parent="Animations"]
+[node name="TreeLostConnection" type="AnimationTree" parent="Animations"]
 tree_root = SubResource( 13 )
-anim_player = NodePath("../AnimationPlayer")
+anim_player = NodePath("../PlayerLostConnection")
 active = true
 parameters/playback = SubResource( 14 )
 

@@ -6,94 +6,36 @@ using System.Collections.Generic;
 public class ResourceDirector : Node
 {
 
-    private ResourcePreloader ResourcePreloader;
+    public ResourcePreloader ResourcePreloader;
 
-    private Preferences _Preferences;
+    public Preferences Preferences;
 
-    private AudioStreamPlayer _MenuAudioStream;
+    public AudioStreamPlayer AudioStreamMenu;
 
-    private AudioStreamPlayer _GlobalAudioStream;
+    public AudioStreamPlayer AudioStreamGlobal;
 
     private Godot.Collections.Dictionary<string, Godot.Resource> _ResourceDictionary = new Godot.Collections.Dictionary<string, Godot.Resource>();
-
-    public Preferences Preferences
-    {
-        get { return GetPreferences(); }
-        set { _Preferences = value; }
-    }
-
-    public AudioStreamPlayer MenuAudioStream
-    {
-        get { return GetMenuAudioStream(); }
-        set { _MenuAudioStream = value; }
-    }
-
-    public AudioStreamPlayer GlobalAudioStream
-    {
-        get { return GetGlobalAudioStream(); }
-        set { _GlobalAudioStream = value; }
-    }
 
     [Export]
     public Godot.Collections.Dictionary<string, Godot.Resource> ResourceDictionary
     {
-        get { return GetResourceDictionary(); }
+        get { return _ResourceDictionary; }
         set { _ResourceDictionary = value; }
     }
 
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
     {
-        InitResources();
+        InitNodes();
         AddResources(ResourceDictionary);
     }
 
-    private void InitResources()
+    private void InitNodes()
     {
         ResourcePreloader = GetNode<ResourcePreloader>("ResourcePreloader");
         Preferences = GetNode<Preferences>("/root/Preferences");
-        MenuAudioStream = GetNode<AudioStreamPlayer>("/root/MenuAudioStream");
-        GlobalAudioStream = GetNode<AudioStreamPlayer>("/root/GlobalAudioStream");
-    }
-
-    public Preferences GetPreferences()
-    {
-        if (_Preferences == null)
-        {
-            _Preferences = GetNode<Preferences>("/root/Preferences");
-        }
-
-        return _Preferences;
-    }
-
-    public AudioStreamPlayer GetMenuAudioStream()
-    {
-        if (_MenuAudioStream == null)
-        {
-            _MenuAudioStream = GetNode<AudioStreamPlayer>("/root/MenuAudioStream");
-        }
-
-        return _MenuAudioStream;
-    }
-
-    public AudioStreamPlayer GetGlobalAudioStream()
-    {
-        if (_GlobalAudioStream == null)
-        {
-            _GlobalAudioStream = GetNode<AudioStreamPlayer>("/root/GlobalAudioStream");
-        }
-
-        return _GlobalAudioStream;
-    }
-
-    public Godot.Collections.Dictionary<string, Godot.Resource> GetResourceDictionary()
-    {
-        if (_ResourceDictionary == null)
-        {
-            _ResourceDictionary = new Godot.Collections.Dictionary<string, Godot.Resource>();
-        }
-
-        return _ResourceDictionary;
+        AudioStreamMenu = GetNode<AudioStreamPlayer>("/root/AudioStreamMenu");
+        AudioStreamGlobal = GetNode<AudioStreamPlayer>("/root/AudioStreamGlobal");
     }
 
     public void AddResources(Godot.Collections.Dictionary<string, Godot.Resource> resources)

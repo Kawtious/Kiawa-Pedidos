@@ -1,15 +1,15 @@
 using Godot;
 
-public class Notifications : CanvasLayer
+public class CanvasNotifications : CanvasLayer
 {
 
     private GlobalProcess GlobalProcess;
 
     private Firebase Firebase;
 
-    private AnimationTree AnimationTree;
+    private AnimationTree TreeLostConnection;
 
-    private AnimationNodeStateMachinePlayback AnimationState;
+    private AnimationNodeStateMachinePlayback StateLostConnection;
 
     private AnimationTree TreeNewOrder;
 
@@ -28,8 +28,8 @@ public class Notifications : CanvasLayer
         GlobalProcess = GetNode<GlobalProcess>("/root/GlobalProcess");
         Firebase = GetNode<Firebase>("/root/Firebase");
 
-        AnimationTree = GetNode<AnimationTree>("Animations/AnimationTree");
-        AnimationState = AnimationTree.Get("parameters/playback") as AnimationNodeStateMachinePlayback;
+        TreeLostConnection = GetNode<AnimationTree>("Animations/TreeLostConnection");
+        StateLostConnection = TreeLostConnection.Get("parameters/playback") as AnimationNodeStateMachinePlayback;
 
         TreeNewOrder = GetNode<AnimationTree>("Animations/TreeNewOrder");
         StateNewOrder = TreeNewOrder.Get("parameters/playback") as AnimationNodeStateMachinePlayback;
@@ -49,7 +49,7 @@ public class Notifications : CanvasLayer
             return;
         }
 
-        AnimationState.Travel("show");
+        StateLostConnection.Travel("show");
         GlobalProcess.Paused = true;
         Retrying = true;
     }
@@ -61,7 +61,7 @@ public class Notifications : CanvasLayer
             return;
         }
 
-        AnimationState.Travel("hide");
+        StateLostConnection.Travel("hide");
         GlobalProcess.Paused = false;
         Retrying = false;
     }

@@ -8,25 +8,23 @@ using Dictionary = Godot.Collections.Dictionary;
 public class Firebase : Node
 {
 
-    private UserData UserData;
-
     private Timer Timer;
 
-    private Timer PingTimer;
+    private Timer TimerPing;
 
-    private HTTPRequest DataRequest;
+    private HTTPRequest RequestData;
 
-    private HTTPRequest SetMenuRequest;
+    private HTTPRequest RequestSetMenu;
 
-    private HTTPRequest SendOrderRequest;
+    private HTTPRequest RequestSendOrder;
 
-    private HTTPRequest CreateDishRequest;
+    private HTTPRequest RequestCreateDish;
 
-    private HTTPRequest PingRequest;
+    private HTTPRequest RequestPing;
 
-    private HTTPRequest DeleteOrderRequest;
+    private HTTPRequest RequestDeleteOrder;
 
-    private HTTPRequest DeleteDishRequest;
+    private HTTPRequest RequestDeleteDish;
 
     [Signal]
     delegate void UpdatedData();
@@ -103,16 +101,15 @@ public class Firebase : Node
 
     private void InitNodes()
     {
-        UserData = GetNode<UserData>("/root/UserData");
         Timer = GetNode<Timer>("Timer");
-        PingTimer = GetNode<Timer>("PingTimer");
-        DataRequest = GetNode<HTTPRequest>("DataRequest");
-        SetMenuRequest = GetNode<HTTPRequest>("SetMenuRequest");
-        SendOrderRequest = GetNode<HTTPRequest>("SendOrderRequest");
-        CreateDishRequest = GetNode<HTTPRequest>("CreateDishRequest");
-        PingRequest = GetNode<HTTPRequest>("PingRequest");
-        DeleteOrderRequest = GetNode<HTTPRequest>("DeleteOrderRequest");
-        DeleteDishRequest = GetNode<HTTPRequest>("DeleteDishRequest");
+        TimerPing = GetNode<Timer>("TimerPing");
+        RequestData = GetNode<HTTPRequest>("RequestData");
+        RequestSetMenu = GetNode<HTTPRequest>("RequestSetMenu");
+        RequestSendOrder = GetNode<HTTPRequest>("RequestSendOrder");
+        RequestCreateDish = GetNode<HTTPRequest>("RequestCreateDish");
+        RequestPing = GetNode<HTTPRequest>("RequestPing");
+        RequestDeleteOrder = GetNode<HTTPRequest>("RequestDeleteOrder");
+        RequestDeleteDish = GetNode<HTTPRequest>("RequestDeleteDish");
     }
 
     private void ValidateData()
@@ -267,27 +264,31 @@ public class Firebase : Node
 
     public void SetMenu(string day, Array dishes)
     {
-        PUTRequest(SetMenuRequest, MENU_REFERENCE + day.ToLower(), dishes);
+        PUTRequest(RequestSetMenu, MENU_REFERENCE + day.ToLower(), dishes);
     }
 
     public void SendOrder(Array dishes)
     {
         string today = System.DateTime.Now.ToString();
 
-        Order order = new Order(UserData.Username, today, dishes);
+        // It's possible that someone can get a duplicate ticket
+        int ticketNumber = (int)GD.RandRange(1, 10000);
+        string user = "Ticket-" + ticketNumber.ToString();
 
-        POSTRequest(SendOrderRequest, ORDER_REFERENCE, order.ToMap());
+        Order order = new Order(user, today, dishes);
+
+        POSTRequest(RequestSendOrder, ORDER_REFERENCE, order.ToMap());
     }
 
     public void CreateDish(string key, Dish dish)
     {
         if (!key.Empty())
         {
-            PUTRequest(CreateDishRequest, DISH_REFERENCE + "/" + key, dish.ToMap());
+            PUTRequest(RequestCreateDish, DISH_REFERENCE + "/" + key, dish.ToMap());
         }
         else
         {
-            POSTRequest(CreateDishRequest, DISH_REFERENCE, dish.ToMap());
+            POSTRequest(RequestCreateDish, DISH_REFERENCE, dish.ToMap());
         }
     }
 
@@ -300,7 +301,7 @@ public class Firebase : Node
 
         string reference = DISH_REFERENCE + "/" + key;
 
-        DELETERequest(DeleteDishRequest, reference);
+        DELETERequest(RequestDeleteDish, reference);
     }
 
     public void DeleteOrder(string key)
@@ -312,18 +313,18 @@ public class Firebase : Node
 
         string reference = ORDER_REFERENCE + "/" + key;
 
-        DELETERequest(DeleteOrderRequest, reference);
+        DELETERequest(RequestDeleteOrder, reference);
     }
 
     public void UpdateData()
     {
-        GETRequest(DataRequest, DATA_REFERENCE);
+        GETRequest(RequestData, DATA_REFERENCE);
     }
 
     public void Ping()
     {
-        GETRequest(PingRequest, DATABASE_REFERENCE);
-        PingTimer.Start(2);
+        GETRequest(RequestPing, DATABASE_REFERENCE);
+        TimerPing.Start(2);
     }
 
     private void GETRequest(HTTPRequest request, string reference)

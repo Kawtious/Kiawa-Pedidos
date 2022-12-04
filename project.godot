@@ -11,18 +11,17 @@ config_version=4
 [application]
 
 config/name="Kiawa"
-run/main_scene="res://Scenes/Screens/Main.tscn"
+run/main_scene="res://Scenes/Screens/ScreenMain.tscn"
 config/icon="res://icon.png"
 
 [autoload]
 
-GlobalProcess="*res://Scenes/GlobalProcess.tscn"
-ResourceDirector="*res://Scenes/ResourceDirector.tscn"
-Preferences="*res://Scenes/Data/Preferences.tscn"
-GlobalAudioStream="*res://Scenes/Audio/GlobalAudioStream.tscn"
-MenuAudioStream="*res://Scenes/Audio/MenuAudioStream.tscn"
-Firebase="*res://Scenes/Data/Firebase.tscn"
-UserData="*res://Scenes/UserData.tscn"
+GlobalProcess="*res://Scenes/Autoload/GlobalProcess.tscn"
+ResourceDirector="*res://Scenes/Autoload/ResourceDirector.tscn"
+Preferences="*res://Scenes/Autoload/Preferences.tscn"
+AudioStreamGlobal="*res://Scenes/Autoload/AudioStreamGlobal.tscn"
+AudioStreamMenu="*res://Scenes/Autoload/AudioStreamMenu.tscn"
+Firebase="*res://Scenes/Autoload/Firebase.tscn"
 
 [display]
 

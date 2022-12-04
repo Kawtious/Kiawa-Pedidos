@@ -5,7 +5,7 @@ using Godot.Collections;
 using Array = Godot.Collections.Array;
 using Dictionary = Godot.Collections.Dictionary;
 
-public class MenuScreen : Control
+public class ScreenMenu : Control
 {
     private GlobalProcess GlobalProcess;
 
@@ -13,17 +13,17 @@ public class MenuScreen : Control
 
     private Control BoxLeft;
 
-    private ScrollContainer BoxLeftScroll;
+    private ScrollContainer ScrollContainer;
 
-    private VBoxContainer BoxLeftVBox;
+    private VBoxContainer ContainerVBoxLeft;
 
     private Control BoxRight;
 
     private TabContainer BoxRightTabContainer;
 
-    private AnimationTree AnimationTree;
+    private AnimationTree TreeNoDishes;
 
-    private AnimationNodeStateMachinePlayback AnimationState;
+    private AnimationNodeStateMachinePlayback StateNoDishes;
 
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
@@ -38,14 +38,14 @@ public class MenuScreen : Control
         Firebase = GetNode<Firebase>("/root/Firebase");
 
         BoxLeft = GetNode<Control>("BoxLeft");
-        BoxLeftScroll = BoxLeft.GetNode<ScrollContainer>("BoxLeftScroll");
-        BoxLeftVBox = BoxLeftScroll.GetNode<VBoxContainer>("BoxLeftVBox");
+        ScrollContainer = BoxLeft.GetNode<ScrollContainer>("ScrollContainer");
+        ContainerVBoxLeft = ScrollContainer.GetNode<VBoxContainer>("ContainerVBoxLeft");
 
         BoxRight = GetNode<Control>("BoxRight");
         BoxRightTabContainer = BoxRight.GetNode<TabContainer>("TabContainer");
 
-        AnimationTree = GetNode<AnimationTree>("Animations/AnimationTree3");
-        AnimationState = AnimationTree.Get("parameters/playback") as AnimationNodeStateMachinePlayback;
+        TreeNoDishes = GetNode<AnimationTree>("Animations/TreeNoDishes");
+        StateNoDishes = TreeNoDishes.Get("parameters/playback") as AnimationNodeStateMachinePlayback;
     }
 
     private void ConnectSignals()
@@ -60,7 +60,7 @@ public class MenuScreen : Control
     {
         Array dishes = new Array();
 
-        foreach (DishContainer dishContainer in BoxLeftVBox.GetChildren())
+        foreach (ContainerDish dishContainer in ContainerVBoxLeft.GetChildren())
         {
             if (dishContainer.GetNode<CheckBox>("CheckBox").Pressed == true)
             {
@@ -102,7 +102,7 @@ public class MenuScreen : Control
             Dish dish = Dish.FromMap(map);
             dish.Key = (string)entry.Key;
 
-            DishContainer.CreateDishContainer(BoxLeftVBox, dish);
+            ContainerDish.CreateDishContainer(ContainerVBoxLeft, dish);
         }
 
         UpdateDayMenu(GetTabName());
@@ -110,9 +110,9 @@ public class MenuScreen : Control
 
     private void ClearDishList()
     {
-        foreach (DishContainer dishContainer in BoxLeftVBox.GetChildren())
+        foreach (ContainerDish dishContainer in ContainerVBoxLeft.GetChildren())
         {
-            BoxLeftVBox.RemoveChild(dishContainer);
+            ContainerVBoxLeft.RemoveChild(dishContainer);
             dishContainer.QueueFree();
         }
     }
@@ -138,17 +138,17 @@ public class MenuScreen : Control
 
         foreach (CheckBox CheckBox in GetDishCheckBoxes())
         {
-            DishContainer dishContainer = CheckBox.GetParent() as DishContainer;
+            ContainerDish dishContainer = CheckBox.GetParent() as ContainerDish;
             CheckBox.Pressed = dayMenu.Contains(dishContainer.Dish.Key);
         }
     }
 
     private Array GetDishCheckBoxes()
     {
-        Array dishContainers = BoxLeftVBox.GetChildren();
+        Array dishContainers = ContainerVBoxLeft.GetChildren();
         Array checkBoxes = new Array();
 
-        foreach (DishContainer dishContainer in dishContainers)
+        foreach (ContainerDish dishContainer in dishContainers)
         {
             checkBoxes.Add(dishContainer.GetNode<CheckBox>("CheckBox"));
         }
@@ -156,9 +156,9 @@ public class MenuScreen : Control
         return checkBoxes;
     }
 
-    private DishContainer GetDishContainer(string key)
+    private ContainerDish GetDishContainer(string key)
     {
-        foreach (DishContainer dishContainer in BoxLeftVBox.GetChildren())
+        foreach (ContainerDish dishContainer in ContainerVBoxLeft.GetChildren())
         {
             if (dishContainer.Dish.Key.Equals(key))
             {
@@ -195,7 +195,7 @@ public class MenuScreen : Control
                 continue;
             }
 
-            MenuDishContainer.CreateMenuDishContainer(menuContainer, dish);
+            ContainerMenuDish.CreateMenuDishContainer(menuContainer, dish);
         }
 
         RecheckDishContainers();
@@ -206,7 +206,7 @@ public class MenuScreen : Control
         VBoxContainer menuContainer =
             BoxRightTabContainer.GetNode<VBoxContainer>(day.ToUpper() + "/ScrollContainer/VBoxContainer");
 
-        foreach (MenuDishContainer menuDishContainer in menuContainer.GetChildren())
+        foreach (ContainerMenuDish menuDishContainer in menuContainer.GetChildren())
         {
             menuContainer.RemoveChild(menuDishContainer);
             menuDishContainer.QueueFree();
@@ -241,7 +241,7 @@ public class MenuScreen : Control
             return;
         }
 
-        AnimationState.Travel("showing");
+        StateNoDishes.Travel("showing");
         ShowingError = true;
     }
 
@@ -252,7 +252,7 @@ public class MenuScreen : Control
             return;
         }
 
-        AnimationState.Travel("hidden");
+        StateNoDishes.Travel("hidden");
         ShowingError = false;
     }
 }

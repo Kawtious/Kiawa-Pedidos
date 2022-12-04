@@ -1,6 +1,6 @@
-[gd_scene load_steps=59 format=2]
+[gd_scene load_steps=29 format=2]
 
-[ext_resource path="res://Scripts/Screens/MenuScreen.cs" type="Script" id=1]
+[ext_resource path="res://Scripts/Screens/ScreenMenu.cs" type="Script" id=1]
 [ext_resource path="res://Textures/UI/add.png" type="Texture" id=5]
 [ext_resource path="res://Fonts/DTM-Sans.otf" type="DynamicFontData" id=48]
 [ext_resource path="res://Textures/UI/add_dis.png" type="Texture" id=49]
@@ -32,274 +32,10 @@ outline_size = 7
 outline_color = Color( 0, 0, 0, 1 )
 font_data = ExtResource( 48 )
 
-[sub_resource type="Animation" id=15]
-length = 0.001
-tracks/0/type = "value"
-tracks/0/path = NodePath("../BoxLeft:rect_position")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"update": 0,
-"values": [ Vector2( 24, 184 ) ]
-}
-tracks/1/type = "bezier"
-tracks/1/path = NodePath("../BoxLeft:rect_position:x")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/keys = {
-"points": PoolRealArray( 24, -0.25, 0, 0.25, 0 ),
-"times": PoolRealArray( 0 )
-}
-tracks/2/type = "bezier"
-tracks/2/path = NodePath("../BoxLeft:rect_position:y")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/keys = {
-"points": PoolRealArray( 184, -0.25, 0, 0.25, 0 ),
-"times": PoolRealArray( 0 )
-}
-
-[sub_resource type="Animation" id=16]
-resource_name = "hide"
-length = 0.5
-tracks/0/type = "bezier"
-tracks/0/path = NodePath("../BoxLeft:rect_position:x")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"points": PoolRealArray( 24, -0.25, 0, 0.25, 0, -800, -0.4, 94.3007, 0.25, 0 ),
-"times": PoolRealArray( 0, 0.5 )
-}
-
-[sub_resource type="Animation" id=17]
-resource_name = "idle"
-tracks/0/type = "value"
-tracks/0/path = NodePath("../BoxLeft:rect_position")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"update": 0,
-"values": [ Vector2( 24, 184 ) ]
-}
-
-[sub_resource type="Animation" id=19]
-resource_name = "idle_hidden"
-length = 0.001
-tracks/0/type = "value"
-tracks/0/path = NodePath("../BoxLeft:rect_position")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"update": 0,
-"values": [ Vector2( -800, 184 ) ]
-}
-
-[sub_resource type="Animation" id=18]
-resource_name = "show"
-tracks/0/type = "bezier"
-tracks/0/path = NodePath("../BoxLeft:rect_position:x")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"points": PoolRealArray( -775.824, -0.25, 0, 0.1, 235.532, 46.5387, -0.25, 0, 0.2, -20, 24, -0.2, -10.3999, 0.25, 0 ),
-"times": PoolRealArray( 0.3, 0.7, 1 )
-}
-
-[sub_resource type="Animation" id=30]
-length = 0.001
-tracks/0/type = "value"
-tracks/0/path = NodePath("../BoxRight:rect_position")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"update": 0,
-"values": [ Vector2( 696, 24 ) ]
-}
-tracks/1/type = "bezier"
-tracks/1/path = NodePath("../BoxRight:rect_position:x")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/keys = {
-"points": PoolRealArray( 696, -0.25, 0, 0.25, 0 ),
-"times": PoolRealArray( 0 )
-}
-tracks/2/type = "bezier"
-tracks/2/path = NodePath("../BoxRight:rect_position:y")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/keys = {
-"points": PoolRealArray( 24, -0.25, 0, 0.25, 0 ),
-"times": PoolRealArray( 0 )
-}
-
-[sub_resource type="Animation" id=31]
-resource_name = "hide"
-length = 0.5
-tracks/0/type = "bezier"
-tracks/0/path = NodePath("../BoxRight:rect_position:x")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"points": PoolRealArray( 696, -0.25, 0, 0.6, 108.544, 1400, -0.3, -164.059, 0.25, 0 ),
-"times": PoolRealArray( 0, 0.5 )
-}
-
-[sub_resource type="Animation" id=32]
-resource_name = "idle"
-length = 0.001
-tracks/0/type = "value"
-tracks/0/path = NodePath("../BoxRight:rect_position")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"update": 0,
-"values": [ Vector2( 696, 24 ) ]
-}
-
-[sub_resource type="Animation" id=33]
-resource_name = "idle_hidden"
-length = 0.001
-tracks/0/type = "value"
-tracks/0/path = NodePath("../BoxRight:rect_position")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"update": 0,
-"values": [ Vector2( 1400, 24 ) ]
-}
-
-[sub_resource type="Animation" id=34]
-resource_name = "show"
-length = 2.0
-tracks/0/type = "bezier"
-tracks/0/path = NodePath("../BoxRight:rect_position:x")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"points": PoolRealArray( 1399.58, -0.25, 0, 0.2, -472.2, 686.284, -0.5, 14.7935, 0.25, 0, 696, -0.2, 9.72809, 0.25, 0 ),
-"times": PoolRealArray( 1.2, 1.7, 2 )
-}
-
-[sub_resource type="AnimationNodeAnimation" id=20]
-animation = "hide"
-
-[sub_resource type="AnimationNodeAnimation" id=21]
-animation = "idle"
-
-[sub_resource type="AnimationNodeAnimation" id=22]
-animation = "idle_hidden"
-
-[sub_resource type="AnimationNodeAnimation" id=23]
-animation = "show"
-
-[sub_resource type="AnimationNodeStateMachineTransition" id=24]
-switch_mode = 2
-auto_advance = true
-
-[sub_resource type="AnimationNodeStateMachineTransition" id=25]
-switch_mode = 2
-auto_advance = true
-
-[sub_resource type="AnimationNodeStateMachineTransition" id=26]
-
-[sub_resource type="AnimationNodeStateMachineTransition" id=27]
-
-[sub_resource type="AnimationNodeStateMachine" id=28]
-states/hide/node = SubResource( 20 )
-states/hide/position = Vector2( 400, 192 )
-states/idle/node = SubResource( 21 )
-states/idle/position = Vector2( 578, 115 )
-states/idle_hidden/node = SubResource( 22 )
-states/idle_hidden/position = Vector2( 214, 115 )
-states/show/node = SubResource( 23 )
-states/show/position = Vector2( 400, 115 )
-transitions = [ "idle_hidden", "show", SubResource( 24 ), "show", "idle", SubResource( 25 ), "idle", "hide", SubResource( 26 ), "hide", "idle_hidden", SubResource( 27 ) ]
-start_node = "idle_hidden"
-
-[sub_resource type="AnimationNodeStateMachinePlayback" id=29]
-
-[sub_resource type="AnimationNodeAnimation" id=35]
-animation = "hide"
-
-[sub_resource type="AnimationNodeAnimation" id=36]
-animation = "idle"
-
-[sub_resource type="AnimationNodeAnimation" id=37]
-animation = "idle_hidden"
-
-[sub_resource type="AnimationNodeAnimation" id=38]
-animation = "show"
-
-[sub_resource type="AnimationNodeStateMachineTransition" id=39]
-switch_mode = 2
-auto_advance = true
-
-[sub_resource type="AnimationNodeStateMachineTransition" id=40]
-switch_mode = 2
-auto_advance = true
-
-[sub_resource type="AnimationNodeStateMachineTransition" id=41]
-
-[sub_resource type="AnimationNodeStateMachineTransition" id=42]
-
-[sub_resource type="AnimationNodeStateMachine" id=43]
-states/hide/node = SubResource( 35 )
-states/hide/position = Vector2( 383, 165 )
-states/idle/node = SubResource( 36 )
-states/idle/position = Vector2( 577, 79 )
-states/idle_hidden/node = SubResource( 37 )
-states/idle_hidden/position = Vector2( 173, 79 )
-states/show/node = SubResource( 38 )
-states/show/position = Vector2( 383, 79 )
-transitions = [ "idle_hidden", "show", SubResource( 39 ), "show", "idle", SubResource( 40 ), "idle", "hide", SubResource( 41 ), "hide", "idle_hidden", SubResource( 42 ) ]
-start_node = "idle_hidden"
-
-[sub_resource type="AnimationNodeStateMachinePlayback" id=44]
-
 [sub_resource type="Animation" id=45]
 length = 0.001
 tracks/0/type = "value"
-tracks/0/path = NodePath("../NoDishesMessage/ColorRect:color")
+tracks/0/path = NodePath("../NotificationNoDishes/ColorRect:color")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
@@ -311,7 +47,7 @@ tracks/0/keys = {
 "values": [ Color( 0, 0, 0, 0 ) ]
 }
 tracks/1/type = "bezier"
-tracks/1/path = NodePath("../NoDishesMessage/ColorRect:color:a")
+tracks/1/path = NodePath("../NotificationNoDishes/ColorRect:color:a")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/imported = false
@@ -321,7 +57,7 @@ tracks/1/keys = {
 "times": PoolRealArray( 0 )
 }
 tracks/2/type = "value"
-tracks/2/path = NodePath("../NoDishesMessage/ColorRect:visible")
+tracks/2/path = NodePath("../NotificationNoDishes/ColorRect:visible")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/imported = false
@@ -333,7 +69,7 @@ tracks/2/keys = {
 "values": [ false ]
 }
 tracks/3/type = "bezier"
-tracks/3/path = NodePath("../NoDishesMessage/Label:modulate:a")
+tracks/3/path = NodePath("../NotificationNoDishes/Label:modulate:a")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/imported = false
@@ -343,7 +79,7 @@ tracks/3/keys = {
 "times": PoolRealArray( 0 )
 }
 tracks/4/type = "value"
-tracks/4/path = NodePath("../NoDishesMessage/Label:visible")
+tracks/4/path = NodePath("../NotificationNoDishes/Label:visible")
 tracks/4/interp = 1
 tracks/4/loop_wrap = true
 tracks/4/imported = false
@@ -355,7 +91,7 @@ tracks/4/keys = {
 "values": [ false ]
 }
 tracks/5/type = "bezier"
-tracks/5/path = NodePath("../NoDishesMessage/Label:rect_position:y")
+tracks/5/path = NodePath("../NotificationNoDishes/Label:rect_position:y")
 tracks/5/interp = 1
 tracks/5/loop_wrap = true
 tracks/5/imported = false
@@ -365,7 +101,7 @@ tracks/5/keys = {
 "times": PoolRealArray( 0 )
 }
 tracks/6/type = "value"
-tracks/6/path = NodePath("../NoDishesMessage:visible")
+tracks/6/path = NodePath("../NotificationNoDishes:visible")
 tracks/6/interp = 1
 tracks/6/loop_wrap = true
 tracks/6/imported = false
@@ -382,7 +118,7 @@ resource_name = "hidden"
 length = 0.001
 loop = true
 tracks/0/type = "bezier"
-tracks/0/path = NodePath("../NoDishesMessage/ColorRect:color:a")
+tracks/0/path = NodePath("../NotificationNoDishes/ColorRect:color:a")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
@@ -392,7 +128,7 @@ tracks/0/keys = {
 "times": PoolRealArray( 0 )
 }
 tracks/1/type = "value"
-tracks/1/path = NodePath("../NoDishesMessage/ColorRect:visible")
+tracks/1/path = NodePath("../NotificationNoDishes/ColorRect:visible")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/imported = false
@@ -404,7 +140,7 @@ tracks/1/keys = {
 "values": [ false ]
 }
 tracks/2/type = "bezier"
-tracks/2/path = NodePath("../NoDishesMessage/Label:modulate:a")
+tracks/2/path = NodePath("../NotificationNoDishes/Label:modulate:a")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/imported = false
@@ -414,7 +150,7 @@ tracks/2/keys = {
 "times": PoolRealArray( 0 )
 }
 tracks/3/type = "value"
-tracks/3/path = NodePath("../NoDishesMessage/Label:visible")
+tracks/3/path = NodePath("../NotificationNoDishes/Label:visible")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/imported = false
@@ -426,7 +162,7 @@ tracks/3/keys = {
 "values": [ false ]
 }
 tracks/4/type = "bezier"
-tracks/4/path = NodePath("../NoDishesMessage/Label:rect_position:y")
+tracks/4/path = NodePath("../NotificationNoDishes/Label:rect_position:y")
 tracks/4/interp = 1
 tracks/4/loop_wrap = true
 tracks/4/imported = false
@@ -436,7 +172,7 @@ tracks/4/keys = {
 "times": PoolRealArray( 0 )
 }
 tracks/5/type = "value"
-tracks/5/path = NodePath("../NoDishesMessage:visible")
+tracks/5/path = NodePath("../NotificationNoDishes:visible")
 tracks/5/interp = 1
 tracks/5/loop_wrap = true
 tracks/5/imported = false
@@ -452,7 +188,7 @@ tracks/5/keys = {
 resource_name = "hide"
 length = 0.5
 tracks/0/type = "bezier"
-tracks/0/path = NodePath("../NoDishesMessage/ColorRect:color:a")
+tracks/0/path = NodePath("../NotificationNoDishes/ColorRect:color:a")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
@@ -462,7 +198,7 @@ tracks/0/keys = {
 "times": PoolRealArray( 0, 0.5 )
 }
 tracks/1/type = "value"
-tracks/1/path = NodePath("../NoDishesMessage/ColorRect:visible")
+tracks/1/path = NodePath("../NotificationNoDishes/ColorRect:visible")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/imported = false
@@ -474,7 +210,7 @@ tracks/1/keys = {
 "values": [ true, false ]
 }
 tracks/2/type = "bezier"
-tracks/2/path = NodePath("../NoDishesMessage/Label:modulate:a")
+tracks/2/path = NodePath("../NotificationNoDishes/Label:modulate:a")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/imported = false
@@ -484,7 +220,7 @@ tracks/2/keys = {
 "times": PoolRealArray( 0, 0.5 )
 }
 tracks/3/type = "value"
-tracks/3/path = NodePath("../NoDishesMessage/Label:visible")
+tracks/3/path = NodePath("../NotificationNoDishes/Label:visible")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/imported = false
@@ -496,7 +232,7 @@ tracks/3/keys = {
 "values": [ true, false ]
 }
 tracks/4/type = "bezier"
-tracks/4/path = NodePath("../NoDishesMessage/Label:rect_position:y")
+tracks/4/path = NodePath("../NotificationNoDishes/Label:rect_position:y")
 tracks/4/interp = 1
 tracks/4/loop_wrap = true
 tracks/4/imported = false
@@ -506,7 +242,7 @@ tracks/4/keys = {
 "times": PoolRealArray( 0, 0.5 )
 }
 tracks/5/type = "value"
-tracks/5/path = NodePath("../NoDishesMessage:visible")
+tracks/5/path = NodePath("../NotificationNoDishes:visible")
 tracks/5/interp = 1
 tracks/5/loop_wrap = true
 tracks/5/imported = false
@@ -522,7 +258,7 @@ tracks/5/keys = {
 resource_name = "show"
 length = 0.5
 tracks/0/type = "bezier"
-tracks/0/path = NodePath("../NoDishesMessage/ColorRect:color:a")
+tracks/0/path = NodePath("../NotificationNoDishes/ColorRect:color:a")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
@@ -532,7 +268,7 @@ tracks/0/keys = {
 "times": PoolRealArray( 0, 0.5 )
 }
 tracks/1/type = "value"
-tracks/1/path = NodePath("../NoDishesMessage/ColorRect:visible")
+tracks/1/path = NodePath("../NotificationNoDishes/ColorRect:visible")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/imported = false
@@ -544,7 +280,7 @@ tracks/1/keys = {
 "values": [ true ]
 }
 tracks/2/type = "value"
-tracks/2/path = NodePath("../NoDishesMessage/Label:visible")
+tracks/2/path = NodePath("../NotificationNoDishes/Label:visible")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/imported = false
@@ -556,7 +292,7 @@ tracks/2/keys = {
 "values": [ true ]
 }
 tracks/3/type = "bezier"
-tracks/3/path = NodePath("../NoDishesMessage/Label:modulate:a")
+tracks/3/path = NodePath("../NotificationNoDishes/Label:modulate:a")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/imported = false
@@ -566,7 +302,7 @@ tracks/3/keys = {
 "times": PoolRealArray( 0, 0.5 )
 }
 tracks/4/type = "bezier"
-tracks/4/path = NodePath("../NoDishesMessage/Label:rect_position:y")
+tracks/4/path = NodePath("../NotificationNoDishes/Label:rect_position:y")
 tracks/4/interp = 1
 tracks/4/loop_wrap = true
 tracks/4/imported = false
@@ -576,7 +312,7 @@ tracks/4/keys = {
 "times": PoolRealArray( 0, 0.4, 0.5 )
 }
 tracks/5/type = "value"
-tracks/5/path = NodePath("../NoDishesMessage:visible")
+tracks/5/path = NodePath("../NotificationNoDishes:visible")
 tracks/5/interp = 1
 tracks/5/loop_wrap = true
 tracks/5/imported = false
@@ -593,7 +329,7 @@ resource_name = "showing"
 length = 0.001
 loop = true
 tracks/0/type = "bezier"
-tracks/0/path = NodePath("../NoDishesMessage/ColorRect:color:a")
+tracks/0/path = NodePath("../NotificationNoDishes/ColorRect:color:a")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
@@ -603,7 +339,7 @@ tracks/0/keys = {
 "times": PoolRealArray( 0 )
 }
 tracks/1/type = "value"
-tracks/1/path = NodePath("../NoDishesMessage/ColorRect:visible")
+tracks/1/path = NodePath("../NotificationNoDishes/ColorRect:visible")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/imported = false
@@ -615,7 +351,7 @@ tracks/1/keys = {
 "values": [ true ]
 }
 tracks/2/type = "value"
-tracks/2/path = NodePath("../NoDishesMessage/Label:visible")
+tracks/2/path = NodePath("../NotificationNoDishes/Label:visible")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/imported = false
@@ -627,7 +363,7 @@ tracks/2/keys = {
 "values": [ true ]
 }
 tracks/3/type = "bezier"
-tracks/3/path = NodePath("../NoDishesMessage/Label:modulate:a")
+tracks/3/path = NodePath("../NotificationNoDishes/Label:modulate:a")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/imported = false
@@ -637,7 +373,7 @@ tracks/3/keys = {
 "times": PoolRealArray( 0 )
 }
 tracks/4/type = "bezier"
-tracks/4/path = NodePath("../NoDishesMessage/Label:rect_position:y")
+tracks/4/path = NodePath("../NotificationNoDishes/Label:rect_position:y")
 tracks/4/interp = 1
 tracks/4/loop_wrap = true
 tracks/4/imported = false
@@ -647,7 +383,7 @@ tracks/4/keys = {
 "times": PoolRealArray( 0 )
 }
 tracks/5/type = "value"
-tracks/5/path = NodePath("../NoDishesMessage:visible")
+tracks/5/path = NodePath("../NotificationNoDishes:visible")
 tracks/5/interp = 1
 tracks/5/loop_wrap = true
 tracks/5/imported = false
@@ -697,7 +433,7 @@ start_node = "showing"
 
 [sub_resource type="AnimationNodeStateMachinePlayback" id=49]
 
-[node name="MenuScreen" type="Control"]
+[node name="ScreenMenu" type="Control"]
 anchor_right = 1.0
 anchor_bottom = 1.0
 script = ExtResource( 1 )
@@ -710,14 +446,14 @@ margin_bottom = 696.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="ColorRectBorder" type="ColorRect" parent="BoxLeft"]
+[node name="BorderColorRect" type="ColorRect" parent="BoxLeft"]
 margin_top = -160.0
 margin_right = 560.0
 margin_bottom = 512.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="ColorRectInner" type="ColorRect" parent="BoxLeft"]
+[node name="InnerColorRect" type="ColorRect" parent="BoxLeft"]
 margin_left = 8.0
 margin_top = -152.0
 margin_right = 552.0
@@ -726,7 +462,7 @@ size_flags_horizontal = 7
 size_flags_vertical = 7
 color = Color( 0, 0, 0, 1 )
 
-[node name="BoxLeftScroll" type="ScrollContainer" parent="BoxLeft"]
+[node name="ScrollContainer" type="ScrollContainer" parent="BoxLeft"]
 anchor_left = -0.023
 anchor_top = -0.026
 anchor_right = -0.023
@@ -736,7 +472,7 @@ margin_top = -122.688
 margin_right = 548.88
 margin_bottom = 501.312
 
-[node name="BoxLeftVBox" type="VBoxContainer" parent="BoxLeft/BoxLeftScroll"]
+[node name="ContainerVBoxLeft" type="VBoxContainer" parent="BoxLeft/ScrollContainer"]
 margin_right = 512.0
 margin_bottom = 624.0
 size_flags_horizontal = 3
@@ -750,13 +486,13 @@ margin_bottom = 696.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="ColorRectBorder" type="ColorRect" parent="BoxRight"]
+[node name="BorderColorRect" type="ColorRect" parent="BoxRight"]
 margin_right = 560.0
 margin_bottom = 672.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="ColorRectInner" type="ColorRect" parent="BoxRight"]
+[node name="InnerColorRect" type="ColorRect" parent="BoxRight"]
 margin_left = 8.0
 margin_top = 8.0
 margin_right = 552.0
@@ -903,7 +639,7 @@ margin_top = 600.0
 margin_right = 136.0
 margin_bottom = 636.0
 
-[node name="AddDishesButton" type="TextureButton" parent="BoxRight/Bottom"]
+[node name="ButtonAddDishes" type="TextureButton" parent="BoxRight/Bottom"]
 margin_right = 112.0
 margin_bottom = 36.0
 focus_mode = 0
@@ -914,18 +650,18 @@ texture_hover = ExtResource( 50 )
 texture_disabled = ExtResource( 49 )
 texture_focused = ExtResource( 5 )
 
-[node name="NoDishesMessage" type="Control" parent="."]
+[node name="NotificationNoDishes" type="Control" parent="."]
 visible = false
 margin_right = 1280.0
 margin_bottom = 720.0
 
-[node name="ColorRect" type="ColorRect" parent="NoDishesMessage"]
+[node name="ColorRect" type="ColorRect" parent="NotificationNoDishes"]
 visible = false
 margin_right = 1280.0
 margin_bottom = 720.0
 color = Color( 0, 0, 0, 0 )
 
-[node name="Label" type="Label" parent="NoDishesMessage"]
+[node name="Label" type="Label" parent="NotificationNoDishes"]
 visible = false
 modulate = Color( 1, 1, 1, 0 )
 margin_left = 384.0
@@ -999,42 +735,18 @@ border_width = 5.0
 
 [node name="Animations" type="Node" parent="."]
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="Animations"]
-anims/RESET = SubResource( 15 )
-anims/hide = SubResource( 16 )
-anims/idle = SubResource( 17 )
-anims/idle_hidden = SubResource( 19 )
-anims/show = SubResource( 18 )
-
-[node name="AnimationPlayer2" type="AnimationPlayer" parent="Animations"]
-anims/RESET = SubResource( 30 )
-anims/hide = SubResource( 31 )
-anims/idle = SubResource( 32 )
-anims/idle_hidden = SubResource( 33 )
-anims/show = SubResource( 34 )
-
-[node name="AnimationTree" type="AnimationTree" parent="Animations"]
-tree_root = SubResource( 28 )
-anim_player = NodePath("../AnimationPlayer")
-parameters/playback = SubResource( 29 )
-
-[node name="AnimationTree2" type="AnimationTree" parent="Animations"]
-tree_root = SubResource( 43 )
-anim_player = NodePath("../AnimationPlayer2")
-parameters/playback = SubResource( 44 )
-
-[node name="AnimationPlayer3" type="AnimationPlayer" parent="Animations"]
+[node name="PlayerNoDishes" type="AnimationPlayer" parent="Animations"]
 anims/RESET = SubResource( 45 )
 anims/hidden = SubResource( 57 )
 anims/hide = SubResource( 46 )
 anims/show = SubResource( 47 )
 anims/showing = SubResource( 58 )
 
-[node name="AnimationTree3" type="AnimationTree" parent="Animations"]
+[node name="TreeNoDishes" type="AnimationTree" parent="Animations"]
 tree_root = SubResource( 48 )
-anim_player = NodePath("../AnimationPlayer3")
+anim_player = NodePath("../PlayerNoDishes")
 active = true
 parameters/playback = SubResource( 49 )
 
 [connection signal="tab_changed" from="BoxRight/TabContainer" to="." method="_OnTabChanged"]
-[connection signal="pressed" from="BoxRight/Bottom/AddDishesButton" to="." method="_OnAddDishesButtonPressed"]
+[connection signal="pressed" from="BoxRight/Bottom/ButtonAddDishes" to="." method="_OnAddDishesButtonPressed"]

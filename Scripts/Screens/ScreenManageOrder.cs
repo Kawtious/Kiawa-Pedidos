@@ -4,7 +4,7 @@ using Dictionary = Godot.Collections.Dictionary;
 using Array = Godot.Collections.Array;
 using System.Collections;
 
-public class ManageOrderScreen : Control
+public class ScreenManageOrder : Control
 {
 
     private GlobalProcess GlobalProcess;
@@ -82,19 +82,19 @@ public class ManageOrderScreen : Control
 
             if (Query.Empty())
             {
-                OrderContainer.CreateOrderContainer(BoxVBox, order);
+                ContainerOrder.CreateOrderContainer(BoxVBox, order);
             }
             else if (order.User.ToLower().Contains(Query.ToLower()) ||
                     order.Date.ToLower().Contains(Query.ToLower()))
             {
-                OrderContainer.CreateOrderContainer(BoxVBox, order);
+                ContainerOrder.CreateOrderContainer(BoxVBox, order);
             }
         }
     }
 
     private void ClearOrdersList()
     {
-        foreach (OrderContainer orderContainer in BoxVBox.GetChildren())
+        foreach (ContainerOrder orderContainer in BoxVBox.GetChildren())
         {
             BoxVBox.RemoveChild(orderContainer);
             orderContainer.QueueFree();
@@ -103,9 +103,9 @@ public class ManageOrderScreen : Control
 
     public void NotifyNewOrders()
     {
-        GlobalProcess.ResourceDirector.MenuAudioStream.Stream =
+        GlobalProcess.ResourceDirector.AudioStreamMenu.Stream =
                     (AudioStream)GlobalProcess.ResourceDirector.GetResource("new_orders");
 
-        GlobalProcess.ResourceDirector.MenuAudioStream.Play();
+        GlobalProcess.ResourceDirector.AudioStreamMenu.Play();
     }
 }

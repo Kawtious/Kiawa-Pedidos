@@ -1,7 +1,7 @@
 using Godot;
 using System;
 
-public class MenuDishContainer : HBoxContainer
+public class ContainerMenuDish : HBoxContainer
 {
 
     public VBoxContainer Details;
@@ -39,8 +39,8 @@ public class MenuDishContainer : HBoxContainer
 
     public static void CreateMenuDishContainer(Node parent, Dish dish)
     {
-        PackedScene _menuDishContainer = GD.Load<PackedScene>("res://Scenes/UI/MenuDishContainer.tscn");
-        MenuDishContainer menuDishContainer = (MenuDishContainer)_menuDishContainer.Instance();
+        PackedScene _menuDishContainer = GD.Load<PackedScene>("res://Scenes/UI/ContainerMenuDish.tscn");
+        ContainerMenuDish menuDishContainer = (ContainerMenuDish)_menuDishContainer.Instance();
         parent.AddChild(menuDishContainer);
 
         menuDishContainer.Dish = dish;

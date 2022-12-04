@@ -1,7 +1,7 @@
 using Godot;
 using System;
 
-public class OrderContainer : HBoxContainer
+public class ContainerOrder : HBoxContainer
 {
 
     private Firebase Firebase;
@@ -34,6 +34,11 @@ public class OrderContainer : HBoxContainer
         LabelDate = Details.GetNode<Label>("Date");
     }
 
+    public void _OnTrashButtonPressed()
+    {
+        Firebase.DeleteOrder(Order.Key);
+    }
+
     private void UpdateContainer(Order value)
     {
         LabelUser.Text = value.User;
@@ -42,15 +47,10 @@ public class OrderContainer : HBoxContainer
 
     public static void CreateOrderContainer(Node parent, Order order)
     {
-        PackedScene _orderContainer = GD.Load<PackedScene>("res://Scenes/UI/OrderContainer.tscn");
-        OrderContainer orderContainer = (OrderContainer)_orderContainer.Instance();
+        PackedScene _orderContainer = GD.Load<PackedScene>("res://Scenes/UI/ContainerOrder.tscn");
+        ContainerOrder orderContainer = (ContainerOrder)_orderContainer.Instance();
         parent.AddChild(orderContainer);
 
         orderContainer.Order = order;
-    }
-
-    public void _OnTrashButtonPressed()
-    {
-        Firebase.DeleteOrder(Order.Key);
     }
 }

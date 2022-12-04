@@ -7,9 +7,9 @@ using Godot.Collections;
 public class Camera2D : Godot.Camera2D
 {
 
-    private Position2D TopLeft;
+    private Position2D LimitTopLeft;
 
-    private Position2D BottomRight;
+    private Position2D LimitBottomRight;
 
     private Node Points;
 
@@ -21,18 +21,20 @@ public class Camera2D : Godot.Camera2D
         InitNodes();
         ConnectSignals();
 
-        LimitTop = (int)TopLeft.Position.y;
-        LimitLeft = (int)TopLeft.Position.x;
-        LimitBottom = (int)BottomRight.Position.y;
-        LimitRight = (int)BottomRight.Position.x;
+        LimitTop = (int)LimitTopLeft.Position.y;
+        LimitLeft = (int)LimitTopLeft.Position.x;
+        LimitBottom = (int)LimitBottomRight.Position.y;
+        LimitRight = (int)LimitBottomRight.Position.x;
+
+        ChangePoint(CurrentPoint);
     }
 
     private void InitNodes()
     {
-        TopLeft = GetNode<Position2D>("Limits/Top Left");
-        BottomRight = GetNode<Position2D>("Limits/Bottom Right");
+        LimitTopLeft = GetNode<Position2D>("Limits/LimitTopLeft");
+        LimitBottomRight = GetNode<Position2D>("Limits/LimitBottomRight");
         Points = GetNode<Node>("Points");
-        CurrentPoint = Points.GetNode<CameraPoint>("MainPoint");
+        CurrentPoint = Points.GetNode<CameraPoint>("PointMain");
     }
 
     private void ConnectSignals()

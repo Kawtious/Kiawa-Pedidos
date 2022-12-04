@@ -6,14 +6,14 @@ using Dictionary = Godot.Collections.Dictionary;
 using System.Text.RegularExpressions;
 using System.Collections;
 
-public class CreateDishScreen : Control
+public class ScreenCreateDish : Control
 {
 
     private Firebase Firebase;
 
-    private Control Box;
+    private Control BoxLeft;
 
-    private VBoxContainer BoxVBox;
+    private VBoxContainer ContainerVBoxLeft;
 
     private LineEdit LineEditTitle;
 
@@ -23,11 +23,11 @@ public class CreateDishScreen : Control
 
     private LineEdit LineEditPortions;
 
-    private Control BoxDishes;
+    private Control BoxRight;
 
-    private ScrollContainer BoxLeftScroll;
+    private ScrollContainer ScrollBox;
 
-    private VBoxContainer BoxLeftVBox;
+    private VBoxContainer ContainerVBoxRight;
 
     private string _Title = "";
 
@@ -72,17 +72,17 @@ public class CreateDishScreen : Control
     {
         Firebase = GetNode<Firebase>("/root/Firebase");
 
-        Box = GetNode<Control>("Box");
-        BoxVBox = Box.GetNode<VBoxContainer>("BoxVBox");
+        BoxLeft = GetNode<Control>("BoxLeft");
+        ContainerVBoxLeft = BoxLeft.GetNode<VBoxContainer>("ContainerVBoxLeft");
 
-        BoxDishes = GetNode<Control>("BoxDishes");
-        BoxLeftScroll = BoxDishes.GetNode<ScrollContainer>("BoxLeftScroll");
-        BoxLeftVBox = BoxLeftScroll.GetNode<VBoxContainer>("BoxLeftVBox");
+        BoxRight = GetNode<Control>("BoxRight");
+        ScrollBox = BoxRight.GetNode<ScrollContainer>("ScrollBox");
+        ContainerVBoxRight = ScrollBox.GetNode<VBoxContainer>("ContainerVBoxRight");
 
-        LineEditTitle = BoxVBox.GetNode<LineEdit>("TitleContainer/LineEdit");
-        LineEditDescription = BoxVBox.GetNode<LineEdit>("DescriptionContainer/LineEdit");
-        LineEditPrice = BoxVBox.GetNode<LineEdit>("PriceContainer/LineEdit");
-        LineEditPortions = BoxVBox.GetNode<LineEdit>("PortionContainer/LineEdit");
+        LineEditTitle = ContainerVBoxLeft.GetNode<LineEdit>("ContainerTitle/LineEdit");
+        LineEditDescription = ContainerVBoxLeft.GetNode<LineEdit>("ContainerDescription/LineEdit");
+        LineEditPrice = ContainerVBoxLeft.GetNode<LineEdit>("ContainerPrice/LineEdit");
+        LineEditPortions = ContainerVBoxLeft.GetNode<LineEdit>("ContainerPortion/LineEdit");
     }
 
     private void ConnectSignals()
@@ -215,7 +215,7 @@ public class CreateDishScreen : Control
             Dish dish = Dish.FromMap(map);
             dish.Key = (string)entry.Key;
 
-            ContainerDishEditable container = ContainerDishEditable.CreateContainerDishEditable(BoxLeftVBox, dish);
+            ContainerDishEditable container = ContainerDishEditable.CreateContainerDishEditable(ContainerVBoxRight, dish);
             container.Connect("DishSelected", this, "UpdateTextFields");
             container.Connect("DishDeselected", this, "ResetFields");
         }
@@ -231,9 +231,9 @@ public class CreateDishScreen : Control
 
     private void ClearDishList()
     {
-        foreach (ContainerDishEditable dishContainer in BoxLeftVBox.GetChildren())
+        foreach (ContainerDishEditable dishContainer in ContainerVBoxRight.GetChildren())
         {
-            BoxLeftVBox.RemoveChild(dishContainer);
+            ContainerVBoxRight.RemoveChild(dishContainer);
             dishContainer.QueueFree();
         }
     }
@@ -242,7 +242,7 @@ public class CreateDishScreen : Control
     {
         string selectedDishKey = "";
 
-        foreach (ContainerDishEditable dishContainer in BoxLeftVBox.GetChildren())
+        foreach (ContainerDishEditable dishContainer in ContainerVBoxRight.GetChildren())
         {
             CheckBox checkbox = dishContainer.GetNode<CheckBox>("CheckBox");
 

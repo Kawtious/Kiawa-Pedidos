@@ -12,17 +12,16 @@ limit_left = -10000
 limit_top = -10000
 limit_right = 10000
 limit_bottom = 10000
-smoothing_enabled = true
 script = ExtResource( 1 )
 
 [node name="Limits" type="Node" parent="."]
 
-[node name="Top Left" type="Position2D" parent="Limits"]
+[node name="LimitTopLeft" type="Position2D" parent="Limits"]
 
-[node name="Bottom Right" type="Position2D" parent="Limits"]
+[node name="LimitBottomRight" type="Position2D" parent="Limits"]
 position = Vector2( 1280, 720 )
 
 [node name="Points" type="Node" parent="."]
 
-[node name="MainPoint" parent="Points" instance=ExtResource( 2 )]
+[node name="PointMain" parent="Points" instance=ExtResource( 2 )]
 position = Vector2( 640, 360 )

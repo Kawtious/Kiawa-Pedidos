@@ -3,7 +3,7 @@ using System;
 using Dictionary = Godot.Collections.Dictionary;
 using Array = Godot.Collections.Array;
 
-public class OrderScreen : Control
+public class ScreenOrder : Control
 {
 
     private GlobalProcess GlobalProcess;
@@ -16,9 +16,9 @@ public class OrderScreen : Control
 
     private VBoxContainer BoxVBox;
 
-    private AnimationTree AnimationTree;
+    private AnimationTree TreeNotificationNoDishes;
 
-    private AnimationNodeStateMachinePlayback AnimationState;
+    private AnimationNodeStateMachinePlayback StateNotificationNoDishes;
 
     private string _Query = "";
 
@@ -45,8 +45,8 @@ public class OrderScreen : Control
         BoxScroll = Box.GetNode<ScrollContainer>("BoxScroll");
         BoxVBox = BoxScroll.GetNode<VBoxContainer>("BoxVBox");
 
-        AnimationTree = GetNode<AnimationTree>("Animations/AnimationTree3");
-        AnimationState = AnimationTree.Get("parameters/playback") as AnimationNodeStateMachinePlayback;
+        TreeNotificationNoDishes = GetNode<AnimationTree>("Animations/TreeNotificationNoDishes");
+        StateNotificationNoDishes = TreeNotificationNoDishes.Get("parameters/playback") as AnimationNodeStateMachinePlayback;
 
         string today = System.DateTime.Now.DayOfWeek.ToString();
         Box.GetNode<Label>("Label").Text = today;
@@ -61,7 +61,7 @@ public class OrderScreen : Control
     {
         Array dishes = new Array();
 
-        foreach (DishContainer dishContainer in BoxVBox.GetChildren())
+        foreach (ContainerDish dishContainer in BoxVBox.GetChildren())
         {
             if (dishContainer.GetNode<CheckBox>("CheckBox").Pressed == true)
             {
@@ -122,11 +122,11 @@ public class OrderScreen : Control
 
             if (Query.Empty())
             {
-                DishContainer.CreateDishContainer(BoxVBox, dish);
+                ContainerDish.CreateDishContainer(BoxVBox, dish);
             }
             else if (dish.Title.ToLower().Contains(Query.ToLower()))
             {
-                DishContainer.CreateDishContainer(BoxVBox, dish);
+                ContainerDish.CreateDishContainer(BoxVBox, dish);
             }
         }
 
@@ -142,7 +142,7 @@ public class OrderScreen : Control
 
     private void ClearDishList()
     {
-        foreach (DishContainer dishContainer in BoxVBox.GetChildren())
+        foreach (ContainerDish dishContainer in BoxVBox.GetChildren())
         {
             BoxVBox.RemoveChild(dishContainer);
             dishContainer.QueueFree();
@@ -154,7 +154,7 @@ public class OrderScreen : Control
         Array dishContainers = BoxVBox.GetChildren();
         Array checkBoxes = new Array();
 
-        foreach (DishContainer dishContainer in dishContainers)
+        foreach (ContainerDish dishContainer in dishContainers)
         {
             checkBoxes.Add(dishContainer.GetNode<CheckBox>("CheckBox"));
         }
@@ -162,9 +162,9 @@ public class OrderScreen : Control
         return checkBoxes;
     }
 
-    private DishContainer GetDishContainer(string key)
+    private ContainerDish GetDishContainer(string key)
     {
-        foreach (DishContainer dishContainer in BoxVBox.GetChildren())
+        foreach (ContainerDish dishContainer in BoxVBox.GetChildren())
         {
             if (dishContainer.Dish.Key.Equals(key))
             {
@@ -183,7 +183,7 @@ public class OrderScreen : Control
             return;
         }
 
-        AnimationState.Travel("showing");
+        StateNotificationNoDishes.Travel("showing");
         ShowingError = true;
     }
 
@@ -194,7 +194,7 @@ public class OrderScreen : Control
             return;
         }
 
-        AnimationState.Travel("hidden");
+        StateNotificationNoDishes.Travel("hidden");
         ShowingError = false;
     }
 }

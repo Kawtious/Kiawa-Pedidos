@@ -2,9 +2,9 @@
 
 [ext_resource path="res://Textures/UI/add.png" type="Texture" id=1]
 [ext_resource path="res://Textures/UI/add_dis.png" type="Texture" id=2]
+[ext_resource path="res://Scripts/Screens/ScreenOrder.cs" type="Script" id=3]
 [ext_resource path="res://Textures/UI/add_sel.png" type="Texture" id=5]
 [ext_resource path="res://Fonts/DTM-Sans.otf" type="DynamicFontData" id=7]
-[ext_resource path="res://Scripts/Screens/OrderScreen.cs" type="Script" id=8]
 
 [sub_resource type="DynamicFont" id=45]
 size = 40
@@ -29,7 +29,7 @@ font_data = ExtResource( 7 )
 [sub_resource type="Animation" id=66]
 length = 0.001
 tracks/0/type = "value"
-tracks/0/path = NodePath("../NoDishesMessage/ColorRect:color")
+tracks/0/path = NodePath("../NotificationNoDishes/ColorRect:color")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
@@ -41,7 +41,7 @@ tracks/0/keys = {
 "values": [ Color( 0, 0, 0, 0 ) ]
 }
 tracks/1/type = "bezier"
-tracks/1/path = NodePath("../NoDishesMessage/ColorRect:color:a")
+tracks/1/path = NodePath("../NotificationNoDishes/ColorRect:color:a")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/imported = false
@@ -51,7 +51,7 @@ tracks/1/keys = {
 "times": PoolRealArray( 0 )
 }
 tracks/2/type = "value"
-tracks/2/path = NodePath("../NoDishesMessage/ColorRect:visible")
+tracks/2/path = NodePath("../NotificationNoDishes/ColorRect:visible")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/imported = false
@@ -63,7 +63,7 @@ tracks/2/keys = {
 "values": [ false ]
 }
 tracks/3/type = "bezier"
-tracks/3/path = NodePath("../NoDishesMessage/Label:modulate:a")
+tracks/3/path = NodePath("../NotificationNoDishes/Label:modulate:a")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/imported = false
@@ -73,7 +73,7 @@ tracks/3/keys = {
 "times": PoolRealArray( 0 )
 }
 tracks/4/type = "value"
-tracks/4/path = NodePath("../NoDishesMessage/Label:visible")
+tracks/4/path = NodePath("../NotificationNoDishes/Label:visible")
 tracks/4/interp = 1
 tracks/4/loop_wrap = true
 tracks/4/imported = false
@@ -85,7 +85,7 @@ tracks/4/keys = {
 "values": [ false ]
 }
 tracks/5/type = "bezier"
-tracks/5/path = NodePath("../NoDishesMessage/Label:rect_position:y")
+tracks/5/path = NodePath("../NotificationNoDishes/Label:rect_position:y")
 tracks/5/interp = 1
 tracks/5/loop_wrap = true
 tracks/5/imported = false
@@ -95,7 +95,7 @@ tracks/5/keys = {
 "times": PoolRealArray( 0 )
 }
 tracks/6/type = "value"
-tracks/6/path = NodePath("../NoDishesMessage:visible")
+tracks/6/path = NodePath("../NotificationNoDishes:visible")
 tracks/6/interp = 1
 tracks/6/loop_wrap = true
 tracks/6/imported = false
@@ -112,7 +112,7 @@ resource_name = "hidden"
 length = 0.001
 loop = true
 tracks/0/type = "bezier"
-tracks/0/path = NodePath("../NoDishesMessage/ColorRect:color:a")
+tracks/0/path = NodePath("../NotificationNoDishes/ColorRect:color:a")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
@@ -122,7 +122,7 @@ tracks/0/keys = {
 "times": PoolRealArray( 0 )
 }
 tracks/1/type = "value"
-tracks/1/path = NodePath("../NoDishesMessage/ColorRect:visible")
+tracks/1/path = NodePath("../NotificationNoDishes/ColorRect:visible")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/imported = false
@@ -134,7 +134,7 @@ tracks/1/keys = {
 "values": [ false ]
 }
 tracks/2/type = "bezier"
-tracks/2/path = NodePath("../NoDishesMessage/Label:modulate:a")
+tracks/2/path = NodePath("../NotificationNoDishes/Label:modulate:a")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/imported = false
@@ -144,7 +144,7 @@ tracks/2/keys = {
 "times": PoolRealArray( 0 )
 }
 tracks/3/type = "value"
-tracks/3/path = NodePath("../NoDishesMessage/Label:visible")
+tracks/3/path = NodePath("../NotificationNoDishes/Label:visible")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/imported = false
@@ -156,7 +156,7 @@ tracks/3/keys = {
 "values": [ false ]
 }
 tracks/4/type = "bezier"
-tracks/4/path = NodePath("../NoDishesMessage/Label:rect_position:y")
+tracks/4/path = NodePath("../NotificationNoDishes/Label:rect_position:y")
 tracks/4/interp = 1
 tracks/4/loop_wrap = true
 tracks/4/imported = false
@@ -166,7 +166,7 @@ tracks/4/keys = {
 "times": PoolRealArray( 0 )
 }
 tracks/5/type = "value"
-tracks/5/path = NodePath("../NoDishesMessage:visible")
+tracks/5/path = NodePath("../NotificationNoDishes:visible")
 tracks/5/interp = 1
 tracks/5/loop_wrap = true
 tracks/5/imported = false
@@ -182,7 +182,7 @@ tracks/5/keys = {
 resource_name = "hide"
 length = 0.5
 tracks/0/type = "bezier"
-tracks/0/path = NodePath("../NoDishesMessage/ColorRect:color:a")
+tracks/0/path = NodePath("../NotificationNoDishes/ColorRect:color:a")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
@@ -192,7 +192,7 @@ tracks/0/keys = {
 "times": PoolRealArray( 0, 0.5 )
 }
 tracks/1/type = "value"
-tracks/1/path = NodePath("../NoDishesMessage/ColorRect:visible")
+tracks/1/path = NodePath("../NotificationNoDishes/ColorRect:visible")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/imported = false
@@ -204,7 +204,7 @@ tracks/1/keys = {
 "values": [ true, false ]
 }
 tracks/2/type = "bezier"
-tracks/2/path = NodePath("../NoDishesMessage/Label:modulate:a")
+tracks/2/path = NodePath("../NotificationNoDishes/Label:modulate:a")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/imported = false
@@ -214,7 +214,7 @@ tracks/2/keys = {
 "times": PoolRealArray( 0, 0.5 )
 }
 tracks/3/type = "value"
-tracks/3/path = NodePath("../NoDishesMessage/Label:visible")
+tracks/3/path = NodePath("../NotificationNoDishes/Label:visible")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/imported = false
@@ -226,7 +226,7 @@ tracks/3/keys = {
 "values": [ true, false ]
 }
 tracks/4/type = "bezier"
-tracks/4/path = NodePath("../NoDishesMessage/Label:rect_position:y")
+tracks/4/path = NodePath("../NotificationNoDishes/Label:rect_position:y")
 tracks/4/interp = 1
 tracks/4/loop_wrap = true
 tracks/4/imported = false
@@ -236,7 +236,7 @@ tracks/4/keys = {
 "times": PoolRealArray( 0, 0.5 )
 }
 tracks/5/type = "value"
-tracks/5/path = NodePath("../NoDishesMessage:visible")
+tracks/5/path = NodePath("../NotificationNoDishes:visible")
 tracks/5/interp = 1
 tracks/5/loop_wrap = true
 tracks/5/imported = false
@@ -252,7 +252,7 @@ tracks/5/keys = {
 resource_name = "show"
 length = 0.5
 tracks/0/type = "bezier"
-tracks/0/path = NodePath("../NoDishesMessage/ColorRect:color:a")
+tracks/0/path = NodePath("../NotificationNoDishes/ColorRect:color:a")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
@@ -262,7 +262,7 @@ tracks/0/keys = {
 "times": PoolRealArray( 0, 0.5 )
 }
 tracks/1/type = "value"
-tracks/1/path = NodePath("../NoDishesMessage/ColorRect:visible")
+tracks/1/path = NodePath("../NotificationNoDishes/ColorRect:visible")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/imported = false
@@ -274,7 +274,7 @@ tracks/1/keys = {
 "values": [ true ]
 }
 tracks/2/type = "value"
-tracks/2/path = NodePath("../NoDishesMessage/Label:visible")
+tracks/2/path = NodePath("../NotificationNoDishes/Label:visible")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/imported = false
@@ -286,7 +286,7 @@ tracks/2/keys = {
 "values": [ true ]
 }
 tracks/3/type = "bezier"
-tracks/3/path = NodePath("../NoDishesMessage/Label:modulate:a")
+tracks/3/path = NodePath("../NotificationNoDishes/Label:modulate:a")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/imported = false
@@ -296,7 +296,7 @@ tracks/3/keys = {
 "times": PoolRealArray( 0, 0.5 )
 }
 tracks/4/type = "bezier"
-tracks/4/path = NodePath("../NoDishesMessage/Label:rect_position:y")
+tracks/4/path = NodePath("../NotificationNoDishes/Label:rect_position:y")
 tracks/4/interp = 1
 tracks/4/loop_wrap = true
 tracks/4/imported = false
@@ -306,7 +306,7 @@ tracks/4/keys = {
 "times": PoolRealArray( 0, 0.4, 0.5 )
 }
 tracks/5/type = "value"
-tracks/5/path = NodePath("../NoDishesMessage:visible")
+tracks/5/path = NodePath("../NotificationNoDishes:visible")
 tracks/5/interp = 1
 tracks/5/loop_wrap = true
 tracks/5/imported = false
@@ -323,7 +323,7 @@ resource_name = "showing"
 length = 0.001
 loop = true
 tracks/0/type = "bezier"
-tracks/0/path = NodePath("../NoDishesMessage/ColorRect:color:a")
+tracks/0/path = NodePath("../NotificationNoDishes/ColorRect:color:a")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
@@ -333,7 +333,7 @@ tracks/0/keys = {
 "times": PoolRealArray( 0 )
 }
 tracks/1/type = "value"
-tracks/1/path = NodePath("../NoDishesMessage/ColorRect:visible")
+tracks/1/path = NodePath("../NotificationNoDishes/ColorRect:visible")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/imported = false
@@ -345,7 +345,7 @@ tracks/1/keys = {
 "values": [ true ]
 }
 tracks/2/type = "value"
-tracks/2/path = NodePath("../NoDishesMessage/Label:visible")
+tracks/2/path = NodePath("../NotificationNoDishes/Label:visible")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/imported = false
@@ -357,7 +357,7 @@ tracks/2/keys = {
 "values": [ true ]
 }
 tracks/3/type = "bezier"
-tracks/3/path = NodePath("../NoDishesMessage/Label:modulate:a")
+tracks/3/path = NodePath("../NotificationNoDishes/Label:modulate:a")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/imported = false
@@ -367,7 +367,7 @@ tracks/3/keys = {
 "times": PoolRealArray( 0 )
 }
 tracks/4/type = "bezier"
-tracks/4/path = NodePath("../NoDishesMessage/Label:rect_position:y")
+tracks/4/path = NodePath("../NotificationNoDishes/Label:rect_position:y")
 tracks/4/interp = 1
 tracks/4/loop_wrap = true
 tracks/4/imported = false
@@ -377,7 +377,7 @@ tracks/4/keys = {
 "times": PoolRealArray( 0 )
 }
 tracks/5/type = "value"
-tracks/5/path = NodePath("../NoDishesMessage:visible")
+tracks/5/path = NodePath("../NotificationNoDishes:visible")
 tracks/5/interp = 1
 tracks/5/loop_wrap = true
 tracks/5/imported = false
@@ -427,10 +427,10 @@ start_node = "showing"
 
 [sub_resource type="AnimationNodeStateMachinePlayback" id=72]
 
-[node name="OrderScreen" type="Control"]
+[node name="ScreenOrder" type="Control"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-script = ExtResource( 8 )
+script = ExtResource( 3 )
 
 [node name="Box" type="Control" parent="."]
 margin_left = 320.0
@@ -440,13 +440,13 @@ margin_bottom = 696.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="ColorRectBorder" type="ColorRect" parent="Box"]
+[node name="BorderColorRect" type="ColorRect" parent="Box"]
 margin_right = 640.0
 margin_bottom = 672.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="ColorRectInner" type="ColorRect" parent="Box"]
+[node name="InnerColorRect" type="ColorRect" parent="Box"]
 margin_left = 8.0
 margin_top = 8.0
 margin_right = 632.0
@@ -476,6 +476,8 @@ margin_right = 630.72
 margin_bottom = 569.472
 
 [node name="BoxVBox" type="VBoxContainer" parent="Box/BoxScroll"]
+margin_right = 592.0
+margin_bottom = 432.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
@@ -494,7 +496,7 @@ margin_right = 112.0
 margin_bottom = 4.0
 size_flags_vertical = 3
 
-[node name="SendOrderButton" type="TextureButton" parent="Box/Bottom/VBoxContainer"]
+[node name="ButtonSendOrderButton" type="TextureButton" parent="Box/Bottom/VBoxContainer"]
 margin_top = 8.0
 margin_right = 112.0
 margin_bottom = 40.0
@@ -510,13 +512,8 @@ margin_right = 112.0
 margin_bottom = 48.0
 size_flags_vertical = 3
 
-[node name="VSeparator" type="VSeparator" parent="Box/Bottom"]
-margin_left = 116.0
-margin_right = 120.0
-margin_bottom = 48.0
-
 [node name="LineEdit" type="LineEdit" parent="Box/Bottom"]
-margin_left = 124.0
+margin_left = 116.0
 margin_right = 576.0
 margin_bottom = 48.0
 size_flags_horizontal = 3
@@ -527,24 +524,20 @@ custom_styles/focus = SubResource( 48 )
 custom_styles/normal = SubResource( 49 )
 max_length = 25
 
-[node name="NoDishesMessage" type="Control" parent="."]
-visible = false
+[node name="NotificationNoDishes" type="Control" parent="."]
 margin_right = 1280.0
 margin_bottom = 720.0
 
-[node name="ColorRect" type="ColorRect" parent="NoDishesMessage"]
-visible = false
+[node name="ColorRect" type="ColorRect" parent="NotificationNoDishes"]
 margin_right = 1280.0
 margin_bottom = 720.0
-color = Color( 0, 0, 0, 0 )
+color = Color( 0, 0, 0, 0.705882 )
 
-[node name="Label" type="Label" parent="NoDishesMessage"]
-visible = false
-modulate = Color( 1, 1, 1, 0 )
+[node name="Label" type="Label" parent="NotificationNoDishes"]
 margin_left = 384.0
-margin_top = 408.0
+margin_top = 264.0
 margin_right = 896.0
-margin_bottom = 605.0
+margin_bottom = 461.0
 custom_fonts/font = SubResource( 65 )
 text = "There are no available dishes for today"
 align = 1
@@ -588,18 +581,18 @@ border_width = 5.0
 
 [node name="Animations" type="Node" parent="."]
 
-[node name="AnimationPlayer3" type="AnimationPlayer" parent="Animations"]
+[node name="PlayerNotificationNoDishes" type="AnimationPlayer" parent="Animations"]
 anims/RESET = SubResource( 66 )
 anims/hidden = SubResource( 67 )
 anims/hide = SubResource( 68 )
 anims/show = SubResource( 69 )
 anims/showing = SubResource( 70 )
 
-[node name="AnimationTree3" type="AnimationTree" parent="Animations"]
+[node name="TreeNotificationNoDishes" type="AnimationTree" parent="Animations"]
 tree_root = SubResource( 71 )
-anim_player = NodePath("../AnimationPlayer3")
+anim_player = NodePath("../PlayerNotificationNoDishes")
 active = true
 parameters/playback = SubResource( 72 )
 
-[connection signal="pressed" from="Box/Bottom/VBoxContainer/SendOrderButton" to="." method="_OnSendOrderButtonPressed"]
+[connection signal="pressed" from="Box/Bottom/VBoxContainer/ButtonSendOrderButton" to="." method="_OnSendOrderButtonPressed"]
 [connection signal="text_changed" from="Box/Bottom/LineEdit" to="." method="_OnLineEditTextChanged"]
