@@ -1,8 +1,9 @@
-[gd_scene load_steps=12 format=2]
+[gd_scene load_steps=13 format=2]
 
 [ext_resource path="res://Textures/UI/add.png" type="Texture" id=1]
 [ext_resource path="res://Textures/UI/add_dis.png" type="Texture" id=2]
 [ext_resource path="res://Scripts/Screens/ScreenCreateDish.cs" type="Script" id=3]
+[ext_resource path="res://Textures/UI/ninepatch.png" type="Texture" id=4]
 [ext_resource path="res://Textures/UI/add_sel.png" type="Texture" id=5]
 [ext_resource path="res://Fonts/DTM-Sans.otf" type="DynamicFontData" id=7]
 
@@ -62,8 +63,71 @@ text = "Edit Dish"
 align = 1
 valign = 1
 
-[node name="ContainerVBoxLeft" type="VBoxContainer" parent="BoxLeft"]
+[node name="ContainerVBox" type="VBoxContainer" parent="BoxLeft"]
 margin_left = 24.0
+margin_top = 120.0
+margin_right = 232.0
+margin_bottom = 552.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="ContainerTitle" type="HBoxContainer" parent="BoxLeft/ContainerVBox"]
+margin_right = 208.0
+margin_bottom = 105.0
+size_flags_vertical = 3
+
+[node name="Label" type="Label" parent="BoxLeft/ContainerVBox/ContainerTitle"]
+margin_top = 31.0
+margin_right = 208.0
+margin_bottom = 73.0
+size_flags_horizontal = 3
+custom_fonts/font = SubResource( 50 )
+text = "Title"
+
+[node name="ContainerDescription" type="HBoxContainer" parent="BoxLeft/ContainerVBox"]
+margin_top = 109.0
+margin_right = 208.0
+margin_bottom = 214.0
+size_flags_vertical = 3
+
+[node name="Label" type="Label" parent="BoxLeft/ContainerVBox/ContainerDescription"]
+margin_top = 31.0
+margin_right = 208.0
+margin_bottom = 73.0
+size_flags_horizontal = 3
+custom_fonts/font = SubResource( 50 )
+text = "Description"
+
+[node name="ContainerPortion" type="HBoxContainer" parent="BoxLeft/ContainerVBox"]
+margin_top = 218.0
+margin_right = 208.0
+margin_bottom = 323.0
+size_flags_vertical = 3
+
+[node name="Label" type="Label" parent="BoxLeft/ContainerVBox/ContainerPortion"]
+margin_top = 31.0
+margin_right = 208.0
+margin_bottom = 73.0
+size_flags_horizontal = 3
+custom_fonts/font = SubResource( 50 )
+text = "Portions"
+
+[node name="ContainerPrice" type="HBoxContainer" parent="BoxLeft/ContainerVBox"]
+margin_top = 327.0
+margin_right = 208.0
+margin_bottom = 432.0
+size_flags_vertical = 3
+
+[node name="Label" type="Label" parent="BoxLeft/ContainerVBox/ContainerPrice"]
+margin_top = 31.0
+margin_right = 208.0
+margin_bottom = 73.0
+size_flags_horizontal = 3
+custom_fonts/font = SubResource( 50 )
+text = "Price"
+
+[node name="ContainerVBoxLeft" type="VBoxContainer" parent="BoxLeft"]
+margin_left = 232.0
 margin_top = 120.0
 margin_right = 616.0
 margin_bottom = 552.0
@@ -71,22 +135,25 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="ContainerTitle" type="HBoxContainer" parent="BoxLeft/ContainerVBoxLeft"]
-margin_right = 592.0
+margin_right = 384.0
 margin_bottom = 105.0
 size_flags_vertical = 3
 
-[node name="Label" type="Label" parent="BoxLeft/ContainerVBoxLeft/ContainerTitle"]
-margin_top = 31.0
-margin_right = 294.0
-margin_bottom = 73.0
-size_flags_horizontal = 3
-custom_fonts/font = SubResource( 50 )
-text = "Title"
-
-[node name="LineEdit" type="LineEdit" parent="BoxLeft/ContainerVBoxLeft/ContainerTitle"]
-margin_left = 298.0
-margin_right = 592.0
+[node name="NinePatchRect" type="NinePatchRect" parent="BoxLeft/ContainerVBoxLeft/ContainerTitle"]
+margin_right = 384.0
 margin_bottom = 105.0
+size_flags_horizontal = 3
+texture = ExtResource( 4 )
+patch_margin_left = 19
+patch_margin_top = 19
+patch_margin_right = 19
+patch_margin_bottom = 19
+
+[node name="LineEdit" type="LineEdit" parent="BoxLeft/ContainerVBoxLeft/ContainerTitle/NinePatchRect"]
+margin_left = 16.0
+margin_top = 16.0
+margin_right = 368.0
+margin_bottom = 88.0
 size_flags_horizontal = 3
 custom_colors/font_color = Color( 1, 1, 1, 1 )
 custom_fonts/font = SubResource( 51 )
@@ -96,22 +163,25 @@ custom_styles/normal = SubResource( 54 )
 
 [node name="ContainerDescription" type="HBoxContainer" parent="BoxLeft/ContainerVBoxLeft"]
 margin_top = 109.0
-margin_right = 592.0
+margin_right = 384.0
 margin_bottom = 214.0
 size_flags_vertical = 3
 
-[node name="Label" type="Label" parent="BoxLeft/ContainerVBoxLeft/ContainerDescription"]
-margin_top = 31.0
-margin_right = 294.0
-margin_bottom = 73.0
-size_flags_horizontal = 3
-custom_fonts/font = SubResource( 50 )
-text = "Description"
-
-[node name="LineEdit" type="LineEdit" parent="BoxLeft/ContainerVBoxLeft/ContainerDescription"]
-margin_left = 298.0
-margin_right = 592.0
+[node name="NinePatchRect" type="NinePatchRect" parent="BoxLeft/ContainerVBoxLeft/ContainerDescription"]
+margin_right = 384.0
 margin_bottom = 105.0
+size_flags_horizontal = 3
+texture = ExtResource( 4 )
+patch_margin_left = 19
+patch_margin_top = 19
+patch_margin_right = 19
+patch_margin_bottom = 19
+
+[node name="LineEdit" type="LineEdit" parent="BoxLeft/ContainerVBoxLeft/ContainerDescription/NinePatchRect"]
+margin_left = 16.0
+margin_top = 16.0
+margin_right = 368.0
+margin_bottom = 88.0
 size_flags_horizontal = 3
 custom_colors/font_color = Color( 1, 1, 1, 1 )
 custom_fonts/font = SubResource( 51 )
@@ -121,22 +191,25 @@ custom_styles/normal = SubResource( 54 )
 
 [node name="ContainerPortion" type="HBoxContainer" parent="BoxLeft/ContainerVBoxLeft"]
 margin_top = 218.0
-margin_right = 592.0
+margin_right = 384.0
 margin_bottom = 323.0
 size_flags_vertical = 3
 
-[node name="Label" type="Label" parent="BoxLeft/ContainerVBoxLeft/ContainerPortion"]
-margin_top = 31.0
-margin_right = 294.0
-margin_bottom = 73.0
-size_flags_horizontal = 3
-custom_fonts/font = SubResource( 50 )
-text = "Portions"
-
-[node name="LineEdit" type="LineEdit" parent="BoxLeft/ContainerVBoxLeft/ContainerPortion"]
-margin_left = 298.0
-margin_right = 592.0
+[node name="NinePatchRect" type="NinePatchRect" parent="BoxLeft/ContainerVBoxLeft/ContainerPortion"]
+margin_right = 384.0
 margin_bottom = 105.0
+size_flags_horizontal = 3
+texture = ExtResource( 4 )
+patch_margin_left = 19
+patch_margin_top = 19
+patch_margin_right = 19
+patch_margin_bottom = 19
+
+[node name="LineEdit" type="LineEdit" parent="BoxLeft/ContainerVBoxLeft/ContainerPortion/NinePatchRect"]
+margin_left = 16.0
+margin_top = 16.0
+margin_right = 368.0
+margin_bottom = 88.0
 size_flags_horizontal = 3
 custom_colors/font_color = Color( 1, 1, 1, 1 )
 custom_fonts/font = SubResource( 51 )
@@ -146,22 +219,25 @@ custom_styles/normal = SubResource( 54 )
 
 [node name="ContainerPrice" type="HBoxContainer" parent="BoxLeft/ContainerVBoxLeft"]
 margin_top = 327.0
-margin_right = 592.0
+margin_right = 384.0
 margin_bottom = 432.0
 size_flags_vertical = 3
 
-[node name="Label" type="Label" parent="BoxLeft/ContainerVBoxLeft/ContainerPrice"]
-margin_top = 31.0
-margin_right = 294.0
-margin_bottom = 73.0
-size_flags_horizontal = 3
-custom_fonts/font = SubResource( 50 )
-text = "Price"
-
-[node name="LineEdit" type="LineEdit" parent="BoxLeft/ContainerVBoxLeft/ContainerPrice"]
-margin_left = 298.0
-margin_right = 592.0
+[node name="NinePatchRect" type="NinePatchRect" parent="BoxLeft/ContainerVBoxLeft/ContainerPrice"]
+margin_right = 384.0
 margin_bottom = 105.0
+size_flags_horizontal = 3
+texture = ExtResource( 4 )
+patch_margin_left = 19
+patch_margin_top = 19
+patch_margin_right = 19
+patch_margin_bottom = 19
+
+[node name="LineEdit" type="LineEdit" parent="BoxLeft/ContainerVBoxLeft/ContainerPrice/NinePatchRect"]
+margin_left = 16.0
+margin_top = 16.0
+margin_right = 368.0
+margin_bottom = 88.0
 size_flags_horizontal = 3
 custom_colors/font_color = Color( 1, 1, 1, 1 )
 custom_fonts/font = SubResource( 51 )
@@ -276,8 +352,8 @@ border_width = 5.0
 
 [node name="Animations" type="Node" parent="."]
 
-[connection signal="text_changed" from="BoxLeft/ContainerVBoxLeft/ContainerTitle/LineEdit" to="." method="_OnTitleTextChanged"]
-[connection signal="text_changed" from="BoxLeft/ContainerVBoxLeft/ContainerDescription/LineEdit" to="." method="_OnDescriptionTextChanged"]
-[connection signal="text_changed" from="BoxLeft/ContainerVBoxLeft/ContainerPortion/LineEdit" to="." method="_OnPortionTextChanged"]
-[connection signal="text_changed" from="BoxLeft/ContainerVBoxLeft/ContainerPrice/LineEdit" to="." method="_OnPriceTextChanged"]
+[connection signal="text_changed" from="BoxLeft/ContainerVBoxLeft/ContainerTitle/NinePatchRect/LineEdit" to="." method="_OnTitleTextChanged"]
+[connection signal="text_changed" from="BoxLeft/ContainerVBoxLeft/ContainerDescription/NinePatchRect/LineEdit" to="." method="_OnDescriptionTextChanged"]
+[connection signal="text_changed" from="BoxLeft/ContainerVBoxLeft/ContainerPortion/NinePatchRect/LineEdit" to="." method="_OnPortionTextChanged"]
+[connection signal="text_changed" from="BoxLeft/ContainerVBoxLeft/ContainerPrice/NinePatchRect/LineEdit" to="." method="_OnPriceTextChanged"]
 [connection signal="pressed" from="BoxLeft/Bottom/VBoxContainer/ButtonCreateDishButton" to="." method="_OnCreateDishButtonPressed"]

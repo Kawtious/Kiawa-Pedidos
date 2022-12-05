@@ -1,13 +1,22 @@
-[gd_scene load_steps=29 format=2]
+[gd_scene load_steps=30 format=2]
 
 [ext_resource path="res://Textures/UI/add.png" type="Texture" id=1]
 [ext_resource path="res://Textures/UI/add_dis.png" type="Texture" id=2]
 [ext_resource path="res://Scripts/Screens/ScreenOrder.cs" type="Script" id=3]
+[ext_resource path="res://Textures/UI/ninepatch.png" type="Texture" id=4]
 [ext_resource path="res://Textures/UI/add_sel.png" type="Texture" id=5]
 [ext_resource path="res://Fonts/DTM-Sans.otf" type="DynamicFontData" id=7]
 
 [sub_resource type="DynamicFont" id=45]
 size = 40
+font_data = ExtResource( 7 )
+
+[sub_resource type="DynamicFont" id=73]
+size = 32
+font_data = ExtResource( 7 )
+
+[sub_resource type="DynamicFont" id=74]
+size = 32
 font_data = ExtResource( 7 )
 
 [sub_resource type="DynamicFont" id=46]
@@ -19,14 +28,6 @@ font_data = ExtResource( 7 )
 [sub_resource type="StyleBoxEmpty" id=48]
 
 [sub_resource type="StyleBoxEmpty" id=49]
-
-[sub_resource type="DynamicFont" id=73]
-size = 32
-font_data = ExtResource( 7 )
-
-[sub_resource type="DynamicFont" id=74]
-size = 32
-font_data = ExtResource( 7 )
 
 [sub_resource type="DynamicFont" id=65]
 size = 38
@@ -489,10 +490,65 @@ margin_bottom = 368.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
+[node name="BoxPrice" type="HBoxContainer" parent="Box"]
+margin_left = 32.0
+margin_top = 512.0
+margin_right = 608.0
+margin_bottom = 560.0
+
+[node name="LabelTotal" type="Label" parent="Box/BoxPrice"]
+margin_right = 92.0
+margin_bottom = 48.0
+size_flags_vertical = 5
+custom_fonts/font = SubResource( 73 )
+text = "Total:"
+valign = 1
+
+[node name="LabelPrice" type="Label" parent="Box/BoxPrice"]
+margin_left = 96.0
+margin_right = 576.0
+margin_bottom = 48.0
+size_flags_horizontal = 3
+size_flags_vertical = 5
+custom_fonts/font = SubResource( 74 )
+text = "0$"
+align = 2
+valign = 1
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Box"]
+margin_left = 160.0
+margin_top = 584.0
+margin_right = 616.0
+margin_bottom = 648.0
+
+[node name="NinePatchRect" type="NinePatchRect" parent="Box/VBoxContainer"]
+margin_right = 456.0
+margin_bottom = 64.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+texture = ExtResource( 4 )
+patch_margin_left = 19
+patch_margin_top = 19
+patch_margin_right = 19
+patch_margin_bottom = 19
+
+[node name="LineEdit" type="LineEdit" parent="Box/VBoxContainer/NinePatchRect"]
+margin_left = 16.0
+margin_top = 14.0
+margin_right = 440.0
+margin_bottom = 48.0
+size_flags_horizontal = 3
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+custom_fonts/font = SubResource( 46 )
+custom_styles/read_only = SubResource( 47 )
+custom_styles/focus = SubResource( 48 )
+custom_styles/normal = SubResource( 49 )
+max_length = 25
+
 [node name="Bottom" type="HBoxContainer" parent="Box"]
 margin_left = 32.0
 margin_top = 592.0
-margin_right = 608.0
+margin_right = 144.0
 margin_bottom = 640.0
 
 [node name="VBoxContainer" type="VBoxContainer" parent="Box/Bottom"]
@@ -519,43 +575,6 @@ margin_top = 44.0
 margin_right = 112.0
 margin_bottom = 48.0
 size_flags_vertical = 3
-
-[node name="LineEdit" type="LineEdit" parent="Box/Bottom"]
-margin_left = 116.0
-margin_right = 576.0
-margin_bottom = 48.0
-size_flags_horizontal = 3
-custom_colors/font_color = Color( 1, 1, 1, 1 )
-custom_fonts/font = SubResource( 46 )
-custom_styles/read_only = SubResource( 47 )
-custom_styles/focus = SubResource( 48 )
-custom_styles/normal = SubResource( 49 )
-max_length = 25
-
-[node name="BoxPrice" type="HBoxContainer" parent="Box"]
-margin_left = 32.0
-margin_top = 512.0
-margin_right = 608.0
-margin_bottom = 560.0
-
-[node name="LabelTotal" type="Label" parent="Box/BoxPrice"]
-margin_right = 92.0
-margin_bottom = 48.0
-size_flags_vertical = 5
-custom_fonts/font = SubResource( 73 )
-text = "Total:"
-valign = 1
-
-[node name="LabelPrice" type="Label" parent="Box/BoxPrice"]
-margin_left = 96.0
-margin_right = 576.0
-margin_bottom = 48.0
-size_flags_horizontal = 3
-size_flags_vertical = 5
-custom_fonts/font = SubResource( 74 )
-text = "0$"
-align = 2
-valign = 1
 
 [node name="NotificationNoDishes" type="Control" parent="."]
 visible = false
@@ -639,5 +658,5 @@ anim_player = NodePath("../PlayerNotificationNoDishes")
 active = true
 parameters/playback = SubResource( 72 )
 
+[connection signal="text_changed" from="Box/VBoxContainer/NinePatchRect/LineEdit" to="." method="_OnLineEditTextChanged"]
 [connection signal="pressed" from="Box/Bottom/VBoxContainer/ButtonSendOrderButton" to="." method="_OnSendOrderButtonPressed"]
-[connection signal="text_changed" from="Box/Bottom/LineEdit" to="." method="_OnLineEditTextChanged"]

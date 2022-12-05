@@ -79,10 +79,10 @@ public class ScreenCreateDish : Control
         ScrollBox = BoxRight.GetNode<ScrollContainer>("ScrollBox");
         ContainerVBoxRight = ScrollBox.GetNode<VBoxContainer>("ContainerVBoxRight");
 
-        LineEditTitle = ContainerVBoxLeft.GetNode<LineEdit>("ContainerTitle/LineEdit");
-        LineEditDescription = ContainerVBoxLeft.GetNode<LineEdit>("ContainerDescription/LineEdit");
-        LineEditPrice = ContainerVBoxLeft.GetNode<LineEdit>("ContainerPrice/LineEdit");
-        LineEditPortions = ContainerVBoxLeft.GetNode<LineEdit>("ContainerPortion/LineEdit");
+        LineEditTitle = ContainerVBoxLeft.GetNode<LineEdit>("ContainerTitle/NinePatchRect/LineEdit");
+        LineEditDescription = ContainerVBoxLeft.GetNode<LineEdit>("ContainerDescription/NinePatchRect/LineEdit");
+        LineEditPrice = ContainerVBoxLeft.GetNode<LineEdit>("ContainerPrice/NinePatchRect/LineEdit");
+        LineEditPortions = ContainerVBoxLeft.GetNode<LineEdit>("ContainerPortion/NinePatchRect/LineEdit");
     }
 
     private void ConnectSignals()
