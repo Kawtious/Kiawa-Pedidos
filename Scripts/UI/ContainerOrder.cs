@@ -4,20 +4,6 @@ using System;
 public class ContainerOrder : VBoxContainer
 {
 
-    private Firebase Firebase;
-
-    public HBoxContainer Container;
-
-    public VBoxContainer Details;
-
-    public Label LabelUser;
-
-    public Label LabelDate;
-
-    private Label LabelPrice;
-
-    public VBoxContainer ContainerDishes;
-
     private Order _Order = new Order();
 
     public Order Order
@@ -32,6 +18,20 @@ public class ContainerOrder : VBoxContainer
         InitNodes();
     }
 
+    private Firebase Firebase;
+
+    public HBoxContainer Container;
+
+    public VBoxContainer Details;
+
+    public Label LabelUser;
+
+    public Label LabelDate;
+
+    private Label LabelPrice;
+
+    public VBoxContainer ContainerDishes;
+
     private void InitNodes()
     {
         Firebase = GetNode<Firebase>("/root/Firebase");
@@ -45,11 +45,6 @@ public class ContainerOrder : VBoxContainer
         LabelPrice = Container.GetNode<Label>("Price");
 
         ContainerDishes = GetNode<VBoxContainer>("ContainerDishes");
-    }
-
-    public void _OnTrashButtonPressed()
-    {
-        Firebase.DeleteOrder(Order.Key);
     }
 
     private void UpdateContainer(Order value)
@@ -91,5 +86,10 @@ public class ContainerOrder : VBoxContainer
         parent.AddChild(orderContainer);
 
         orderContainer.Order = order;
+    }
+
+    public void _OnTrashButtonPressed()
+    {
+        Firebase.OrderDelete(Order.Key);
     }
 }

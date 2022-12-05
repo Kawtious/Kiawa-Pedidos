@@ -6,14 +6,6 @@ using System.Collections.Generic;
 public class ResourceDirector : Node
 {
 
-    public ResourcePreloader ResourcePreloader;
-
-    public Preferences Preferences;
-
-    public AudioStreamPlayer AudioStreamMenu;
-
-    public AudioStreamPlayer AudioStreamGlobal;
-
     private Godot.Collections.Dictionary<string, Godot.Resource> _ResourceDictionary = new Godot.Collections.Dictionary<string, Godot.Resource>();
 
     [Export]
@@ -29,6 +21,14 @@ public class ResourceDirector : Node
         InitNodes();
         AddResources(ResourceDictionary);
     }
+
+    public ResourcePreloader ResourcePreloader;
+
+    public Preferences Preferences;
+
+    public AudioStreamPlayer AudioStreamMenu;
+
+    public AudioStreamPlayer AudioStreamGlobal;
 
     private void InitNodes()
     {

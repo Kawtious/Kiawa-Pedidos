@@ -7,16 +7,6 @@ using System.Collections;
 public class ScreenManageOrder : Control
 {
 
-    private GlobalProcess GlobalProcess;
-
-    private Firebase Firebase;
-
-    private Control Box;
-
-    private ScrollContainer BoxScroll;
-
-    private VBoxContainer BoxVBox;
-
     private string _Query = "";
 
     [Export]
@@ -33,6 +23,16 @@ public class ScreenManageOrder : Control
         ConnectSignals();
     }
 
+    private GlobalProcess GlobalProcess;
+
+    private Firebase Firebase;
+
+    private Control Box;
+
+    private ScrollContainer BoxScroll;
+
+    private VBoxContainer BoxVBox;
+
     private void InitNodes()
     {
         GlobalProcess = GetNode<GlobalProcess>("/root/GlobalProcess");
@@ -47,11 +47,6 @@ public class ScreenManageOrder : Control
     {
         Firebase.Connect("UpdatedData", this, "UpdateData");
         Firebase.Connect("NewOrders", this, "NotifyNewOrders");
-    }
-
-    public void _OnLineEditTextChanged(string new_text)
-    {
-        Query = new_text;
     }
 
     public void UpdateData()
@@ -107,5 +102,10 @@ public class ScreenManageOrder : Control
                     (AudioStream)GlobalProcess.ResourceDirector.GetResource("new_orders");
 
         GlobalProcess.ResourceDirector.AudioStreamMenu.Play();
+    }
+
+    public void _OnLineEditTextChanged(string new_text)
+    {
+        Query = new_text;
     }
 }

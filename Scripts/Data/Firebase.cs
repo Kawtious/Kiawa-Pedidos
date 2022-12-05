@@ -8,23 +8,65 @@ using Dictionary = Godot.Collections.Dictionary;
 public class Firebase : Node
 {
 
+    public static readonly string MENU_STRING = "menu";
+
+    public static readonly string DISHES_STRING = "dishes";
+
+    public static readonly string ORDERS_STRING = "orders";
+
+    public const string DATABASE_REFERENCE = "https://kiawa-service-default-rtdb.firebaseio.com/";
+
+    public const string DATA_REFERENCE = DATABASE_REFERENCE + "data/";
+
+    public const string MENU_REFERENCE = DATA_REFERENCE + "menu/";
+
+    public const string DISH_REFERENCE = DATA_REFERENCE + "dishes/";
+
+    public const string ORDER_REFERENCE = DATA_REFERENCE + "orders/";
+
+    public const string JSON_EXTENSION = ".json";
+
+    private Dictionary _Data = new Dictionary();
+
+    private Dictionary Data
+    {
+        get { return _Data; }
+        set { _Data = value; ValidateData(); }
+    }
+
+    public Dictionary Menu => GetMenus(Data);
+
+    public Dictionary Dishes => GetDishes(Data);
+
+    public Dictionary Orders => GetOrders(Data);
+
+    // Called when the node enters the scene tree for the first time.
+    public override void _Ready()
+    {
+        InitNodes();
+        UpdateData();
+        Ping();
+    }
+
+    private GlobalProcess GlobalProcess;
+
     private Timer Timer;
 
     private Timer TimerPing;
 
-    private HTTPRequest RequestData;
+    private RESTRequest RequestData;
 
-    private HTTPRequest RequestSetMenu;
+    private RESTRequest RequestSetMenu;
 
-    private HTTPRequest RequestSendOrder;
+    private RESTRequest RequestSendOrder;
 
-    private HTTPRequest RequestCreateDish;
+    private RESTRequest RequestCreateDish;
 
-    private HTTPRequest RequestPing;
+    private RESTRequest RequestPing;
 
-    private HTTPRequest RequestDeleteOrder;
+    private RESTRequest RequestDeleteOrder;
 
-    private HTTPRequest RequestDeleteDish;
+    private RESTRequest RequestDeleteDish;
 
     [Signal]
     delegate void UpdatedData();
@@ -56,157 +98,56 @@ public class Firebase : Node
     [Signal]
     delegate void NewOrders();
 
-    public const string DATABASE_REFERENCE = "https://kiawa-service-default-rtdb.firebaseio.com/";
-
-    public const string DATA_REFERENCE = DATABASE_REFERENCE + "data/";
-
-    public const string MENU_REFERENCE = DATA_REFERENCE + "menu/";
-
-    public const string DISH_REFERENCE = DATA_REFERENCE + "dishes/";
-
-    public const string ORDER_REFERENCE = DATA_REFERENCE + "orders/";
-
-    public const string JSON_EXTENSION = ".json";
-
-    private Dictionary _Data = new Dictionary();
-
-    private Dictionary Data
-    {
-        get { return _Data; }
-        set { _Data = value; ValidateData(); }
-    }
-
-    public Dictionary Menu
-    {
-        get { return GetMenus(Data); }
-    }
-
-    public Dictionary Dishes
-    {
-        get { return GetDishes(Data); }
-    }
-
-    public Dictionary Orders
-    {
-        get { return GetOrders(Data); }
-    }
-
-    // Called when the node enters the scene tree for the first time.
-    public override void _Ready()
-    {
-        InitNodes();
-        UpdateData();
-        Ping();
-    }
-
     private void InitNodes()
     {
+        GlobalProcess = GetNode<GlobalProcess>("/root/GlobalProcess");
+
         Timer = GetNode<Timer>("Timer");
         TimerPing = GetNode<Timer>("TimerPing");
-        RequestData = GetNode<HTTPRequest>("RequestData");
-        RequestSetMenu = GetNode<HTTPRequest>("RequestSetMenu");
-        RequestSendOrder = GetNode<HTTPRequest>("RequestSendOrder");
-        RequestCreateDish = GetNode<HTTPRequest>("RequestCreateDish");
-        RequestPing = GetNode<HTTPRequest>("RequestPing");
-        RequestDeleteOrder = GetNode<HTTPRequest>("RequestDeleteOrder");
-        RequestDeleteDish = GetNode<HTTPRequest>("RequestDeleteDish");
+
+        RequestData = GetNode<RESTRequest>("RequestData");
+        RequestSetMenu = GetNode<RESTRequest>("RequestSetMenu");
+        RequestSendOrder = GetNode<RESTRequest>("RequestSendOrder");
+        RequestCreateDish = GetNode<RESTRequest>("RequestCreateDish");
+        RequestPing = GetNode<RESTRequest>("RequestPing");
+        RequestDeleteOrder = GetNode<RESTRequest>("RequestDeleteOrder");
+        RequestDeleteDish = GetNode<RESTRequest>("RequestDeleteDish");
     }
 
-    private void ValidateData()
+    public void Ping()
     {
-        string menuValidation = DoValidateMenus() ? "ValidateMenus" : "InvalidateMenus";
-        string dishValidation = DoValidateDishes() ? "ValidateDishes" : "InvalidateDishes";
-        string orderValidation = DoValidateOrders() ? "ValidateOrders" : "InvalidateOrders";
-        EmitSignal(menuValidation);
-        EmitSignal(dishValidation);
-        EmitSignal(orderValidation);
-    }
-
-    private void CompareOrders(Dictionary oldData, Dictionary newData)
-    {
-        Dictionary oldOrders = GetOrders(oldData);
-        Dictionary newOrders = GetOrders(newData);
-
-        if (oldOrders == null && newOrders == null)
-        {
-            return;
-        }
-
-        if (oldOrders == null && newOrders != null)
-        {
-            EmitSignal("NewOrders");
-            return;
-        }
-
-        if (oldOrders != null && newOrders == null)
-        {
-            return;
-        }
-
-        if (oldOrders.Count < newOrders.Count)
-        {
-            EmitSignal("NewOrders");
-        }
-    }
-
-    private bool DoValidateMenus()
-    {
-        if (GetMenus(Data) == null)
-        {
-            return false;
-        }
-
-        return GetMenus(Data).Count > 0;
-    }
-
-    private bool DoValidateDishes()
-    {
-        if (GetDishes(Data) == null)
-        {
-            return false;
-        }
-
-        return GetDishes(Data).Count > 0;
-    }
-
-    private bool DoValidateOrders()
-    {
-        if (GetOrders(Data) == null)
-        {
-            return false;
-        }
-
-        return GetOrders(Data).Count > 0;
+        RequestPing.Get(DATABASE_REFERENCE);
+        TimerPing.Start(2);
     }
 
     private Dictionary GetMenus(Dictionary data)
     {
-        if (!data.Contains("menu"))
+        if (!data.Contains(MENU_STRING))
         {
             return null;
         }
 
-        return data["menu"] as Dictionary;
+        return data[MENU_STRING] as Dictionary;
     }
 
     private Dictionary GetDishes(Dictionary data)
     {
-        if (!data.Contains("dishes"))
+        if (!data.Contains(DISHES_STRING))
         {
             return null;
         }
 
-        return data["dishes"] as Dictionary;
+        return data[DISHES_STRING] as Dictionary;
     }
 
     private Dictionary GetOrders(Dictionary data)
     {
-        if (!data.Contains("orders"))
+        if (!data.Contains(ORDERS_STRING))
         {
             return null;
         }
 
-        return data["orders"] as Dictionary;
+        return data[ORDERS_STRING] as Dictionary;
     }
 
     public Array GetMenu(string day)
@@ -257,43 +198,29 @@ public class Firebase : Node
         return Orders[key] as Dictionary;
     }
 
-    public Array GetTodayMenu()
+    public Array MenuGetToday()
     {
-        string today = System.DateTime.Now.DayOfWeek.ToString();
-        return GetMenu(today);
+        return GetMenu(GlobalProcess.Today);
     }
 
-    public void SetMenu(string day, Array dishes)
+    public void MenuSet(string day, Array dishes)
     {
-        PUTRequest(RequestSetMenu, MENU_REFERENCE + day.ToLower(), dishes);
+        RequestSetMenu.Put(MENU_REFERENCE + day.ToLower(), dishes);
     }
 
-    public void SendOrder(Array dishes)
-    {
-        string today = System.DateTime.Now.ToString();
-
-        // It's possible that someone can get a duplicate ticket
-        int ticketNumber = (int)GD.RandRange(1, 10000);
-        string user = "Ticket-" + ticketNumber.ToString();
-
-        Order order = new Order(user, today, dishes);
-
-        POSTRequest(RequestSendOrder, ORDER_REFERENCE, order.ToMap());
-    }
-
-    public void CreateDish(string key, Dish dish)
+    public void DishCreate(string key, Dish dish)
     {
         if (!key.Empty())
         {
-            PUTRequest(RequestCreateDish, DISH_REFERENCE + "/" + key, dish.ToMap());
+            RequestCreateDish.Put(DISH_REFERENCE + "/" + key, dish.ToMap());
         }
         else
         {
-            POSTRequest(RequestCreateDish, DISH_REFERENCE, dish.ToMap());
+            RequestCreateDish.Post(DISH_REFERENCE, dish.ToMap());
         }
     }
 
-    public void DeleteDish(string key)
+    public void DishDelete(string key)
     {
         if (key.Empty())
         {
@@ -302,10 +229,24 @@ public class Firebase : Node
 
         string reference = DISH_REFERENCE + "/" + key;
 
-        DELETERequest(RequestDeleteDish, reference);
+        RequestDeleteDish.Delete(reference);
     }
 
-    public void DeleteOrder(string key)
+    public void OrderSend(Array dishes)
+    {
+        string today = System.DateTime.Now.ToString();
+
+        // It's possible that someone can get a duplicate ticket
+        int ticketNumber = (int)GD.RandRange(1, 10000);
+
+        string user = "Ticket-" + ticketNumber.ToString();
+
+        Order order = new Order(user, today, dishes);
+
+        RequestSendOrder.Post(ORDER_REFERENCE, order.ToMap());
+    }
+
+    public void OrderDelete(string key)
     {
         if (key.Empty())
         {
@@ -314,81 +255,78 @@ public class Firebase : Node
 
         string reference = ORDER_REFERENCE + "/" + key;
 
-        DELETERequest(RequestDeleteOrder, reference);
+        RequestDeleteOrder.Delete(reference);
     }
 
     public void UpdateData()
     {
-        GETRequest(RequestData, DATA_REFERENCE);
+        RequestData.Get(DATA_REFERENCE);
     }
 
-    public void Ping()
+    private void CompareOrders(Dictionary oldOrders, Dictionary newOrders)
     {
-        GETRequest(RequestPing, DATABASE_REFERENCE);
-        TimerPing.Start(2);
-    }
-
-    private void GETRequest(HTTPRequest request, string reference)
-    {
-        DoRequest(HTTPClient.Method.Get, reference, null, request);
-    }
-
-    public void PUTRequest(HTTPRequest request, string reference, object data_to_send)
-    {
-        DoRequest(HTTPClient.Method.Put, reference, data_to_send, request);
-    }
-
-    public void POSTRequest(HTTPRequest request, string reference, object data_to_send)
-    {
-        DoRequest(HTTPClient.Method.Post, reference, data_to_send, request);
-    }
-
-    public void PATCHRequest(HTTPRequest request, string reference, object data_to_send)
-    {
-        DoRequest(HTTPClient.Method.Patch, reference, data_to_send, request);
-    }
-
-    public void DELETERequest(HTTPRequest request, string reference)
-    {
-        DoRequest(HTTPClient.Method.Delete, reference, null, request);
-    }
-
-    private void DoRequest(HTTPClient.Method method, string reference, object data_to_send, HTTPRequest request)
-    {
-        if (reference.Empty())
+        if (oldOrders == null && newOrders == null)
         {
             return;
         }
 
-        if (request == null)
+        if (oldOrders == null && newOrders != null)
+        {
+            EmitSignal("NewOrders");
+            return;
+        }
+
+        if (oldOrders != null && newOrders == null)
         {
             return;
         }
 
-        if (!reference.EndsWith(JSON_EXTENSION))
+        if (oldOrders.Count < newOrders.Count)
         {
-            reference += JSON_EXTENSION;
+            EmitSignal("NewOrders");
+        }
+    }
+
+    private void ValidateData()
+    {
+        string menuValidation = DoValidateMenus(Data) ? "ValidateMenus" : "InvalidateMenus";
+        string dishValidation = DoValidateDishes(Data) ? "ValidateDishes" : "InvalidateDishes";
+        string orderValidation = DoValidateOrders(Data) ? "ValidateOrders" : "InvalidateOrders";
+
+        EmitSignal(menuValidation);
+        EmitSignal(dishValidation);
+        EmitSignal(orderValidation);
+    }
+
+    private bool DoValidateMenus(Dictionary data)
+    {
+        return DoValidateData(GetMenus(data));
+    }
+
+    private bool DoValidateDishes(Dictionary data)
+    {
+        return DoValidateData(GetDishes(data));
+    }
+
+    private bool DoValidateOrders(Dictionary data)
+    {
+        return DoValidateData(GetOrders(data));
+    }
+
+    private bool DoValidateData(Dictionary data)
+    {
+        if (data == null)
+        {
+            return false;
         }
 
-        Error error;
+        return data.Count > 0;
+    }
 
-        switch (method)
-        {
-            case HTTPClient.Method.Get:
-                error = request.Request(reference);
-                break;
-            default:
-                string[] headers = new string[] { "Content-Type: application/json" };
-                string query = JSON.Print(data_to_send);
-
-                error = request.Request(reference, headers, false, method, query);
-                break;
-        }
-
-        if (error != Error.Ok)
-        {
-            GD.PrintErr("Request failed.");
-        }
+    public void _OnPingRequestCompleted(int result, int response_code, string[] headers, byte[] body)
+    {
+        EmitSignal("PingSuccess");
+        Ping();
     }
 
     public void _OnDataRequestCompleted(int result, int response_code, string[] headers, byte[] body)
@@ -416,7 +354,7 @@ public class Firebase : Node
             return;
         }
 
-        CompareOrders(Data, data);
+        CompareOrders(GetOrders(Data), GetOrders(data));
 
         Data = data;
 
@@ -438,12 +376,6 @@ public class Firebase : Node
     public void _OnCreateDishRequestCompleted(int result, int response_code, string[] headers, byte[] body)
     {
         UpdateData();
-    }
-
-    public void _OnPingRequestCompleted(int result, int response_code, string[] headers, byte[] body)
-    {
-        EmitSignal("PingSuccess");
-        Ping();
     }
 
     public void _OnDeleteOrderRequestCompleted(int result, int response_code, string[] headers, byte[] body)

@@ -9,26 +9,6 @@ using System.Collections;
 public class ScreenCreateDish : Control
 {
 
-    private Firebase Firebase;
-
-    private Control BoxLeft;
-
-    private VBoxContainer ContainerVBoxLeft;
-
-    private LineEdit LineEditTitle;
-
-    private LineEdit LineEditDescription;
-
-    private LineEdit LineEditPrice;
-
-    private LineEdit LineEditPortions;
-
-    private Control BoxRight;
-
-    private ScrollContainer ScrollBox;
-
-    private VBoxContainer ContainerVBoxRight;
-
     private string _Title = "";
 
     private string _Description = "";
@@ -68,6 +48,26 @@ public class ScreenCreateDish : Control
         ConnectSignals();
     }
 
+    private Firebase Firebase;
+
+    private Control BoxLeft;
+
+    private VBoxContainer ContainerVBoxLeft;
+
+    private LineEdit LineEditTitle;
+
+    private LineEdit LineEditDescription;
+
+    private LineEdit LineEditPrice;
+
+    private LineEdit LineEditPortions;
+
+    private Control BoxRight;
+
+    private ScrollContainer ScrollBox;
+
+    private VBoxContainer ContainerVBoxRight;
+
     private void InitNodes()
     {
         Firebase = GetNode<Firebase>("/root/Firebase");
@@ -90,48 +90,17 @@ public class ScreenCreateDish : Control
         Firebase.Connect("UpdatedData", this, "UpdateData");
     }
 
-    public void _OnCreateDishButtonPressed()
-    {
-        if (!ValidateDish())
-        {
-            return;
-        }
-
-        string title = Title;
-        string description = Description;
-        float price = float.Parse(Price);
-        int portions = Int32.Parse(Portions);
-
-        Dish dish = new Dish(title, description, price, portions);
-
-        Firebase.CreateDish(GetSelectedDish(), dish);
-
-        ResetFields();
-    }
-
     public bool ValidateDish()
     {
         return !Title.Empty() && !Description.Empty() && !Price.Empty() && !Portions.Empty();
     }
 
-    public void _OnTitleTextChanged(string new_text)
+    public void ResetFields()
     {
-        Title = new_text;
-    }
-
-    public void _OnDescriptionTextChanged(string new_text)
-    {
-        Description = new_text;
-    }
-
-    public void _OnPortionTextChanged(string new_text)
-    {
-        Portions = new_text;
-    }
-
-    public void _OnPriceTextChanged(string new_text)
-    {
-        Price = new_text;
+        Title = "";
+        Description = "";
+        Price = "";
+        Portions = "";
     }
 
     private void SetTitle(string value)
@@ -180,14 +149,6 @@ public class ScreenCreateDish : Control
 
         LineEditPortions.Text = _Portions;
         LineEditPortions.CaretPosition = _Portions.Length;
-    }
-
-    public void ResetFields()
-    {
-        Title = "";
-        Description = "";
-        Price = "";
-        Portions = "";
     }
 
     public void UpdateData()
@@ -250,5 +211,44 @@ public class ScreenCreateDish : Control
         }
 
         return selectedDishKey;
+    }
+
+    public void _OnCreateDishButtonPressed()
+    {
+        if (!ValidateDish())
+        {
+            return;
+        }
+
+        string title = Title;
+        string description = Description;
+        float price = float.Parse(Price);
+        int portions = Int32.Parse(Portions);
+
+        Dish dish = new Dish(title, description, price, portions);
+
+        Firebase.DishCreate(GetSelectedDish(), dish);
+
+        ResetFields();
+    }
+
+    public void _OnTitleTextChanged(string new_text)
+    {
+        Title = new_text;
+    }
+
+    public void _OnDescriptionTextChanged(string new_text)
+    {
+        Description = new_text;
+    }
+
+    public void _OnPortionTextChanged(string new_text)
+    {
+        Portions = new_text;
+    }
+
+    public void _OnPriceTextChanged(string new_text)
+    {
+        Price = new_text;
     }
 }

@@ -5,16 +5,6 @@ using Godot;
 public class ContainerDish : HBoxContainer
 {
 
-    public VBoxContainer Details;
-
-    public Label LabelTitle;
-
-    public Label LabelPrice;
-
-    public SpinBox SpinBox;
-
-    public CheckBox CheckBox;
-
     private Dish _Dish = new Dish();
 
     private string _Amount = "0";
@@ -41,6 +31,16 @@ public class ContainerDish : HBoxContainer
         ConnectSignals();
     }
 
+    public VBoxContainer Details;
+
+    public Label LabelTitle;
+
+    public Label LabelPrice;
+
+    public SpinBox SpinBox;
+
+    public CheckBox CheckBox;
+
     private void InitNodes()
     {
         Details = GetNode<VBoxContainer>("Details");
@@ -53,36 +53,6 @@ public class ContainerDish : HBoxContainer
     private void ConnectSignals()
     {
         SpinBox.GetLineEdit().Connect("text_changed", this, "SetAmount");
-    }
-
-    public void _OnSpinBoxValueChanged(float value)
-    {
-        if (value < 1)
-        {
-            SpinBox.Editable = false;
-            Amount = "0";
-            CheckBox.Pressed = false;
-        }
-        else
-        {
-            Amount = ((int)value).ToString();
-        }
-    }
-
-    public void _OnCheckBoxToggled(bool button_pressed)
-    {
-        if (button_pressed)
-        {
-            SpinBox.Editable = true;
-            Amount = "1";
-        }
-        else
-        {
-            SpinBox.Editable = false;
-            Amount = "0";
-        }
-
-        EmitSignal("AmountChanged");
     }
 
     private void SetAmount(string value)
@@ -129,5 +99,35 @@ public class ContainerDish : HBoxContainer
 
         dishContainer.Dish = dish;
         return dishContainer;
+    }
+
+    public void _OnSpinBoxValueChanged(float value)
+    {
+        if (value < 1)
+        {
+            SpinBox.Editable = false;
+            Amount = "0";
+            CheckBox.Pressed = false;
+        }
+        else
+        {
+            Amount = ((int)value).ToString();
+        }
+    }
+
+    public void _OnCheckBoxToggled(bool button_pressed)
+    {
+        if (button_pressed)
+        {
+            SpinBox.Editable = true;
+            Amount = "1";
+        }
+        else
+        {
+            SpinBox.Editable = false;
+            Amount = "0";
+        }
+
+        EmitSignal("AmountChanged");
     }
 }

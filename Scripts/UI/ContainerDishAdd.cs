@@ -4,12 +4,6 @@ using System;
 public class ContainerDishAdd : HBoxContainer
 {
 
-    public VBoxContainer Details;
-
-    public Label LabelTitle;
-
-    public Label LabelPrice;
-
     private Dish _Dish = new Dish();
 
     public Dish Dish
@@ -24,6 +18,12 @@ public class ContainerDishAdd : HBoxContainer
         InitNodes();
     }
 
+    public VBoxContainer Details;
+
+    public Label LabelTitle;
+
+    public Label LabelPrice;
+
     private void InitNodes()
     {
         Details = GetNode<VBoxContainer>("Details");
@@ -37,12 +37,13 @@ public class ContainerDishAdd : HBoxContainer
         LabelPrice.Text = "$" + value.Price.ToString();
     }
 
-    public static void CreateDishAddContainer(Node parent, Dish dish)
+    public static ContainerDishAdd CreateDishAddContainer(Node parent, Dish dish)
     {
         PackedScene _dishContainer = GD.Load<PackedScene>("res://Scenes/UI/ContainerDishAdd.tscn");
         ContainerDishAdd dishContainer = (ContainerDishAdd)_dishContainer.Instance();
         parent.AddChild(dishContainer);
 
         dishContainer.Dish = dish;
+        return dishContainer;
     }
 }

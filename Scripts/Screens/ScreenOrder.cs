@@ -6,6 +6,22 @@ using Array = Godot.Collections.Array;
 public class ScreenOrder : Control
 {
 
+    private string _Query = "";
+
+    [Export]
+    public string Query
+    {
+        get { return _Query; }
+        set { _Query = value; UpdateDayMenu(); }
+    }
+
+    // Called when the node enters the scene tree for the first time.
+    public override void _Ready()
+    {
+        InitNodes();
+        ConnectSignals();
+    }
+
     private GlobalProcess GlobalProcess;
 
     private Firebase Firebase;
@@ -23,22 +39,6 @@ public class ScreenOrder : Control
     private AnimationTree TreeNotificationNoDishes;
 
     private AnimationNodeStateMachinePlayback StateNotificationNoDishes;
-
-    private string _Query = "";
-
-    [Export]
-    public string Query
-    {
-        get { return _Query; }
-        set { _Query = value; UpdateDayMenu(); }
-    }
-
-    // Called when the node enters the scene tree for the first time.
-    public override void _Ready()
-    {
-        InitNodes();
-        ConnectSignals();
-    }
 
     private void InitNodes()
     {
@@ -84,7 +84,7 @@ public class ScreenOrder : Control
             return;
         }
 
-        Firebase.SendOrder(dishes);
+        Firebase.OrderSend(dishes);
     }
 
     public void _OnLineEditTextChanged(string new_text)
@@ -101,7 +101,7 @@ public class ScreenOrder : Control
     {
         ClearDishList();
 
-        Array dayMenu = Firebase.GetTodayMenu();
+        Array dayMenu = Firebase.MenuGetToday();
 
         if (dayMenu == null)
         {

@@ -4,12 +4,6 @@ using System;
 public class ContainerMenuDish : HBoxContainer
 {
 
-    public VBoxContainer Details;
-
-    public Label LabelTitle;
-
-    public Label LabelPrice;
-
     private Dish _Dish = new Dish();
 
     public Dish Dish
@@ -23,6 +17,12 @@ public class ContainerMenuDish : HBoxContainer
     {
         InitNodes();
     }
+
+    public VBoxContainer Details;
+
+    public Label LabelTitle;
+
+    public Label LabelPrice;
 
     private void InitNodes()
     {

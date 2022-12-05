@@ -1,6 +1,4 @@
 using Godot;
-using System;
-using System.IO;
 
 public class CameraPoint : Position2D
 {

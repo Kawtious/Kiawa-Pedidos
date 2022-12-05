@@ -3,6 +3,14 @@ using Godot;
 public class CanvasNotifications : CanvasLayer
 {
 
+    private bool Retrying = false;
+
+    public override void _Ready()
+    {
+        InitNodes();
+        ConnectSignals();
+    }
+
     private GlobalProcess GlobalProcess;
 
     private Firebase Firebase;
@@ -14,14 +22,6 @@ public class CanvasNotifications : CanvasLayer
     private AnimationTree TreeNewOrder;
 
     private AnimationNodeStateMachinePlayback StateNewOrder;
-
-    private bool Retrying = false;
-
-    public override void _Ready()
-    {
-        InitNodes();
-        ConnectSignals();
-    }
 
     private void InitNodes()
     {

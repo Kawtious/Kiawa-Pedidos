@@ -4,15 +4,7 @@ using System;
 public class ContainerDishEditable : HBoxContainer
 {
 
-    private Firebase Firebase;
-
-    private VBoxContainer Details;
-
-    private Label LabelTitle;
-
-    private Label LabelPrice;
-
-    private CheckBox CheckBox;
+    public bool AlreadyPressed = false;
 
     private Dish _Dish = new Dish();
 
@@ -28,13 +20,21 @@ public class ContainerDishEditable : HBoxContainer
     [Signal]
     delegate void DishDeselected();
 
-    public bool AlreadyPressed = false;
-
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
     {
         InitNodes();
     }
+
+    private Firebase Firebase;
+
+    private VBoxContainer Details;
+
+    private Label LabelTitle;
+
+    private Label LabelPrice;
+
+    private CheckBox CheckBox;
 
     private void InitNodes()
     {
@@ -52,10 +52,20 @@ public class ContainerDishEditable : HBoxContainer
         LabelTitle.Text = value.Title;
         LabelPrice.Text = "$" + value.Price.ToString();
     }
+    public static ContainerDishEditable CreateContainerDishEditable(Node parent, Dish dish)
+    {
+        PackedScene _containerDishEditable = GD.Load<PackedScene>("res://Scenes/UI/ContainerDishEditable.tscn");
+        ContainerDishEditable containerDishEditable = (ContainerDishEditable)_containerDishEditable.Instance();
+        parent.AddChild(containerDishEditable);
+
+        containerDishEditable.Dish = dish;
+
+        return containerDishEditable;
+    }
 
     public void _OnTrashButtonPressed()
     {
-        Firebase.DeleteDish(Dish.Key);
+        Firebase.DishDelete(Dish.Key);
     }
 
     public void _OnCheckBoxPressed()
@@ -81,14 +91,4 @@ public class ContainerDishEditable : HBoxContainer
         }
     }
 
-    public static ContainerDishEditable CreateContainerDishEditable(Node parent, Dish dish)
-    {
-        PackedScene _containerDishEditable = GD.Load<PackedScene>("res://Scenes/UI/ContainerDishEditable.tscn");
-        ContainerDishEditable containerDishEditable = (ContainerDishEditable)_containerDishEditable.Instance();
-        parent.AddChild(containerDishEditable);
-
-        containerDishEditable.Dish = dish;
-
-        return containerDishEditable;
-    }
 }

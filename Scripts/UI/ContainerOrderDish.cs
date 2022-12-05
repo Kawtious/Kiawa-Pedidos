@@ -4,16 +4,6 @@ using System;
 public class ContainerOrderDish : VBoxContainer
 {
 
-    private Firebase Firebase;
-
-    public HBoxContainer Container;
-
-    public VBoxContainer Details;
-
-    public Label LabelTitle;
-
-    public CheckBox CheckBox;
-
     private Dish _Dish = new Dish();
 
     public Dish Dish
@@ -30,6 +20,16 @@ public class ContainerOrderDish : VBoxContainer
     {
         InitNodes();
     }
+
+    private Firebase Firebase;
+
+    public HBoxContainer Container;
+
+    public VBoxContainer Details;
+
+    public Label LabelTitle;
+
+    public CheckBox CheckBox;
 
     private void InitNodes()
     {

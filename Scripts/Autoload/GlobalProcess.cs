@@ -4,14 +4,14 @@ using System;
 public class GlobalProcess : Node
 {
 
-    public static ResourceDirector ResourceDirector;
+    public string Today => System.DateTime.Now.DayOfWeek.ToString();
 
     private bool _Paused = false;
 
     public bool Paused
     {
         get { return _Paused; }
-        set { _Paused = value; Pause(_Paused); }
+        set { _Paused = value; GetTree().Paused = _Paused; }
     }
 
     // Called when the node enters the scene tree for the first time.
@@ -22,6 +22,8 @@ public class GlobalProcess : Node
 
         Paused = GetTree().Paused;
     }
+
+    public ResourceDirector ResourceDirector;
 
     private void InitNodes()
     {
@@ -39,16 +41,6 @@ public class GlobalProcess : Node
         {
             GetTree().Quit();
         }
-    }
-
-    public void ChangeRoom(string room)
-    {
-        GetTree().ChangeScene("res://Scenes/Rooms/" + room + ".tscn");
-    }
-
-    private void Pause(bool value)
-    {
-        GetTree().Paused = value;
     }
 
 }

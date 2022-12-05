@@ -7,6 +7,14 @@ using Dictionary = Godot.Collections.Dictionary;
 
 public class ScreenMenu : Control
 {
+
+    // Called when the node enters the scene tree for the first time.
+    public override void _Ready()
+    {
+        InitNodes();
+        ConnectSignals();
+    }
+
     private GlobalProcess GlobalProcess;
 
     private Firebase Firebase;
@@ -24,13 +32,6 @@ public class ScreenMenu : Control
     private AnimationTree TreeNoDishes;
 
     private AnimationNodeStateMachinePlayback StateNoDishes;
-
-    // Called when the node enters the scene tree for the first time.
-    public override void _Ready()
-    {
-        InitNodes();
-        ConnectSignals();
-    }
 
     private void InitNodes()
     {
@@ -54,26 +55,6 @@ public class ScreenMenu : Control
 
         Firebase.Connect("ValidateDishes", this, "HideNoDishesError");
         Firebase.Connect("InvalidateDishes", this, "ShowNoDishesError");
-    }
-
-    public void _OnAddDishesButtonPressed()
-    {
-        Array dishes = new Array();
-
-        foreach (ContainerDishAdd dishContainer in ContainerVBoxLeft.GetChildren())
-        {
-            if (dishContainer.GetNode<CheckBox>("CheckBox").Pressed == true)
-            {
-                dishes.Add(dishContainer.Dish.Key);
-            }
-        }
-
-        Firebase.SetMenu(GetTabName(), dishes);
-    }
-
-    public void _OnTabChanged(int tab)
-    {
-        RecheckDishContainers();
     }
 
     public void UpdateData()
@@ -254,5 +235,25 @@ public class ScreenMenu : Control
 
         StateNoDishes.Travel("hidden");
         ShowingError = false;
+    }
+
+    public void _OnAddDishesButtonPressed()
+    {
+        Array dishes = new Array();
+
+        foreach (ContainerDishAdd dishContainer in ContainerVBoxLeft.GetChildren())
+        {
+            if (dishContainer.GetNode<CheckBox>("CheckBox").Pressed == true)
+            {
+                dishes.Add(dishContainer.Dish.Key);
+            }
+        }
+
+        Firebase.MenuSet(GetTabName(), dishes);
+    }
+
+    public void _OnTabChanged(int tab)
+    {
+        RecheckDishContainers();
     }
 }
