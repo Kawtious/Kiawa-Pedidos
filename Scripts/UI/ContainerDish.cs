@@ -57,13 +57,27 @@ public class ContainerDish : HBoxContainer
 
     private void SetAmount(string value)
     {
-        string pattern = "^[0-9]*$";
-        Regex rgx = new Regex(pattern);
-
-        if (rgx.IsMatch(value))
+        if (value.Empty())
         {
-            _Amount = value;
+            _Amount = "0";
             EmitSignal("AmountChanged");
+            CheckBox.Pressed = false;
+        }
+        else
+        {
+            string pattern = "^[0-9]*$";
+            Regex rgx = new Regex(pattern);
+
+            if (rgx.IsMatch(value))
+            {
+                _Amount = value;
+                EmitSignal("AmountChanged");
+
+                if (Int32.Parse(_Amount) < 1)
+                {
+                    CheckBox.Pressed = false;
+                }
+            }
         }
 
         SpinBox.GetLineEdit().Text = _Amount;
@@ -72,10 +86,15 @@ public class ContainerDish : HBoxContainer
 
     public int GetAmount()
     {
+        string amount = SpinBox.GetLineEdit().Text;
+
+        if (amount.Empty())
+        {
+            return 0;
+        }
+
         string pattern = "^[0-9]*$";
         Regex rgx = new Regex(pattern);
-
-        string amount = SpinBox.GetLineEdit().Text;
 
         if (rgx.IsMatch(amount))
         {
