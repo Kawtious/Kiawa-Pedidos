@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/addcart.png-08456b2d713f2ebe0ad0fc6519d8c2ee.stex"
+path="res://.import/on.png-2896b9e12581c1faa6a1eda98e60c158.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Textures/UI/Buttons/addcart.png"
-dest_files=[ "res://.import/addcart.png-08456b2d713f2ebe0ad0fc6519d8c2ee.stex" ]
+source_file="res://Textures/UI/orange/on.png"
+dest_files=[ "res://.import/on.png-2896b9e12581c1faa6a1eda98e60c158.stex" ]
 
 [params]
 

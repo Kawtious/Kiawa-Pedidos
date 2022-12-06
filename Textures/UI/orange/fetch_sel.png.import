@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/agregar.png-68c3cf3ef6daa3ca2881c6abb5e8d04a.stex"
+path="res://.import/fetch_sel.png-1726748e04590668da34c653212b5578.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Textures/UI/Buttons/agregar.png"
-dest_files=[ "res://.import/agregar.png-68c3cf3ef6daa3ca2881c6abb5e8d04a.stex" ]
+source_file="res://Textures/UI/orange/fetch_sel.png"
+dest_files=[ "res://.import/fetch_sel.png-1726748e04590668da34c653212b5578.stex" ]
 
 [params]
 

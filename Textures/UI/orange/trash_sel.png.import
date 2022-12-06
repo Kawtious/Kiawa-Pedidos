@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/Kiawa-Prototipo (1).png-0d65d5a53cce4585b1747b6069e1fa5b.stex"
+path="res://.import/trash_sel.png-00efbf559f62ae962b71b1d441c736e6.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Textures/UI/Kiawa-Prototipo (1).png"
-dest_files=[ "res://.import/Kiawa-Prototipo (1).png-0d65d5a53cce4585b1747b6069e1fa5b.stex" ]
+source_file="res://Textures/UI/orange/trash_sel.png"
+dest_files=[ "res://.import/trash_sel.png-00efbf559f62ae962b71b1d441c736e6.stex" ]
 
 [params]
 

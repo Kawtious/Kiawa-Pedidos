@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/modificar.png-c73120dc5ca639d1db62f58dbd70d857.stex"
+path="res://.import/add.png-364940ed423b855b14c447865197706c.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Textures/UI/Buttons/modificar.png"
-dest_files=[ "res://.import/modificar.png-c73120dc5ca639d1db62f58dbd70d857.stex" ]
+source_file="res://Textures/UI/orange/add.png"
+dest_files=[ "res://.import/add.png-364940ed423b855b14c447865197706c.stex" ]
 
 [params]
 
