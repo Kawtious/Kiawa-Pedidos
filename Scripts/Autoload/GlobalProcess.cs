@@ -6,6 +6,10 @@ public class GlobalProcess : Node
 
     public string Today => System.DateTime.Now.DayOfWeek.ToString();
 
+    private bool VSync = true;
+
+    private int Framerate = 60;
+
     private bool _Paused = false;
 
     public bool Paused
@@ -21,6 +25,8 @@ public class GlobalProcess : Node
         InitNodes();
 
         Paused = GetTree().Paused;
+        OS.VsyncEnabled = VSync;
+        Engine.TargetFps = Framerate;
     }
 
     public ResourceDirector ResourceDirector;
