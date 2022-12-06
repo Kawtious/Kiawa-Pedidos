@@ -38,20 +38,16 @@ margin_bottom = 696.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="BorderColorRect" type="ColorRect" parent="BoxLeft"]
+[node name="Frame" type="NinePatchRect" parent="BoxLeft"]
 margin_right = 640.0
 margin_bottom = 672.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
-
-[node name="InnerColorRect" type="ColorRect" parent="BoxLeft"]
-margin_left = 8.0
-margin_top = 8.0
-margin_right = 632.0
-margin_bottom = 664.0
-size_flags_horizontal = 7
-size_flags_vertical = 7
-color = Color( 0, 0, 0, 1 )
+texture = ExtResource( 4 )
+patch_margin_left = 19
+patch_margin_top = 19
+patch_margin_right = 19
+patch_margin_bottom = 19
 
 [node name="Label" type="Label" parent="BoxLeft"]
 margin_left = 32.0
@@ -284,20 +280,16 @@ margin_bottom = 696.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="BorderColorRect" type="ColorRect" parent="BoxRight"]
+[node name="Frame" type="NinePatchRect" parent="BoxRight"]
 margin_right = 560.0
 margin_bottom = 672.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
-
-[node name="InnerColorRect" type="ColorRect" parent="BoxRight"]
-margin_left = 8.0
-margin_top = 8.0
-margin_right = 552.0
-margin_bottom = 664.0
-size_flags_horizontal = 7
-size_flags_vertical = 7
-color = Color( 0, 0, 0, 1 )
+texture = ExtResource( 4 )
+patch_margin_left = 19
+patch_margin_top = 19
+patch_margin_right = 19
+patch_margin_bottom = 19
 
 [node name="ScrollBox" type="ScrollContainer" parent="BoxRight"]
 anchor_left = -0.023
