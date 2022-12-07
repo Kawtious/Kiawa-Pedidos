@@ -8,21 +8,21 @@ using Dictionary = Godot.Collections.Dictionary;
 public class Firebase : Node
 {
 
-    public static readonly string MENU_STRING = "menu";
+    public const string MENU_STRING = "menu";
 
-    public static readonly string DISHES_STRING = "dishes";
+    public const string DISHES_STRING = "dishes";
 
-    public static readonly string ORDERS_STRING = "orders";
+    public const string ORDERS_STRING = "orders";
 
     public const string DATABASE_REFERENCE = "https://kiawa-service-default-rtdb.firebaseio.com/";
 
     public const string DATA_REFERENCE = DATABASE_REFERENCE + "data/";
 
-    public const string MENU_REFERENCE = DATA_REFERENCE + "menu/";
+    public const string MENU_REFERENCE = DATA_REFERENCE + MENU_STRING + "/";
 
-    public const string DISH_REFERENCE = DATA_REFERENCE + "dishes/";
+    public const string DISH_REFERENCE = DATA_REFERENCE + DISHES_STRING + "/";
 
-    public const string ORDER_REFERENCE = DATA_REFERENCE + "orders/";
+    public const string ORDER_REFERENCE = DATA_REFERENCE + ORDERS_STRING + "/";
 
     public const string JSON_EXTENSION = ".json";
 
