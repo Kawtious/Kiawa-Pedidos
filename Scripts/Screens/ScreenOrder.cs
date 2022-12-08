@@ -103,13 +103,7 @@ public class ScreenOrder : Control
 
         Array dayMenu = Firebase.MenuGetToday();
 
-        if (dayMenu == null)
-        {
-            ShowNoDishesError();
-            return;
-        }
-
-        if (dayMenu.Count < 1)
+        if (dayMenu == null || dayMenu.Count < 1)
         {
             ShowNoDishesError();
             return;

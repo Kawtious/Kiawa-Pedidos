@@ -57,20 +57,12 @@ public class Camera2D : Godot.Camera2D
 
     private void ChangePoint(CameraPoint point)
     {
-        if (point == null)
+        if (point == null || GetPointIndex(point) < 0)
         {
             return;
         }
 
-        if (GetPointIndex(point) < 0)
-        {
-            return;
-        }
-
-        if (point != null)
-        {
-            ChangeCameraPoint(point);
-        }
+        ChangeCameraPoint(point);
     }
 
     private void ChangeCameraPoint(CameraPoint point)

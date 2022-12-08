@@ -138,12 +138,7 @@ public class Firebase : Node
 
     public Array GetMenu(string day)
     {
-        if (Menu == null)
-        {
-            return null;
-        }
-
-        if (!Menu.Contains(day.ToLower()))
+        if (Menu == null || !Menu.Contains(day.ToLower()))
         {
             return null;
         }
@@ -153,12 +148,7 @@ public class Firebase : Node
 
     public Dish GetDish(string key)
     {
-        if (Dishes == null)
-        {
-            return null;
-        }
-
-        if (!Dishes.Contains(key))
+        if (Dishes == null || !Dishes.Contains(key))
         {
             return null;
         }
@@ -171,12 +161,7 @@ public class Firebase : Node
 
     public Dictionary GetOrder(string key)
     {
-        if (Orders == null)
-        {
-            return null;
-        }
-
-        if (!Orders.Contains(key))
+        if (Orders == null || !Orders.Contains(key))
         {
             return null;
         }
