@@ -260,38 +260,18 @@ public class Firebase : Node
 
     private void ValidateData()
     {
-        string menuValidation = DoValidateMenus(Data) ? "ValidateMenus" : "InvalidateMenus";
-        string dishValidation = DoValidateDishes(Data) ? "ValidateDishes" : "InvalidateDishes";
-        string orderValidation = DoValidateOrders(Data) ? "ValidateOrders" : "InvalidateOrders";
+        string menuValidation = DoValidateData(GetMenus(Data)) ? "ValidateMenus" : "InvalidateMenus";
+        string dishValidation = DoValidateData(GetDishes(Data)) ? "ValidateDishes" : "InvalidateDishes";
+        string orderValidation = DoValidateData(GetOrders(Data)) ? "ValidateOrders" : "InvalidateOrders";
 
         EmitSignal(menuValidation);
         EmitSignal(dishValidation);
         EmitSignal(orderValidation);
     }
 
-    private bool DoValidateMenus(Dictionary data)
-    {
-        return DoValidateData(GetMenus(data));
-    }
-
-    private bool DoValidateDishes(Dictionary data)
-    {
-        return DoValidateData(GetDishes(data));
-    }
-
-    private bool DoValidateOrders(Dictionary data)
-    {
-        return DoValidateData(GetOrders(data));
-    }
-
     private bool DoValidateData(Dictionary data)
     {
-        if (data == null)
-        {
-            return false;
-        }
-
-        return data.Count > 0;
+        return data == null || data.Count > 0;
     }
 
     public void _OnPingRequestCompleted(int result, int response_code, string[] headers, byte[] body)
