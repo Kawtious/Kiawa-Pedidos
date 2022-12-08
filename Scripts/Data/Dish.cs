@@ -101,10 +101,11 @@ public class Dish : Godot.Object
         return new Dish(title, description, price, portions);
     }
 
-    private static bool IsValidDish(Dictionary dictionary)
+    private static bool IsValidDish(Dictionary dish)
     {
-        return dictionary.Contains(Dish.TITLE_STRING) && dictionary.Contains(Dish.DESCRIPTION_STRING) &&
-            dictionary.Contains(Dish.PRICE_STRING) && dictionary.Contains(Dish.PORTIONS_STRING);
+        return dish == null ||
+            (dish.Contains(Dish.TITLE_STRING) && dish.Contains(Dish.DESCRIPTION_STRING) &&
+                dish.Contains(Dish.PRICE_STRING) && dish.Contains(Dish.PORTIONS_STRING));
     }
 
 }
