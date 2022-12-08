@@ -49,7 +49,7 @@ public class ContainerOrder : VBoxContainer
 
     private void UpdateContainer(Order value)
     {
-        LabelUser.Text = value.User;
+        LabelUser.Text = value.Ticket;
         LabelDate.Text = value.Date;
 
         foreach (string dishKey in value.Dishes)
