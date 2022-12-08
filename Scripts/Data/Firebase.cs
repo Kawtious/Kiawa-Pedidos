@@ -260,7 +260,7 @@ public class Firebase : Node
 
     private bool DoValidateData(Dictionary data)
     {
-        return data == null || data.Count > 0;
+        return data != null && data.Count > 0;
     }
 
     public void _OnPingRequestCompleted(int result, int response_code, string[] headers, byte[] body)
