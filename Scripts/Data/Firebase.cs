@@ -292,12 +292,9 @@ public class Firebase : Node
 
         Dictionary data = new Dictionary();
 
-        if (_result != null)
+        if (_result != null && _result is Dictionary)
         {
-            if (_result is Dictionary)
-            {
-                data = _result as Dictionary;
-            }
+            data = _result as Dictionary;
         }
 
         if (Data.ToString().Equals(data.ToString()))
