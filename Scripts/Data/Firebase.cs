@@ -234,14 +234,8 @@ public class Firebase : Node
 
     private void CompareOrders(Dictionary oldOrders, Dictionary newOrders)
     {
-        if ((oldOrders != null && newOrders != null) &&
-            (oldOrders.Count < newOrders.Count))
-        {
-            EmitSignal("NewOrders");
-            return;
-        }
-
-        if (oldOrders == null && newOrders != null)
+        if (((oldOrders != null && newOrders != null) && (oldOrders.Count < newOrders.Count))
+                || (oldOrders == null && newOrders != null))
         {
             EmitSignal("NewOrders");
         }
