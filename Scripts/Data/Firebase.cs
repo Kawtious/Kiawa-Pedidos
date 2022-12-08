@@ -34,11 +34,17 @@ public class Firebase : Node
         set { _Data = value; ValidateData(); }
     }
 
-    public Dictionary Menu => GetMenus(Data);
+    public Dictionary Menu => GetData(Data, MENU_STRING);
 
-    public Dictionary Dishes => GetDishes(Data);
+    public Dictionary Dishes => GetData(Data, DISHES_STRING);
 
-    public Dictionary Orders => GetOrders(Data);
+    public Dictionary Orders => GetData(Data, ORDERS_STRING);
+
+    private Dictionary GetMenus(Dictionary data) => GetData(data, MENU_STRING);
+
+    private Dictionary GetDishes(Dictionary data) => GetData(data, DISHES_STRING);
+
+    private Dictionary GetOrders(Dictionary data) => GetData(data, ORDERS_STRING);
 
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
@@ -120,34 +126,14 @@ public class Firebase : Node
         TimerPing.Start(2);
     }
 
-    private Dictionary GetMenus(Dictionary data)
+    private Dictionary GetData(Dictionary data, string key)
     {
-        if (!data.Contains(MENU_STRING))
+        if (data == null || !data.Contains(key))
         {
             return null;
         }
 
-        return data[MENU_STRING] as Dictionary;
-    }
-
-    private Dictionary GetDishes(Dictionary data)
-    {
-        if (!data.Contains(DISHES_STRING))
-        {
-            return null;
-        }
-
-        return data[DISHES_STRING] as Dictionary;
-    }
-
-    private Dictionary GetOrders(Dictionary data)
-    {
-        if (!data.Contains(ORDERS_STRING))
-        {
-            return null;
-        }
-
-        return data[ORDERS_STRING] as Dictionary;
+        return data[key] as Dictionary;
     }
 
     public Array GetMenu(string day)
