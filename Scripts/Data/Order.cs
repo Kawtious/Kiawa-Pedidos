@@ -87,6 +87,7 @@ public class Order : Godot.Object
 
     public static bool IsValidOrder(Dictionary order)
     {
-        return order.Contains(Order.USER_STRING) && order.Contains(Order.DATE_STRING) && order.Contains(Order.DISHES_STRING);
+        return order == null || 
+            (order.Contains(Order.USER_STRING) && order.Contains(Order.DATE_STRING) && order.Contains(Order.DISHES_STRING));
     }
 }
