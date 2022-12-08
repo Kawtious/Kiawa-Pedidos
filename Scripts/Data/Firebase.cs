@@ -205,14 +205,12 @@ public class Firebase : Node
 
     public void OrderSend(Array dishes)
     {
-        string today = System.DateTime.Now.ToString();
-
         // It's possible that someone can get a duplicate ticket
         int ticketNumber = (int)GD.RandRange(1, 10000);
 
         string user = $"Ticket-{ticketNumber}";
 
-        Order order = new Order(user, today, dishes);
+        Order order = new Order(user, GlobalProcess.Today, dishes);
 
         RequestSendOrder.Post(ORDER_REFERENCE, order.ToMap());
     }
