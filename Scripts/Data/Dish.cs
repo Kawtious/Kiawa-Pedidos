@@ -101,6 +101,21 @@ public class Dish : Godot.Object
         return new Dish(title, description, price, portions);
     }
 
+    public static Dish FromMap(Dictionary dictionary, string key)
+    {
+        if (!IsValidDish(dictionary))
+        {
+            return null;
+        }
+
+        string title = (string)dictionary[Dish.TITLE_STRING];
+        string description = (string)dictionary[Dish.DESCRIPTION_STRING];
+        Single price = (Single)dictionary[Dish.PRICE_STRING];
+        Single portions = (Single)dictionary[Dish.PORTIONS_STRING];
+
+        return new Dish(key, title, description, price, portions);
+    }
+
     private static bool IsValidDish(Dictionary dish)
     {
         return dish == null ||
