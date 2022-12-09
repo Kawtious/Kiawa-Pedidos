@@ -116,4 +116,6 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [connection signal="gui_input" from="Container/Details" to="." method="_OnDetailsClick"]
+[connection signal="gui_input" from="Container/RectShow" to="." method="_OnDetailsClick"]
+[connection signal="gui_input" from="Container/RectHide" to="." method="_OnDetailsClick"]
 [connection signal="pressed" from="Container/Control/ButtonDelete" to="." method="_OnTrashButtonPressed"]
