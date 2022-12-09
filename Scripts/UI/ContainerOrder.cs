@@ -92,4 +92,14 @@ public class ContainerOrder : VBoxContainer
     {
         Firebase.DeleteOrder(Order.Key);
     }
+
+    public void _OnDetailsClick(InputEvent evt)
+    {
+        if (evt is InputEventMouseButton mbe && mbe.ButtonIndex == (int)ButtonList.Left && mbe.Pressed)
+        {
+            ContainerDishes.Visible = !ContainerDishes.Visible;
+            Container.GetNode<TextureRect>("RectShow").Visible = ContainerDishes.Visible;
+            Container.GetNode<TextureRect>("RectHide").Visible = !ContainerDishes.Visible;
+        }
+    }
 }
