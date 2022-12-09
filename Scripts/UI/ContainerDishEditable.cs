@@ -65,7 +65,7 @@ public class ContainerDishEditable : HBoxContainer
 
     public void _OnTrashButtonPressed()
     {
-        Firebase.DishDelete(Dish.Key);
+        Firebase.DeleteDish(Dish.Key);
     }
 
     public void _OnCheckBoxPressed()

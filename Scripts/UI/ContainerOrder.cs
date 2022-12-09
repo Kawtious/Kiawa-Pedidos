@@ -90,6 +90,6 @@ public class ContainerOrder : VBoxContainer
 
     public void _OnTrashButtonPressed()
     {
-        Firebase.OrderDelete(Order.Key);
+        Firebase.DeleteOrder(Order.Key);
     }
 }

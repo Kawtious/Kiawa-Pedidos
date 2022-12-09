@@ -227,7 +227,7 @@ public class ScreenCreateDish : Control
 
         Dish dish = new Dish(title, description, price, portions);
 
-        Firebase.DishCreate(GetSelectedDish(), dish);
+        Firebase.CreateDish(GetSelectedDish(), dish);
 
         ResetFields();
     }

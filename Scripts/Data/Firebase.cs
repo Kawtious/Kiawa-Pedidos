@@ -37,17 +37,27 @@ public class Firebase : Node
         set { _Data = value; ValidateData(); }
     }
 
-    public Dictionary Menu => GetData(Data, MENU_STRING);
+    private Dictionary GetMenusInDictionary(Dictionary dictionary) => GetData(dictionary, MENU_STRING) as Dictionary;
 
-    public Dictionary Dishes => GetData(Data, DISHES_STRING);
+    private Dictionary GetDishesInDictionary(Dictionary dictionary) => GetData(dictionary, DISHES_STRING) as Dictionary;
 
-    public Dictionary Orders => GetData(Data, ORDERS_STRING);
+    private Dictionary GetOrdersInDictionary(Dictionary dictionary) => GetData(dictionary, ORDERS_STRING) as Dictionary;
 
-    private Dictionary GetMenus(Dictionary data) => GetData(data, MENU_STRING);
+    public Dictionary Menu => GetData(Data, MENU_STRING) as Dictionary;
 
-    private Dictionary GetDishes(Dictionary data) => GetData(data, DISHES_STRING);
+    public Dictionary Dishes => GetData(Data, DISHES_STRING) as Dictionary;
 
-    private Dictionary GetOrders(Dictionary data) => GetData(data, ORDERS_STRING);
+    public Dictionary Orders => GetData(Data, ORDERS_STRING) as Dictionary;
+
+    public Array GetMenu(string key) => GetData(Menu, key.ToLower()) as Array;
+
+    public Dish GetDish(string key) => Dish.FromMap(GetData(Dishes, key) as Dictionary, key);
+
+    public Order GetOrder(string key) => Order.FromMap(GetData(Orders, key) as Dictionary, key);
+
+    public Array GetMenuToday() => GetMenu(GlobalProcess.Today);
+
+    public void UpdateData() => RequestData.Get(DATA_REFERENCE);
 
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
@@ -129,64 +139,22 @@ public class Firebase : Node
         TimerPing.Start(2);
     }
 
-    private Dictionary GetData(Dictionary data, string key)
+    private ICollection GetData(Dictionary data, string key)
     {
         if (data == null || !data.Contains(key))
         {
             return null;
         }
 
-        return data[key] as Dictionary;
+        return data[key] as ICollection;
     }
 
-    public Array GetMenu(string day)
-    {
-        if (Menu == null || !Menu.Contains(day.ToLower()))
-        {
-            return null;
-        }
-
-        return Menu[day.ToLower()] as Array;
-    }
-
-    public Dish GetDish(string key)
-    {
-        if (Dishes == null || !Dishes.Contains(key))
-        {
-            return null;
-        }
-
-        Dish dish = Dish.FromMap(Dishes[key] as Dictionary);
-
-        if (dish != null)
-        {
-            dish.Key = key;
-        }
-
-        return dish;
-    }
-
-    public Dictionary GetOrder(string key)
-    {
-        if (Orders == null || !Orders.Contains(key))
-        {
-            return null;
-        }
-
-        return Orders[key] as Dictionary;
-    }
-
-    public Array MenuGetToday()
-    {
-        return GetMenu(GlobalProcess.Today);
-    }
-
-    public void MenuSet(string day, Array dishes)
+    public void SetMenu(string day, Array dishes)
     {
         RequestSetMenu.Put(MENU_REFERENCE + day.ToLower(), dishes);
     }
 
-    public void DishCreate(string key, Dish dish)
+    public void CreateDish(string key, Dish dish)
     {
         if (!key.Empty())
         {
@@ -198,7 +166,7 @@ public class Firebase : Node
         }
     }
 
-    public void DishDelete(string key)
+    public void DeleteDish(string key)
     {
         if (key.Empty())
         {
@@ -210,12 +178,9 @@ public class Firebase : Node
         RequestDeleteDish.Delete(reference);
     }
 
-    public void OrderSend(Array dishes)
+    public void SendOrder(Array dishes)
     {
-        // It's possible that someone can get a duplicate ticket
-        Single ticket = NextTicketNumber();
-
-        Order order = new Order(ticket, GlobalProcess.Today, dishes);
+        Order order = new Order(NextTicketNumber(), GlobalProcess.Today, dishes);
 
         RequestSendOrder.Post(ORDER_REFERENCE, order.ToMap());
     }
@@ -226,7 +191,7 @@ public class Firebase : Node
 
         Dictionary orders = Orders;
 
-        if (orders == null || orders.Count < 1)
+        if (!ValidateDictionary(orders))
         {
             return 1;
         }
@@ -248,7 +213,7 @@ public class Firebase : Node
         return tickets.Max() + 1;
     }
 
-    public void OrderDelete(string key)
+    public void DeleteOrder(string key)
     {
         if (key.Empty())
         {
@@ -258,11 +223,6 @@ public class Firebase : Node
         string reference = ORDER_REFERENCE + "/" + key;
 
         RequestDeleteOrder.Delete(reference);
-    }
-
-    public void UpdateData()
-    {
-        RequestData.Get(DATA_REFERENCE);
     }
 
     private void CompareOrders(Dictionary oldOrders, Dictionary newOrders)
@@ -276,24 +236,18 @@ public class Firebase : Node
 
     private void ValidateData()
     {
-        string menuValidation = DoValidateData(GetMenus(Data)) ? "ValidateMenus" : "InvalidateMenus";
-        string dishValidation = DoValidateData(GetDishes(Data)) ? "ValidateDishes" : "InvalidateDishes";
-        string orderValidation = DoValidateData(GetOrders(Data)) ? "ValidateOrders" : "InvalidateOrders";
+        string menuValidation = ValidateDictionary(GetMenusInDictionary(Data)) ? "ValidateMenus" : "InvalidateMenus";
+        string dishValidation = ValidateDictionary(GetDishesInDictionary(Data)) ? "ValidateDishes" : "InvalidateDishes";
+        string orderValidation = ValidateDictionary(GetOrdersInDictionary(Data)) ? "ValidateOrders" : "InvalidateOrders";
 
         EmitSignal(menuValidation);
         EmitSignal(dishValidation);
         EmitSignal(orderValidation);
     }
 
-    private bool DoValidateData(Dictionary data)
+    private bool ValidateDictionary(Dictionary data)
     {
         return data != null && data.Count > 0;
-    }
-
-    public void _OnPingRequestCompleted(int result, int response_code, string[] headers, byte[] body)
-    {
-        EmitSignal("PingSuccess");
-        Ping();
     }
 
     public void _OnDataRequestCompleted(int result, int response_code, string[] headers, byte[] body)
@@ -318,7 +272,7 @@ public class Firebase : Node
             return;
         }
 
-        CompareOrders(GetOrders(Data), GetOrders(data));
+        CompareOrders(GetOrdersInDictionary(Data), GetOrdersInDictionary(data));
 
         Data = data;
 
@@ -327,27 +281,7 @@ public class Firebase : Node
         Timer.Start(5);
     }
 
-    public void _OnSetMenuRequestCompleted(int result, int response_code, string[] headers, byte[] body)
-    {
-        UpdateData();
-    }
-
-    public void _OnSendOrderRequestCompleted(int result, int response_code, string[] headers, byte[] body)
-    {
-        UpdateData();
-    }
-
-    public void _OnCreateDishRequestCompleted(int result, int response_code, string[] headers, byte[] body)
-    {
-        UpdateData();
-    }
-
-    public void _OnDeleteOrderRequestCompleted(int result, int response_code, string[] headers, byte[] body)
-    {
-        UpdateData();
-    }
-
-    public void _OnDeleteDishRequestCompleted(int result, int response_code, string[] headers, byte[] body)
+    public void _OnRequestUpdateData(int result, int response_code, string[] headers, byte[] body)
     {
         UpdateData();
     }
@@ -355,6 +289,12 @@ public class Firebase : Node
     public void _OnTimerTimeout()
     {
         UpdateData();
+    }
+
+    public void _OnPingRequestCompleted(int result, int response_code, string[] headers, byte[] body)
+    {
+        EmitSignal("PingSuccess");
+        Ping();
     }
 
     public void _OnPingTimerTimeout()

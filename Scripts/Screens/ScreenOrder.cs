@@ -84,7 +84,7 @@ public class ScreenOrder : Control
             return;
         }
 
-        Firebase.OrderSend(dishes);
+        Firebase.SendOrder(dishes);
     }
 
     public void _OnLineEditTextChanged(string new_text)
@@ -101,7 +101,7 @@ public class ScreenOrder : Control
     {
         ClearDishList();
 
-        Array dayMenu = Firebase.MenuGetToday();
+        Array dayMenu = Firebase.GetMenuToday();
 
         if (dayMenu == null || dayMenu.Count < 1)
         {

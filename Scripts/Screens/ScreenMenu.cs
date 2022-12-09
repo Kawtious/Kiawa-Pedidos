@@ -239,7 +239,7 @@ public class ScreenMenu : Control
             }
         }
 
-        Firebase.MenuSet(GetTabName(), dishes);
+        Firebase.SetMenu(GetTabName(), dishes);
     }
 
     public void _OnTabChanged(int tab)

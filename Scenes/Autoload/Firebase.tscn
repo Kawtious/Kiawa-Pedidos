@@ -19,18 +19,18 @@ script = ExtResource( 1 )
 
 [node name="RequestCreateDish" parent="." instance=ExtResource( 3 )]
 
-[node name="RequestPing" parent="." instance=ExtResource( 3 )]
-
 [node name="RequestDeleteOrder" parent="." instance=ExtResource( 3 )]
 
 [node name="RequestDeleteDish" parent="." instance=ExtResource( 3 )]
 
+[node name="RequestPing" parent="." instance=ExtResource( 3 )]
+
 [connection signal="timeout" from="Timer" to="." method="_OnTimerTimeout"]
 [connection signal="timeout" from="TimerPing" to="." method="_OnPingTimerTimeout"]
 [connection signal="request_completed" from="RequestData" to="." method="_OnDataRequestCompleted"]
-[connection signal="request_completed" from="RequestSetMenu" to="." method="_OnSetMenuRequestCompleted"]
-[connection signal="request_completed" from="RequestSendOrder" to="." method="_OnSendOrderRequestCompleted"]
-[connection signal="request_completed" from="RequestCreateDish" to="." method="_OnCreateDishRequestCompleted"]
+[connection signal="request_completed" from="RequestSetMenu" to="." method="_OnRequestUpdateData"]
+[connection signal="request_completed" from="RequestSendOrder" to="." method="_OnRequestUpdateData"]
+[connection signal="request_completed" from="RequestCreateDish" to="." method="_OnRequestUpdateData"]
+[connection signal="request_completed" from="RequestDeleteOrder" to="." method="_OnRequestUpdateData"]
+[connection signal="request_completed" from="RequestDeleteDish" to="." method="_OnRequestUpdateData"]
 [connection signal="request_completed" from="RequestPing" to="." method="_OnPingRequestCompleted"]
-[connection signal="request_completed" from="RequestDeleteOrder" to="." method="_OnDeleteOrderRequestCompleted"]
-[connection signal="request_completed" from="RequestDeleteDish" to="." method="_OnDeleteDishRequestCompleted"]
