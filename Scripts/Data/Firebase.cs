@@ -1,4 +1,7 @@
 using Godot;
+using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
@@ -206,13 +209,39 @@ public class Firebase : Node
     public void OrderSend(Array dishes)
     {
         // It's possible that someone can get a duplicate ticket
-        int ticketNumber = (int)GD.RandRange(1, 10000);
-
-        string ticket = $"Ticket-{ticketNumber}";
+        Single ticket = NextTicketNumber();
 
         Order order = new Order(ticket, GlobalProcess.Today, dishes);
 
         RequestSendOrder.Post(ORDER_REFERENCE, order.ToMap());
+    }
+
+    private Single NextTicketNumber()
+    {
+        List<Single> tickets = new List<Single>();
+
+        Dictionary orders = Orders;
+
+        if (orders == null || orders.Count < 1)
+        {
+            return 1;
+        }
+
+        foreach (DictionaryEntry item in orders)
+        {
+            Order order = Order.FromMap(item.Value as Dictionary);
+            if (order != null)
+            {
+                tickets.Add(order.Ticket);
+            }
+        }
+
+        if (tickets.Count < 1)
+        {
+            return 1;
+        }
+
+        return tickets.Max() + 1;
     }
 
     public void OrderDelete(string key)

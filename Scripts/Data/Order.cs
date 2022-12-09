@@ -1,3 +1,4 @@
+using System;
 using Godot;
 using Godot.Collections;
 using Array = Godot.Collections.Array;
@@ -13,7 +14,7 @@ public class Order : Godot.Object
 
     private string _Key = "";
 
-    private string _Ticket = "";
+    private Single _Ticket = 0;
 
     private string _Date = "";
 
@@ -25,7 +26,7 @@ public class Order : Godot.Object
         set { _Key = value; }
     }
 
-    public string Ticket
+    public Single Ticket
     {
         get { return _Ticket; }
         set { _Ticket = value; }
@@ -45,7 +46,7 @@ public class Order : Godot.Object
 
     public Order() { }
 
-    public Order(string key, string ticket, string date, Array dishes)
+    public Order(string key, Single ticket, string date, Array dishes)
     {
         this.Key = key;
         this.Ticket = ticket;
@@ -53,7 +54,7 @@ public class Order : Godot.Object
         this.Dishes = dishes;
     }
 
-    public Order(string ticket, string date, Array dishes)
+    public Order(Single ticket, string date, Array dishes)
     {
         this.Ticket = ticket;
         this.Date = date;
@@ -71,23 +72,23 @@ public class Order : Godot.Object
         return dictionary;
     }
 
-    public static Order FromMap(Dictionary dictionary)
+    public static Order FromMap(Dictionary order)
     {
-        if (!IsValidOrder(dictionary))
+        if (!IsValidOrder(order))
         {
             return null;
         }
 
-        string ticket = (string)dictionary[Order.TICKET_STRING];
-        string date = (string)dictionary[Order.DATE_STRING];
-        Array dishes = dictionary[Order.DISHES_STRING] as Array;
+        Single ticket = (Single)order[Order.TICKET_STRING];
+        string date = (string)order[Order.DATE_STRING];
+        Array dishes = order[Order.DISHES_STRING] as Array;
 
         return new Order(ticket, date, dishes);
     }
 
     public static bool IsValidOrder(Dictionary order)
     {
-        return order == null || 
+        return order == null ||
             (order.Contains(Order.TICKET_STRING) && order.Contains(Order.DATE_STRING) && order.Contains(Order.DISHES_STRING));
     }
 }

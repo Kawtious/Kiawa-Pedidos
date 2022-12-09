@@ -79,7 +79,7 @@ public class ScreenManageOrder : Control
             {
                 ContainerOrder.CreateOrderContainer(BoxVBox, order);
             }
-            else if (order.Ticket.ToLower().Contains(Query.ToLower()) ||
+            else if (order.Ticket.ToString().ToLower().Contains(Query.ToLower()) ||
                     order.Date.ToLower().Contains(Query.ToLower()))
             {
                 ContainerOrder.CreateOrderContainer(BoxVBox, order);
