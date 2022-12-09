@@ -55,7 +55,7 @@ public class Firebase : Node
 
     public Order GetOrder(string key) => Order.FromMap(GetData(Orders, key) as Dictionary, key);
 
-    public Array GetMenuToday() => GetMenu(GlobalProcess.Today);
+    public Array GetMenuToday() => GetMenu(GlobalProcess.Today.DayOfWeek.ToString());
 
     public void UpdateData() => RequestData.Get(DATA_REFERENCE);
 
@@ -180,7 +180,7 @@ public class Firebase : Node
 
     public void SendOrder(Array dishes)
     {
-        Order order = new Order(NextTicketNumber(), GlobalProcess.Today, dishes);
+        Order order = new Order(NextTicketNumber(), GlobalProcess.TodayEpoch, dishes);
 
         RequestSendOrder.Post(ORDER_REFERENCE, order.ToMap());
     }

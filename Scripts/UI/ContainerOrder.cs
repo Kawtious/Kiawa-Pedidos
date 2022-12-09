@@ -18,6 +18,8 @@ public class ContainerOrder : VBoxContainer
         InitNodes();
     }
 
+    private GlobalProcess GlobalProcess;
+
     private Firebase Firebase;
 
     public HBoxContainer Container;
@@ -34,6 +36,7 @@ public class ContainerOrder : VBoxContainer
 
     private void InitNodes()
     {
+        GlobalProcess = GetNode<GlobalProcess>("/root/GlobalProcess");
         Firebase = GetNode<Firebase>("/root/Firebase");
 
         Container = GetNode<HBoxContainer>("Container");
@@ -50,7 +53,7 @@ public class ContainerOrder : VBoxContainer
     private void UpdateContainer(Order value)
     {
         LabelUser.Text = "Ticket-" + value.Ticket;
-        LabelDate.Text = value.Date;
+        LabelDate.Text = GlobalProcess.LocalUnixTime((long)value.Date).ToString();
 
         foreach (string dishKey in value.Dishes)
         {

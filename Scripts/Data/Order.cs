@@ -16,7 +16,7 @@ public class Order : Godot.Object
 
     private Single _Ticket = 0;
 
-    private string _Date = "";
+    private Double _Date = 0;
 
     private Array _Dishes = new Array();
 
@@ -32,7 +32,7 @@ public class Order : Godot.Object
         set { _Ticket = value; }
     }
 
-    public string Date
+    public Double Date
     {
         get { return _Date; }
         set { _Date = value; }
@@ -46,7 +46,7 @@ public class Order : Godot.Object
 
     public Order() { }
 
-    public Order(string key, Single ticket, string date, Array dishes)
+    public Order(string key, Single ticket, Double date, Array dishes)
     {
         this.Key = key;
         this.Ticket = ticket;
@@ -54,7 +54,7 @@ public class Order : Godot.Object
         this.Dishes = dishes;
     }
 
-    public Order(Single ticket, string date, Array dishes)
+    public Order(Single ticket, Double date, Array dishes)
     {
         this.Ticket = ticket;
         this.Date = date;
@@ -80,7 +80,7 @@ public class Order : Godot.Object
         }
 
         Single ticket = (Single)order[Order.TICKET_STRING];
-        string date = (string)order[Order.DATE_STRING];
+        Double date = (Double)((Single)order[Order.DATE_STRING]);
         Array dishes = order[Order.DISHES_STRING] as Array;
 
         return new Order(ticket, date, dishes);
@@ -94,7 +94,7 @@ public class Order : Godot.Object
         }
 
         Single ticket = (Single)order[Order.TICKET_STRING];
-        string date = (string)order[Order.DATE_STRING];
+        Double date = (Double)((Single)order[Order.DATE_STRING]);
         Array dishes = order[Order.DISHES_STRING] as Array;
 
         return new Order(key, ticket, date, dishes);
