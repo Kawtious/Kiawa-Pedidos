@@ -16,7 +16,7 @@ jobs:
     steps:
       # Always include the checkout step so that 
       # your project is available for Godot to export
-    - name: checkout
+    - name: Checkout
       uses: actions/checkout@v3.0.2
   
     # Automatically stores the tag name for later use
@@ -26,7 +26,7 @@ jobs:
       run: |
           echo "TAG_VERSION=${GITHUB_REF#refs/tags/v}" >> $GITHUB_OUTPUT
   
-    - name: Export
+    - name: Export project
     
       id: export
       
@@ -42,7 +42,7 @@ jobs:
 
       # This release action has worked well for me. However, you can most likely use any release action of your choosing.
       # https://github.com/ncipollo/release-action
-    - name: create release
+    - name: Release project
     
       uses: ncipollo/release-action@v1.11.2
       
