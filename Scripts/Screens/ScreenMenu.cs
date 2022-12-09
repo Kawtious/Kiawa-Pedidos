@@ -150,12 +150,7 @@ public class ScreenMenu : Control
 
         Array dayMenu = Firebase.GetMenu(day);
 
-        if (dayMenu == null)
-        {
-            return;
-        }
-
-        if (dayMenu.Count < 1)
+        if (dayMenu == null || dayMenu.Count < 1)
         {
             return;
         }
