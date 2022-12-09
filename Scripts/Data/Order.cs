@@ -86,6 +86,20 @@ public class Order : Godot.Object
         return new Order(ticket, date, dishes);
     }
 
+    public static Order FromMap(Dictionary order, string key)
+    {
+        if (!IsValidOrder(order))
+        {
+            return null;
+        }
+
+        Single ticket = (Single)order[Order.TICKET_STRING];
+        string date = (string)order[Order.DATE_STRING];
+        Array dishes = order[Order.DISHES_STRING] as Array;
+
+        return new Order(key, ticket, date, dishes);
+    }
+
     public static bool IsValidOrder(Dictionary order)
     {
         return order == null ||
