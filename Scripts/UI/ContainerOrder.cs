@@ -26,7 +26,7 @@ public class ContainerOrder : VBoxContainer
 
     public VBoxContainer Details;
 
-    public Label LabelUser;
+    public Label LabelTicket;
 
     public Label LabelDate;
 
@@ -42,7 +42,7 @@ public class ContainerOrder : VBoxContainer
         Container = GetNode<HBoxContainer>("Container");
 
         Details = Container.GetNode<VBoxContainer>("Details");
-        LabelUser = Details.GetNode<Label>("User");
+        LabelTicket = Details.GetNode<Label>("User");
         LabelDate = Details.GetNode<Label>("Date");
 
         LabelPrice = Container.GetNode<Label>("Price");
@@ -50,12 +50,12 @@ public class ContainerOrder : VBoxContainer
         ContainerDishes = GetNode<VBoxContainer>("ContainerDishes");
     }
 
-    private void UpdateContainer(Order value)
+    private void UpdateContainer(Order order)
     {
-        LabelUser.Text = "Ticket-" + value.Ticket;
-        LabelDate.Text = GlobalProcess.LocalUnixTime((long)value.Date).ToString();
+        LabelTicket.Text = GetTicketString(order);
+        LabelDate.Text = GetDateString(order);
 
-        foreach (string dishKey in value.Dishes)
+        foreach (string dishKey in order.Dishes)
         {
             Dish dish = Firebase.GetDish(dishKey);
 
@@ -65,6 +65,42 @@ public class ContainerOrder : VBoxContainer
                 containerDish.Connect("AmountChanged", this, "RecalculatePrice");
             }
         }
+    }
+
+    private string GetTicketString(Order order)
+    {
+        float ticket = order.Ticket;
+        string ticketString;
+
+        if (ticket <= 0)
+        {
+            ticketString = "Invalid ticket";
+        }
+        else
+        {
+            ticketString = "Ticket-" + ticket;
+        }
+
+        return ticketString;
+    }
+
+    private string GetDateString(Order order)
+    {
+        Double dateUnix;
+
+        string dateString = "Invalid date";
+
+        if (!Double.TryParse(order.Date, out dateUnix))
+        {
+            return dateString;
+        }
+
+        if (dateUnix > 0)
+        {
+            dateString = GlobalProcess.GetDateFromUnixTime(dateUnix).ToString();
+        }
+
+        return dateString;
     }
 
     public void RecalculatePrice()

@@ -180,7 +180,7 @@ public class Firebase : Node
 
     public void SendOrder(Array dishes)
     {
-        Order order = new Order(NextTicketNumber(), GlobalProcess.TodayEpoch, dishes);
+        Order order = new Order(NextTicketNumber(), GlobalProcess.TodayUnix.ToString(), dishes);
 
         RequestSendOrder.Post(ORDER_REFERENCE, order.ToMap());
     }

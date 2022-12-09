@@ -80,7 +80,7 @@ public class ScreenManageOrder : Control
                 ContainerOrder.CreateOrderContainer(BoxVBox, order);
             }
             else if (order.Ticket.ToString().ToLower().Contains(Query.ToLower()) ||
-                    GlobalProcess.LocalUnixTime((long)order.Date).ToString().ToLower().Contains(Query.ToLower()))
+                    GlobalProcess.GetLocalDateFromUnixTime(long.Parse(order.Date)).ToString().ToLower().Contains(Query.ToLower()))
             {
                 ContainerOrder.CreateOrderContainer(BoxVBox, order);
             }

@@ -121,30 +121,24 @@ public class ScreenCreateDish : Control
 
     private void SetPrice(string value)
     {
-        string pattern = "^([0-9]+([.][0-9]*)?|[.][0-9]+)*$";
-        Regex rgx = new Regex(pattern);
+        float price = 0;
 
-        if (rgx.IsMatch(value))
+        if (float.TryParse(value, out price))
         {
-            _Price = value;
-            LineEditPrice.Text = _Price;
-            LineEditPrice.CaretPosition = _Price.Length;
+            _Price = price.ToString();
         }
-        else
-        {
-            LineEditPrice.Text = _Price;
-            LineEditPrice.CaretPosition = _Price.Length;
-        }
+
+        LineEditPrice.Text = _Price;
+        LineEditPrice.CaretPosition = _Price.Length;
     }
 
     private void SetPortions(string value)
     {
-        string pattern = "^[0-9]*$";
-        Regex rgx = new Regex(pattern);
+        int portions = 0;
 
-        if (rgx.IsMatch(value))
+        if (int.TryParse(value, out portions))
         {
-            _Portions = value;
+            _Portions = portions.ToString();
         }
 
         LineEditPortions.Text = _Portions;

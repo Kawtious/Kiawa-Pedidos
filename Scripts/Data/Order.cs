@@ -16,7 +16,7 @@ public class Order : Godot.Object
 
     private Single _Ticket = 0;
 
-    private Double _Date = 0;
+    private string _Date = "0";
 
     private Array _Dishes = new Array();
 
@@ -32,7 +32,7 @@ public class Order : Godot.Object
         set { _Ticket = value; }
     }
 
-    public Double Date
+    public string Date
     {
         get { return _Date; }
         set { _Date = value; }
@@ -46,7 +46,7 @@ public class Order : Godot.Object
 
     public Order() { }
 
-    public Order(string key, Single ticket, Double date, Array dishes)
+    public Order(string key, Single ticket, string date, Array dishes)
     {
         this.Key = key;
         this.Ticket = ticket;
@@ -54,7 +54,7 @@ public class Order : Godot.Object
         this.Dishes = dishes;
     }
 
-    public Order(Single ticket, Double date, Array dishes)
+    public Order(Single ticket, string date, Array dishes)
     {
         this.Ticket = ticket;
         this.Date = date;
@@ -72,30 +72,60 @@ public class Order : Godot.Object
         return dictionary;
     }
 
-    public static Order FromMap(Dictionary order)
+    public static Order FromMap(Dictionary map)
     {
-        if (!IsValidOrder(order))
+        if (!IsValidOrder(map))
         {
             return null;
         }
 
-        Single ticket = (Single)order[Order.TICKET_STRING];
-        Double date = (Double)((Single)order[Order.DATE_STRING]);
-        Array dishes = order[Order.DISHES_STRING] as Array;
+        Single ticket = 0;
+        string date = "0";
+        Array dishes = new Array();
+
+        if (map[TICKET_STRING] is Single)
+        {
+            ticket = (Single)map[TICKET_STRING];
+        }
+
+        if (map[DATE_STRING] is string)
+        {
+            date = (string)map[DATE_STRING];
+        }
+
+        if (map[DISHES_STRING] is Array)
+        {
+            dishes = map[DISHES_STRING] as Array;
+        }
 
         return new Order(ticket, date, dishes);
     }
 
-    public static Order FromMap(Dictionary order, string key)
+    public static Order FromMap(Dictionary map, string key)
     {
-        if (!IsValidOrder(order))
+        if (!IsValidOrder(map))
         {
             return null;
         }
 
-        Single ticket = (Single)order[Order.TICKET_STRING];
-        Double date = (Double)((Single)order[Order.DATE_STRING]);
-        Array dishes = order[Order.DISHES_STRING] as Array;
+        Single ticket = 0;
+        string date = "0";
+        Array dishes = new Array();
+
+        if (map[TICKET_STRING] is Single)
+        {
+            ticket = (Single)map[TICKET_STRING];
+        }
+
+        if (map[DATE_STRING] is string)
+        {
+            date = (string)map[DATE_STRING];
+        }
+
+        if (map[DISHES_STRING] is Array)
+        {
+            dishes = map[DISHES_STRING] as Array;
+        }
 
         return new Order(key, ticket, date, dishes);
     }

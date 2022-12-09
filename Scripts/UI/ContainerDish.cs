@@ -65,15 +65,13 @@ public class ContainerDish : HBoxContainer
         }
         else
         {
-            string pattern = "^[0-9]*$";
-            Regex rgx = new Regex(pattern);
-
-            if (rgx.IsMatch(value))
+            int amount = 0;
+            if (int.TryParse(value, out amount))
             {
-                _Amount = value;
+                _Amount = amount.ToString();
                 EmitSignal("AmountChanged");
 
-                if (Int32.Parse(_Amount) < 1)
+                if (amount < 1)
                 {
                     CheckBox.Pressed = false;
                 }
@@ -93,12 +91,11 @@ public class ContainerDish : HBoxContainer
             return 0;
         }
 
-        string pattern = "^[0-9]*$";
-        Regex rgx = new Regex(pattern);
+        int _amount = 0;
 
-        if (rgx.IsMatch(amount))
+        if (int.TryParse(amount, out _amount))
         {
-            return Int32.Parse(amount);
+            return _amount;
         }
 
         return 0;

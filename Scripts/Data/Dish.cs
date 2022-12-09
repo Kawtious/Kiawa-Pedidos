@@ -86,32 +86,72 @@ public class Dish : Godot.Object
         return dictionary;
     }
 
-    public static Dish FromMap(Dictionary dictionary)
+    public static Dish FromMap(Dictionary map)
     {
-        if (!IsValidDish(dictionary))
+        if (!IsValidDish(map))
         {
             return null;
         }
 
-        string title = (string)dictionary[Dish.TITLE_STRING];
-        string description = (string)dictionary[Dish.DESCRIPTION_STRING];
-        Single price = (Single)dictionary[Dish.PRICE_STRING];
-        Single portions = (Single)dictionary[Dish.PORTIONS_STRING];
+        string title = "Invalid title";
+        string description = "Invalid description";
+        Single price = 0;
+        Single portions = 0;
+
+        if (map[TITLE_STRING] is string)
+        {
+            title = (string)map[TITLE_STRING];
+        }
+
+        if (map[DESCRIPTION_STRING] is string)
+        {
+            description = (string)map[DESCRIPTION_STRING];
+        }
+
+        if (map[PRICE_STRING] is Single)
+        {
+            price = (Single)map[PRICE_STRING];
+        }
+
+        if (map[PORTIONS_STRING] is Single)
+        {
+            portions = (Single)map[PORTIONS_STRING];
+        }
 
         return new Dish(title, description, price, portions);
     }
 
-    public static Dish FromMap(Dictionary dictionary, string key)
+    public static Dish FromMap(Dictionary map, string key)
     {
-        if (!IsValidDish(dictionary))
+        if (!IsValidDish(map))
         {
             return null;
         }
 
-        string title = (string)dictionary[Dish.TITLE_STRING];
-        string description = (string)dictionary[Dish.DESCRIPTION_STRING];
-        Single price = (Single)dictionary[Dish.PRICE_STRING];
-        Single portions = (Single)dictionary[Dish.PORTIONS_STRING];
+        string title = "Invalid title";
+        string description = "Invalid description";
+        Single price = 0;
+        Single portions = 0;
+
+        if (map[TITLE_STRING] is string)
+        {
+            title = (string)map[TITLE_STRING];
+        }
+
+        if (map[DESCRIPTION_STRING] is string)
+        {
+            description = (string)map[DESCRIPTION_STRING];
+        }
+
+        if (map[PRICE_STRING] is Single)
+        {
+            price = (Single)map[PRICE_STRING];
+        }
+
+        if (map[PORTIONS_STRING] is Single)
+        {
+            portions = (Single)map[PORTIONS_STRING];
+        }
 
         return new Dish(key, title, description, price, portions);
     }

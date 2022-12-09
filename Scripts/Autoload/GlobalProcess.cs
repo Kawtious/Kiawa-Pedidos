@@ -16,18 +16,6 @@ public class GlobalProcess : Node
         set { _Paused = value; GetTree().Paused = _Paused; }
     }
 
-    private readonly DateTime Epoch = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
-
-    public double TimeSinceEpoch(DateTime date) => date.ToUniversalTime().Subtract(Epoch).TotalMilliseconds;
-
-    public DateTime Today => System.DateTime.Now;
-
-    public double TodayEpoch => TimeSinceEpoch(Today);
-
-    public DateTime FromUnixTime(long unixTime) => Epoch.AddMilliseconds(unixTime);
-
-    public DateTime LocalUnixTime(long unixTime) => FromUnixTime(unixTime).ToLocalTime();
-
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
     {
@@ -57,6 +45,24 @@ public class GlobalProcess : Node
         {
             GetTree().Quit();
         }
+    }
+
+    private readonly DateTime Epoch = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
+
+    public double TimeSinceEpoch(DateTime date) => date.ToUniversalTime().Subtract(Epoch).TotalMilliseconds;
+
+    public DateTime Today => System.DateTime.Now;
+
+    public double TodayUnix => TimeSinceEpoch(Today);
+
+    public DateTime GetDateFromUnixTime(Double unixTime)
+    {
+        return Epoch.AddMilliseconds(unixTime);
+    }
+
+    public DateTime GetLocalDateFromUnixTime(Double unixTime)
+    {
+        return GetDateFromUnixTime((long)unixTime).ToLocalTime();
     }
 
 }
