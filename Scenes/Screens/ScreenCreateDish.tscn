@@ -344,8 +344,4 @@ border_width = 5.0
 
 [node name="Animations" type="Node" parent="."]
 
-[connection signal="text_changed" from="BoxLeft/ContainerVBoxLeft/ContainerTitle/NinePatchRect/LineEdit" to="." method="_OnTitleTextChanged"]
-[connection signal="text_changed" from="BoxLeft/ContainerVBoxLeft/ContainerDescription/NinePatchRect/LineEdit" to="." method="_OnDescriptionTextChanged"]
-[connection signal="text_changed" from="BoxLeft/ContainerVBoxLeft/ContainerPortion/NinePatchRect/LineEdit" to="." method="_OnPortionTextChanged"]
-[connection signal="text_changed" from="BoxLeft/ContainerVBoxLeft/ContainerPrice/NinePatchRect/LineEdit" to="." method="_OnPriceTextChanged"]
 [connection signal="pressed" from="BoxLeft/Bottom/VBoxContainer/ButtonCreateDishButton" to="." method="_OnCreateDishButtonPressed"]

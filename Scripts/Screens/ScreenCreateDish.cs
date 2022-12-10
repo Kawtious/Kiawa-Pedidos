@@ -9,38 +9,6 @@ using System.Collections;
 public class ScreenCreateDish : Control
 {
 
-    private string _Title = "";
-
-    private string _Description = "";
-
-    private string _Price = "";
-
-    private string _Portions = "";
-
-    public string Title
-    {
-        get { return _Title; }
-        set { SetTitle(value); }
-    }
-
-    public string Description
-    {
-        get { return _Description; }
-        set { SetDescription(value); }
-    }
-
-    public string Price
-    {
-        get { return _Price; }
-        set { SetPrice(value); }
-    }
-
-    public string Portions
-    {
-        get { return _Portions; }
-        set { SetPortions(value); }
-    }
-
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
     {
@@ -90,61 +58,6 @@ public class ScreenCreateDish : Control
         Firebase.Connect("UpdatedData", this, "UpdateData");
     }
 
-    public bool ValidateDish()
-    {
-        return !Title.Empty() && !Description.Empty() && !Price.Empty() && !Portions.Empty();
-    }
-
-    public void ResetFields()
-    {
-        Title = "";
-        Description = "";
-        Price = "";
-        Portions = "";
-    }
-
-    private void SetTitle(string value)
-    {
-        _Title = value;
-
-        LineEditTitle.Text = _Title;
-        LineEditTitle.CaretPosition = _Title.Length;
-    }
-
-    private void SetDescription(string value)
-    {
-        _Description = value;
-
-        LineEditDescription.Text = _Description;
-        LineEditDescription.CaretPosition = _Description.Length;
-    }
-
-    private void SetPrice(string value)
-    {
-        float price = 0;
-
-        if (float.TryParse(value, out price))
-        {
-            _Price = price.ToString();
-        }
-
-        LineEditPrice.Text = _Price;
-        LineEditPrice.CaretPosition = _Price.Length;
-    }
-
-    private void SetPortions(string value)
-    {
-        int portions = 0;
-
-        if (int.TryParse(value, out portions))
-        {
-            _Portions = portions.ToString();
-        }
-
-        LineEditPortions.Text = _Portions;
-        LineEditPortions.CaretPosition = _Portions.Length;
-    }
-
     public void UpdateData()
     {
         UpdateDishes();
@@ -172,12 +85,20 @@ public class ScreenCreateDish : Control
         }
     }
 
-    public void UpdateTextFields(ContainerDishEditable container)
+    public void ResetFields()
     {
-        Title = container.Dish.Title;
-        Description = container.Dish.Description;
-        Price = container.Dish.Price.ToString();
-        Portions = container.Dish.Portions.ToString();
+        LineEditTitle.Text = "";
+        LineEditDescription.Text = "";
+        LineEditPrice.Text = "";
+        LineEditPortions.Text = "";
+    }
+
+    public void UpdateFields(ContainerDishEditable container)
+    {
+        LineEditTitle.Text = container.Dish.Title;
+        LineEditDescription.Text = container.Dish.Description;
+        LineEditPrice.Text = container.Dish.Price.ToString();
+        LineEditPortions.Text = container.Dish.Portions.ToString();
     }
 
     private void ClearDishList()
@@ -209,40 +130,42 @@ public class ScreenCreateDish : Control
 
     public void _OnCreateDishButtonPressed()
     {
-        if (!ValidateDish())
+        if (LineEditPrice.Text.Empty() || LineEditDescription.Text.Empty() ||
+            LineEditPrice.Text.Empty() || LineEditPortions.Text.Empty())
         {
             return;
         }
 
-        string title = Title;
-        string description = Description;
-        float price = float.Parse(Price);
-        int portions = Int32.Parse(Portions);
+        string title = LineEditTitle.Text;
+        string description = LineEditDescription.Text;
+        Single price;
+        Single portions;
 
-        Dish dish = new Dish(title, description, price, portions);
+        if (!Single.TryParse(LineEditPrice.Text, out price))
+        {
+            return;
+        }
+
+        if (!Single.TryParse(LineEditPortions.Text, out portions))
+        {
+            return;
+        }
+
+        Dictionary map = new Dictionary {
+            {Dish.TITLE_STRING, title},
+            {Dish.DESCRIPTION_STRING, description},
+            {Dish.PRICE_STRING, price},
+            {Dish.PORTIONS_STRING, portions}
+        };
+
+        Dish dish = Dish.FromMap(map);
+
+        if (dish == null)
+        {
+            return;
+        }
 
         Firebase.CreateDish(GetSelectedDish(), dish);
-
         ResetFields();
-    }
-
-    public void _OnTitleTextChanged(string new_text)
-    {
-        Title = new_text;
-    }
-
-    public void _OnDescriptionTextChanged(string new_text)
-    {
-        Description = new_text;
-    }
-
-    public void _OnPortionTextChanged(string new_text)
-    {
-        Portions = new_text;
-    }
-
-    public void _OnPriceTextChanged(string new_text)
-    {
-        Price = new_text;
     }
 }
